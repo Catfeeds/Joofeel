@@ -8,6 +8,7 @@ use Illuminate\Http\ResponseTrait;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -62,5 +63,14 @@ class Controller extends BaseController
             }
         }
         return $ret;
+    }
+
+    /**
+     * 获取管理员id
+     */
+    protected function getAdminId()
+    {
+        $userId = Auth::user()->id;
+        return $userId;
     }
 }

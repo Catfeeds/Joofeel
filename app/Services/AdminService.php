@@ -48,4 +48,30 @@ class AdminService
         }
         throw new AppException('没有该账号');
     }
+
+    /**
+     *退出登录
+     */
+    public function logout()
+    {
+        Auth::logout();
+    }
+
+    /**
+     * @param $id
+     * @param $oldPwd
+     * @param $newPwd
+     * @throws \Exception
+     * 修改密码
+     */
+    public function updateAdminPassword($id,$oldPwd,$newPwd)
+    {
+        $adminInfoArr = $this->auth->user()->toArray();
+        if (! Auth::attempt(['account'=>$adminInfoArr['account'], 'password' =>$oldPwd])) {
+            throw new \Exception('旧密码不正确！', 10000);
+        }
+        $userPassword = md5($newPwd);
+        Admin::where('id', $id)->update(['password' => $userPassword]);
+
+    }
 }

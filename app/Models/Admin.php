@@ -14,4 +14,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Admin extends Authenticatable
 {
     protected $table = 'admin';
+
+    /**
+     * @param $account
+     * @return mixed
+     * 判断是否注册过
+     */
+    static function judgeRegistered($account)
+    {
+        $admin = self::where('account',$account)
+                     ->first();
+        return $admin;
+    }
 }
