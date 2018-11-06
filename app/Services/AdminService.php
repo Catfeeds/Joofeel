@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Services\Token\TokenService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Auth\Guard;
 use App\Exceptions\AppException;
@@ -38,8 +39,9 @@ class AdminService
         {
             if($admin['password'] == md5($password))
             {
-                $data['access_token'] = 's';
+                $data['access_token'] = TokenService::generateToken();
                 Auth::login($admin,true);
+                $data['user'] = Auth::user();
                 return $data;
             }
             throw new AppException('账号或密码错误');

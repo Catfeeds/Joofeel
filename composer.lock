@@ -1082,16 +1082,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.23.0",
+            "version": "1.24.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
+                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
-                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
+                "reference": "bfc9ebb28f97e7a24c45bdc3f0ff482e47bb0266",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1162,7 +1162,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-06-19T01:22:40+00:00"
+            "time": "2018-11-05T09:00:11+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -1449,16 +1449,16 @@
         },
         {
             "name": "overtrue/wechat",
-            "version": "4.1.9",
+            "version": "4.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/overtrue/wechat.git",
-                "reference": "356caf17f357121ebe81b75575a339dcd3005177"
+                "reference": "b1335864714322d3b497603dd6328cfd3c71e84c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/wechat/zipball/356caf17f357121ebe81b75575a339dcd3005177",
-                "reference": "356caf17f357121ebe81b75575a339dcd3005177",
+                "url": "https://api.github.com/repos/overtrue/wechat/zipball/b1335864714322d3b497603dd6328cfd3c71e84c",
+                "reference": "b1335864714322d3b497603dd6328cfd3c71e84c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1514,7 +1514,7 @@
                 "weixin",
                 "weixin-sdk"
             ],
-            "time": "2018-10-20T12:41:31+00:00"
+            "time": "2018-11-05T02:05:56+00:00"
         },
         {
             "name": "paragonie/random_compat",

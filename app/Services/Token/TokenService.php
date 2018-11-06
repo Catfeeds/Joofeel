@@ -8,7 +8,7 @@
 
 namespace App\Services\Token;
 
-use app\Utils\Common;
+use App\Utils\Common;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 

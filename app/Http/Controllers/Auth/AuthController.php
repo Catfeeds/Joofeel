@@ -24,12 +24,12 @@ class AuthController extends Controller
     {
         $this->validate(
             $this->request, [
-            'account' => 'required|string',
+            'account'  => 'required|string',
             'password' => 'required|string'
         ]);
         $data = $service->login(
             $this->request->input('account'),
             $this->request->input('password'));
-        return ResponseUtil::toJson('1');
+        return ResponseUtil::toJson($data);
     }
 }
