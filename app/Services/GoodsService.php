@@ -19,18 +19,10 @@ class GoodsService
         /**
          *推荐商品
          */
-        $data = Cache::get('recommend');
-        if($data)
-        {
-            return $data;
-        }
-        $data = Recommend::with(['goods'=>function($query){
-            $query->with('label')
-                  ->select('id','name','thu_url','price','sale_price','category_id');
-        }])
-            ->select('goods_id')
-            ->get();
-        Cache::pull('recommend',$data,120);
+        $data = Recommend::leftJoin('goods as g','g.id','=','recommend.goods_id')
+                         ->select('g.id','g.name','g.thu_url',
+                             'g.category_id as category','g.price','g.sale_price')
+                         ->get();
         return $data;
     }
 

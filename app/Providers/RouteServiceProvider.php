@@ -38,7 +38,10 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+
         $this->admin();
+
+        $this->goods();
 
 
         //
@@ -82,6 +85,17 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware(['web'])
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
+    }
+
+    /**
+     * 管理员相关路由
+     */
+    protected function goods()
+    {
+        Route::prefix('')
+            ->middleware(['web'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/goods.php'));
     }
 
 }

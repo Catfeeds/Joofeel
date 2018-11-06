@@ -105,6 +105,7 @@ class AuthController extends Controller
                              'nickname',
                              'avatar'
                          ]);
-        return $info;
+        $info['access_token'] = $this->request->input('access_token');
+        return ResponseUtil::toJson($info);
     }
 }

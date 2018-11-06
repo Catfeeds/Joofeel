@@ -17,7 +17,7 @@ class ResponseUtil
         return response()->json([
             'msg' => $msg,
             'data' => $data,
-            'code' => $code
+            'code' => $code,
         ]);
     }
 }

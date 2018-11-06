@@ -70,7 +70,7 @@ class Controller extends BaseController
      */
     protected function getAdminId()
     {
-        $userId = Auth::user()->id;
+        $userId = Auth::id();
         return $userId;
     }
 }
