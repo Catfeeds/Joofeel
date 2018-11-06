@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * Admin: locust
- * Date: 2018/11/5
- * Time: 22:45
+ * User: locust
+ * Date: 2018/10/29
+ * Time: 16:43
  */
 
 namespace App\Models;

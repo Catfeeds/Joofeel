@@ -38,6 +38,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+        $this->admin();
+
 
         //
     }
@@ -70,4 +72,16 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
+
+    /**
+     * 管理员相关路由
+     */
+    protected function admin()
+    {
+        Route::prefix('')
+            ->middleware(['web'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
+
 }

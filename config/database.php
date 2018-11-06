@@ -54,6 +54,22 @@ return [
             'engine' => null,
         ],
 
+        'mysql_jufeeling' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_Jufeeling_HOST', '127.0.0.1'),
+            'port'      => env('DB_Jufeeling_PORT', '3306'),
+            'database'  => env('DB_Jufeeling_DATABASE', 'forge'),
+            'username'  => env('DB_Jufeeling_USERNAME', 'forge'),
+            'password'  => env('DB_Jufeeling_PASSWORD', 'secret'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+            'engine'    => null,
+        ],
+
+
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

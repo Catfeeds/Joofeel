@@ -14,6 +14,7 @@ use App\Utils\ResponseUtil;
 
 class AuthController extends Controller
 {
+
     /**
      * @param AdminService $service
      * @return \Illuminate\Http\JsonResponse
@@ -26,9 +27,9 @@ class AuthController extends Controller
             'account' => 'required|string',
             'password' => 'required|string'
         ]);
-        $service->login(
+        $data = $service->login(
             $this->request->input('account'),
             $this->request->input('password'));
-        return ResponseUtil::toJson();
+        return ResponseUtil::toJson('1');
     }
 }

@@ -38,8 +38,9 @@ class AdminService
         {
             if($admin['password'] == md5($password))
             {
+                $data['access_token'] = 's';
                 Auth::login($admin,true);
-                return true;
+                return $data;
             }
             throw new AppException('账号或密码错误');
         }
