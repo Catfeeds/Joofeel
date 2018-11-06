@@ -38,7 +38,6 @@ class CreateTablePrize extends Migration
             $t->tinyInteger('isPrize')->index()
                 ->default(\App\Models\Prize\Prize::ONGOING); //标记是否处于抽奖中 0抽奖中1结束
             $t->timestamps();
-            $t->foreign('goods_id')->references('id')->on('goods');
         });
 
         /**
@@ -51,8 +50,6 @@ class CreateTablePrize extends Migration
            $t->string('form_id',50);
            $t->tinyInteger('isLucky')->default(\App\Models\Prize\PrizeOrder::NOT_LUCKY); //标记是否中奖 0未中奖1中奖
            $t->timestamps();
-           $t->foreign('user_id')->references('id')->on('user');
-           $t->foreign('prize_id')->references('id')->on('prize');
         });
     }
 }

@@ -39,9 +39,10 @@ class AdminService
         {
             if($admin['password'] == md5($password))
             {
-                $data['access_token'] = TokenService::generateToken();
+                $admin['login_time'] = time();
+                $admin->save();
                 Auth::login($admin,true);
-                $data['user'] = Auth::user();
+                $data['access_token'] = TokenService::generateToken();
                 return $data;
             }
             throw new AppException('账号或密码错误');
@@ -67,11 +68,11 @@ class AdminService
     public function updateAdminPassword($id,$oldPwd,$newPwd)
     {
         $adminInfoArr = $this->auth->user()->toArray();
-        if (! Auth::attempt(['account'=>$adminInfoArr['account'], 'password' =>$oldPwd])) {
+        if ($adminInfoArr['password'] != md5($oldPwd))
+        {
             throw new \Exception('旧密码不正确！', 10000);
         }
         $userPassword = md5($newPwd);
         Admin::where('id', $id)->update(['password' => $userPassword]);
-
     }
 }

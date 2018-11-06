@@ -8,13 +8,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\AppException;
 use App\Exceptions\ExceptionCode;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Services\AdminService;
 use App\Utils\ResponseUtil;
 use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -27,13 +27,20 @@ class AuthController extends Controller
     public function login(AdminService $service)
     {
         $this->validate(
-            $this->request, [
-            'account'  => 'required|string',
-            'password' => 'required|string'
-        ]);
-        $data = $service->login(
-            $this->request->input('account'),
-            $this->request->input('password'));
+            $this->request,
+            [
+                'account' => 'required|string',
+                'password' => 'required|string'
+            ]);
+        try{
+            $data = $service->login(
+                $this->request->input('account'),
+                $this->request->input('password'));
+        }
+        catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
         return ResponseUtil::toJson($data);
     }
 
@@ -46,7 +53,8 @@ class AuthController extends Controller
     public function logout(
         AdminService $service,
         Guard $auth
-    ) {
+    )
+    {
         if ($auth->guest()) {
             throw new \Exception('退出成功！', ExceptionCode::REDIRECT_TO_LOGIN);
         }
@@ -67,7 +75,7 @@ class AuthController extends Controller
             $this->request,
             [
                 'oldPassword' => 'required|string',
-                'newPassword' => 'required|min:6|max:20|confirmed',
+                'newPassword' => 'required|string',
             ]
         );
         $service->updateAdminPassword(
@@ -75,8 +83,7 @@ class AuthController extends Controller
             $this->request->input('oldPassword'),
             $this->request->input('newPassword')
         );
-
-        return ResponseUtil::toJson('修改成功！', []);
+        return ResponseUtil::toJson();
     }
 
     public function updateInfo()
@@ -91,7 +98,7 @@ class AuthController extends Controller
     public function info()
     {
         $id = self::getAdminId();
-        $info = Admin::where('id',$id)
+        $info = Admin::where('id', $id)
                      ->first(
                          [
                              'id',

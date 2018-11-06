@@ -12,7 +12,7 @@ namespace App\Utils;
 class ResponseUtil
 {
     // 格式化返回数据
-    static function toJson($data = [],$msg = 'OK', $code = 200)
+    static function toJson($data = [],$msg = 'OK', $code = 0)
     {
         return response()->json([
             'msg' => $msg,

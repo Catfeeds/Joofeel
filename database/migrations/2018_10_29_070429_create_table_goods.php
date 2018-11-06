@@ -81,7 +81,6 @@ class CreateTableGoods extends Migration
             $t->increments('id');
             $t->integer('goods_id')->nullable();
             $t->string('label_name',4)->nullable();
-            $t->foreign('goods_id')->references('id')->on('goods');
         });
 
         /**
@@ -91,7 +90,6 @@ class CreateTableGoods extends Migration
             $t->increments('id');
             $t->integer('goods_id')->nullable();
             $t->timestamps();
-            $t->foreign('goods_id')->references('id')->on('goods');
         });
     }
 }

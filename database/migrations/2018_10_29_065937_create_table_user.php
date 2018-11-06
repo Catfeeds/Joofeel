@@ -60,8 +60,6 @@ class CreateTableUser extends Migration
                 ->default(\App\Models\User\UserCoupon::CAN_USE)->index(); //标记该优惠券是否可以使用 0为可以使用1不可以使用
             $t->integer('start_time');
             $t->integer('end_time');
-            $t->foreign('user_id')->references('id')->on('user');
-            $t->foreign('coupon_id')->references('id')->on('coupon');
         });
 
         /**
@@ -76,7 +74,6 @@ class CreateTableUser extends Migration
             $t->string('receipt_phone',11);
             $t->tinyInteger('label')->default(\App\Models\User\DeliveryAddress::HOME); //所属标签
             $t->tinyInteger('isDefault')->index();    //标记是否为默认地址 0是1不是
-            $t->foreign('user_id')->references('id')->on('user');
             $t->timestamps();
         });
 
@@ -90,8 +87,6 @@ class CreateTableUser extends Migration
             $t->integer('count');
             $t->tinyInteger('isSelect')->default(\App\Models\User\ShoppingCart::SELECTED); // 标记该条记录是否处于勾选中
             $t->timestamps();
-            $t->foreign('user_id')->references('id')->on('user');
-            $t->foreign('goods_id')->references('id')->on('goods');
         });
     }
 
