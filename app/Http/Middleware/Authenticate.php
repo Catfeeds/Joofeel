@@ -2,9 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\ExceptionCode;
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Factory as Auth;
 
 class Authenticate
 {
@@ -15,7 +14,16 @@ class Authenticate
      */
     protected $auth;
 
-
+    /**
+     * Create a new middleware instance.
+     *
+     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @return void
+     */
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
 
     /**
      * Handle an incoming request.
@@ -29,15 +37,11 @@ class Authenticate
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        $admin = Auth::user();
-        if ($admin) {
-            return $next($request);
-        }
-        return response()->json(
-            [
-                'code'=>ExceptionCode::REDIRECT_TO_LOGIN,
-                'msg'=> '您尚未登录'
-            ]);
+//        $logStatus = $this->auth->check();
+//        if ( ! $logStatus) {
+//            return response()->json(['code'=>200, 'msg'=> '您尚未登录']);
+//        }
 
+        return $next($request);
     }
 }

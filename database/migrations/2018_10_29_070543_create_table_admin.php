@@ -32,6 +32,7 @@ class CreateTableAdmin extends Migration
             $t->string('password');
             $t->string('nickname');
             $t->string('avatar');
+            $t->string('api_token',64)->unique();
             $t->rememberToken();
             $t->integer('scope')->default(16);
             $t->tinyInteger('isBaned')->default(0);

@@ -29,8 +29,8 @@ class GoodsController extends Controller
      */
     public function recommend()
     {
-        $data = $this->service->recommend();
+        $data = $this->request->header('token');
+       // $data = $this->service->recommend();
         return ResponseUtil::toJson($data);
     }
-
 }

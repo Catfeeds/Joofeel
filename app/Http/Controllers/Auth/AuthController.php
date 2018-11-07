@@ -16,6 +16,9 @@ use App\Services\AdminService;
 use App\Utils\ResponseUtil;
 use Illuminate\Contracts\Auth\Guard;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
 
@@ -29,7 +32,7 @@ class AuthController extends Controller
         $this->validate(
             $this->request,
             [
-                'account' => 'required|string',
+                'account'  => 'required|string',
                 'password' => 'required|string'
             ]);
         try{
@@ -97,15 +100,18 @@ class AuthController extends Controller
      */
     public function info()
     {
-        $id = self::getAdminId();
-        $info = Admin::where('id', $id)
-                     ->first(
-                         [
-                             'id',
-                             'nickname',
-                             'avatar'
-                         ]);
-        $info['access_token'] = $this->request->input('access_token');
-        return ResponseUtil::toJson($info);
+
+        $data =(new Request())->header('token');
+     //   $user = Auth::user();
+       // $id = self::getAdminId();
+//        $info = Admin::where('id', $id)
+//                     ->first(
+//                         [
+//                             'id',
+//                             'nickname',
+//                             'avatar'
+//                         ]);
+//        $info['access_token'] = $this->request->input('access_token');
+        return ResponseUtil::toJson($data);
     }
 }

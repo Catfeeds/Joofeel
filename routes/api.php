@@ -13,12 +13,29 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+Route::middleware('auth:api')->group(function (){
+    Route::group(
+        [
+            'prefix' => 'admin',
+            'namespace' => 'Auth'
+        ],function(){
+        Route::get('info',       'AuthController@info');
+        // 修改密码
+        Route::post('updatePwd', 'AuthController@updatePwd');
+
+    });
 });
 
+$api = app('Dingo\Api\Routing\Router');
 
+// 配置api版本和路由
+$api->version(
+    'v1',
+    [
+        'namespace' => 'App\Http\Controllers\Api\v1'
+    ], function ($api) {
+    $api->get("test", 'GoodsController@recommend');
 
-Route::get('/', function () {
-    return view('welcome');
 });

@@ -43,7 +43,6 @@ class AdminService
                 $admin->save();
                 Auth::login($admin,true);
                 $data['access_token'] = TokenService::generateToken();
-                $data['user'] = Auth::user();
                 return $data;
             }
             throw new AppException('账号或密码错误');

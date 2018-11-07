@@ -13,26 +13,29 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(
-    [
-        'prefix' => 'admin',
-        'namespace' => 'Auth'
-    ],function(){
-    Route::post('login','AuthController@login');
-    Route::get('logout','AuthController@logout');
-    /**
-     * 需要添加权限认证
-     */
+
+
+Route::group(['middleware' => 'web'], function () {
+    Route::Auth();
     Route::group(
         [
-            'middleware' => 'auth'
-        ], function (){
-        // 查看个人信息
-        Route::get('info', 'AuthController@info');
-        // 修改密码
-        Route::post('updatePwd', 'AuthController@updatePwd');
-    }
-    );
+            'prefix' => 'admin',
+            'namespace' => 'Auth'
+        ],function(){
+        Route::post('login','AuthController@login');
+        Route::get('logout','AuthController@logout');
+        /**
+         * 需要添加权限认证
+         */
+        Route::group(
+            [
+                'middleware' => 'auth'
+            ], function (){
+            // 查看个人信息
+            Route::get('info',       'AuthController@info');
+            // 修改密码
+            Route::post('updatePwd', 'AuthController@updatePwd');
+        }
+        );
+    });
 });
-
-
