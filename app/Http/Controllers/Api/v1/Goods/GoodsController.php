@@ -101,4 +101,35 @@ class GoodsController extends Controller
         $data = $this->service->oos();
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * 修改信息
+     */
+    public function update()
+    {
+        $this->validate(
+            $this->request,
+            [
+                'id' => 'required|integer|exists:mysql.goods,id',
+                'name' => 'required|string',
+                'category_id' => 'required|in:1,2,3,4',
+                'stock' => 'required|integer|min:0',
+                'notice' => 'required|string',
+                'carriage' => 'required|integer|min:0',
+                'recommend_reason' => 'required|string',
+                'channels' => 'required|string',
+                'purchase_address' => 'required|string',
+                'shop' => 'required|string',
+                'delivery_place' => 'required',
+                'logistics_standard' => 'required|integer|min:0',
+                'purchase_price' => 'required|integer|min:0',
+                'cost_price' => 'required|integer|min:0',
+                'reference_price' => 'required|integer|min:0',
+                'price' => 'required|integer|min:0',
+                'sale_price' => 'required|integer|min:0',
+                'country' => 'required|string'
+            ]);
+        $this->service->update($this->request->all());
+        return ResponseUtil::toJson();
+    }
 }

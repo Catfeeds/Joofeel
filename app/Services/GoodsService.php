@@ -123,6 +123,15 @@ class GoodsService
         return $data;
     }
 
+    /**
+     * @param $data
+     * 修改信息
+     */
+    public function update($data)
+    {
+        Goods::where('id',$data['id'])
+             ->update($data);
+    }
 
     /**
      * @return $this

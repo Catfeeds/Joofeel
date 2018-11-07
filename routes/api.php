@@ -32,6 +32,7 @@ $api->version('v1', function ($api) {
             $api->get('search',    'GoodsController@search');
             $api->get('oos',       'GoodsController@oos');
             $api->post('operate',  'GoodsController@operate');
+            $api->post('update',   'GoodsController@update');
             $api->group(
                 [
                     'prefix' => 'recommend'
