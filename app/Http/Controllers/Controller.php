@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Http\Request;
 use Illuminate\Http\ResponseTrait;
@@ -70,7 +71,8 @@ class Controller extends BaseController
      */
     protected function getAdminId()
     {
-        $adminId = Auth::guard('api')->id();
-        return $adminId;
+        $token = $this->request->input('token');
+        $admin = Admin::where('api_token',$token)->first();
+        return $admin['id'];
     }
 }

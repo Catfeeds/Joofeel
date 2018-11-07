@@ -41,9 +41,6 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->admin();
 
-        $this->goods();
-
-
         //
     }
 
@@ -86,16 +83,4 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/admin.php'));
     }
-
-    /**
-     * 管理员相关路由
-     */
-    protected function goods()
-    {
-        Route::prefix('')
-            ->middleware(['web'])
-            ->namespace($this->namespace)
-            ->group(base_path('routes/goods.php'));
-    }
-
 }

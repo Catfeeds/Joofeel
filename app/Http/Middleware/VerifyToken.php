@@ -8,10 +8,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\Token\TokenService;
+use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Closure;
 
-class VerifyToken
+class VerifyToken extends Controller
 {
     /**
      * 处理传入的请求
@@ -22,9 +23,18 @@ class VerifyToken
      */
     public function handle($request, Closure $next)
     {
-        if(TokenService::getCurrentTokenVar('token')){
+        $token = $this->request->input('token');
+        $admin = Admin::where('api_token',$token)
+                      ->first();
+        if($admin)
+        {
             return $next($request);
         }
+        return response()->json(
+            [
+                'code'=>200,
+                'msg'=> '您尚未登录'
+            ]);
     }
 
 }

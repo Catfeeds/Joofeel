@@ -10,19 +10,13 @@ namespace App\Services;
 
 use App\Services\Token\TokenService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\Auth\Guard;
 use App\Exceptions\AppException;
 use App\Models\Admin;
 
 class AdminService
 {
-    private $auth;
 
-    public function __construct(
-        Guard $auth
-    ) {
-        $this->auth = $auth;
-    }
+
 
     /**
      * @param string $account 登录帐号
@@ -51,28 +45,40 @@ class AdminService
     }
 
     /**
-     *退出登录
-     */
-    public function logout()
-    {
-        Auth::logout();
-    }
-
-    /**
-     * @param $id
+     * @param $token
      * @param $oldPwd
      * @param $newPwd
+     * @return bool
      * @throws \Exception
      * 修改密码
      */
-    public function updateAdminPassword($id,$oldPwd,$newPwd)
+    public function updatePwd($token,$oldPwd,$newPwd)
     {
-        $adminInfoArr = $this->auth->user()->toArray();
-        if ($adminInfoArr['password'] != md5($oldPwd))
+        $admin = self::getAdmin($token);
+        if($admin['password'] == md5($oldPwd))
         {
-            throw new \Exception('旧密码不正确！', 10000);
+            $admin['password'] = md5($newPwd);
+            $admin->save();
+            return true;
         }
-        $userPassword = md5($newPwd);
-        Admin::where('id', $id)->update(['password' => $userPassword]);
+        throw new \Exception('旧密码不正确！', 10000);
+    }
+
+    /**
+     * @param $token
+     * @param $nickname
+     * 修改信息
+     */
+    public function updateInfo($token,$nickname)
+    {
+        $admin = self::getAdmin($token);
+        $admin['nickname'] = $nickname;
+        $admin->save();
+    }
+    static function getAdmin($token)
+    {
+        $admin = Admin::where('api_token',$token)
+                       ->first();
+        return $admin;
     }
 }

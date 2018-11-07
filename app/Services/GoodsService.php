@@ -10,7 +10,6 @@ namespace App\Services;
 
 use App\Models\Goods\Goods;
 use App\Models\Goods\Recommend;
-use Illuminate\Support\Facades\Cache;
 
 class GoodsService
 {
@@ -20,7 +19,7 @@ class GoodsService
          *推荐商品
          */
         $data = Recommend::leftJoin('goods as g','g.id','=','recommend.goods_id')
-                         ->select('g.id','g.name','g.thu_url',
+                         ->select('g.id','g.name','g.goods_id','g.thu_url',
                              'g.category_id as category','g.price','g.sale_price')
                          ->get();
         return $data;
@@ -29,68 +28,25 @@ class GoodsService
     /**
      * @param $category
      * @return mixed
-     * 分类下的全部商品
+     * 分类下的全部商品(上架中)
      */
     public function category($category)
     {
-        $data = Cache::get('goods' . $category);
-        if($data)
-        {
-            return $data;
-        }
-        //全部商品
-        if($category == 0)
-        {
-            $data = $this->query()
-                         ->orderByDesc('created_at')
-                         ->get();
-        }
-        else
-        {
-            $data = $this->query()
-                         ->where('category_id',$category)
-                         ->orderByDesc('created_at')
-                         ->get();
-        }
-        Cache::pull('goods' . $category , $data , 120);
+        $data = $this->query()
+            ->where('category_id',$category)
+            ->where('isShelves', Goods::SHELVES)
+            ->orderByDesc('created_at')
+            ->get();
         return $data;
     }
 
-    /**
-     * @param $sort
-     * @param $category
-     * @param $value
-     * @return mixed
-     * 获取筛选后的商品
-     */
-    public function screening($sort,$category,$value)
-    {
-        $val = $this->getConditions($category,$value);
-        $query = $this->query()
-                      ->where($val);
-        switch ($sort) {
-            case Goods::DEFAULT_SORT:
-                $goods['data'] = $query->orderBy('created_at','desc')
-                                       ->get();
-                break;
-            case Goods::PRICE_ASC_SORT:
-                $goods['data'] = $query->orderBy('price','asc')
-                                       ->get();
-                break;
-            case Goods::PRICE_DESC_SORT:
-                $goods['data'] = $query->orderBy('price','desc')
-                                       ->get();
-                break;
-        }
-        return $goods;
-    }
 
     /**
      * @param $id
      * @return \Illuminate\Database\Eloquent\Model|null|object|static
      * 详情页
      */
-    public function detail($id)
+    public function info($id)
     {
         $data = Goods::with('category')
                      ->with('label')
@@ -120,50 +76,19 @@ class GoodsService
     }
 
     /**
-     * @param $category
-     * @param $value
-     * @return array
-     * 得到筛选条件
+     * @param $id
+     * 推荐或取消推荐商品
      */
-    private function getConditions($category,$value)
+    public function recommendOperate($id)
     {
-        //根据商品分类得到不同的筛选条件
-        //确定筛选条件后返回
-        //将筛选条件为0的剔除数组
-        switch ($category) {
-            case 1:
-                $data =
-                    [
-                        'brand' => $value[1],
-                        'degree' => $value[2]
-                    ];
-                break;
-            case 2:
-                $data =
-                    [
-                        'type' => $value[1],
-                        'degree' => $value[2]
-                    ];
-                break;
-            case 3:
-                $data =
-                    [
-                        'type' => $value[1],
-                        'specifications' => $value[2]
-                    ];
-                break;
-            case 4:
-                $data =
-                    [
-                        'type' => $value[1],
-                        'flavor' => $value[2]
-                    ];
-                break;
+        $result = Recommend::where('goods_id',$id)
+                           ->delete();
+        if(!$result)
+        {
+            Recommend::create([
+                'goods_id' => $id
+            ]);
         }
-        //将不符合条件的剔除
-        $data['country'] = $value[0];
-        $result = array_diff($data, [0]);
-        return $result;
     }
 
 
@@ -175,9 +100,8 @@ class GoodsService
         $query = Goods::with('category')
                       ->with('label')
                       ->where('stock', '>', 0)
-                      ->where('isShelves', Goods::SHELVES)
                       ->select('name','thu_url','price',
-                          'sale_price','category_id','id','shop');
+                          'sale_price','category_id','id','shop','isShelves');
         return $query;
     }
 }

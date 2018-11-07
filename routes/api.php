@@ -13,29 +13,59 @@ use Illuminate\Http\Request;
 |
 */
 
-
-
-Route::middleware('auth:api')->group(function (){
-    Route::group(
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', function ($api) {
+    /**
+     * 商品
+     */
+    $api->group(
         [
-            'prefix' => 'admin',
-            'namespace' => 'Auth'
-        ],function(){
-        Route::get('info',       'AuthController@info');
-        // 修改密码
-        Route::post('updatePwd', 'AuthController@updatePwd');
+            'middleware' => 'token',
+            'namespace'  => 'App\Http\Controllers\Api\v1\Goods'
+        ], function ($api) {
+        $api->group(
+            [
+                'prefix' => 'goods'
+            ], function ($api) {
+            $api->get('info',      'GoodsController@info');
+            $api->get('category',  'GoodsController@category');
+            $api->get('search',    'GoodsController@search');
+            $api->group(
+                [
+                    'prefix' => 'recommend'
+                ], function ($api) {
+                $api->get('',         'RecommendController@recommend');
+                $api->post('operate', 'RecommendController@operate');
+            });
+        });
 
     });
-});
 
-$api = app('Dingo\Api\Routing\Router');
+    /**
+     * 管理员
+     */
+    $api->group(
+        [
+            'namespace' => 'App\Http\Controllers\Auth'
+        ], function ($api) {
+        /**
+         * 需要判定是否登陆
+         */
+        $api->group(
+            [
+                'middleware' => 'token',
+                'prefix'     => 'admin'
+            ], function ($api) {
+            $api->get('info',       'AuthController@info');
+            $api->post('info',      'AuthController@updateInfo');
+            $api->post('updatePwd', 'AuthController@updatePwd');
+        });
 
-// 配置api版本和路由
-$api->version(
-    'v1',
-    [
-        'namespace' => 'App\Http\Controllers\Api\v1'
-    ], function ($api) {
-    $api->get("test", 'GoodsController@recommend');
-
+        $api->group(
+            [
+                'prefix' => 'admin'
+            ], function ($api) {
+            $api->post('login', 'AuthController@login');
+        });
+    });
 });

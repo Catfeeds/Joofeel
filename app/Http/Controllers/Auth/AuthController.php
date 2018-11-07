@@ -9,15 +9,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Exceptions\AppException;
-use App\Exceptions\ExceptionCode;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Services\AdminService;
 use App\Utils\ResponseUtil;
-use Illuminate\Contracts\Auth\Guard;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -47,24 +42,6 @@ class AuthController extends Controller
         return ResponseUtil::toJson($data);
     }
 
-    /**
-     * @param AdminService $service
-     * @param Guard $auth
-     * @throws \Exception
-     * 退出登录
-     */
-    public function logout(
-        AdminService $service,
-        Guard $auth
-    )
-    {
-        if ($auth->guest()) {
-            throw new \Exception('退出成功！', ExceptionCode::REDIRECT_TO_LOGIN);
-        }
-        $service->logout();
-
-        throw new \Exception('退出成功！', ExceptionCode::REDIRECT_TO_LOGIN);
-    }
 
     /**
      * @param AdminService $service
@@ -73,7 +50,6 @@ class AuthController extends Controller
      */
     public function updatePwd(AdminService $service)
     {
-        $adminId = self::getAdminId();
         $this->validate(
             $this->request,
             [
@@ -81,17 +57,32 @@ class AuthController extends Controller
                 'newPassword' => 'required|string',
             ]
         );
-        $service->updateAdminPassword(
-            $adminId,
+        $service->updatePwd(
+            $this->request->input('token'),
             $this->request->input('oldPassword'),
             $this->request->input('newPassword')
         );
         return ResponseUtil::toJson();
     }
 
-    public function updateInfo()
+    /**
+     * @param AdminService $service
+     * @return \Illuminate\Http\JsonResponse
+     * 修改信息
+     */
+    public function updateInfo(AdminService $service)
     {
-
+        $this->validate(
+            $this->request,
+            [
+                'nickname' => 'required|string',
+            ]
+        );
+        $service->updateInfo(
+            $this->request->input('token'),
+            $this->request->input('nickname')
+        );
+        return ResponseUtil::toJson();
     }
 
     /**
@@ -100,18 +91,9 @@ class AuthController extends Controller
      */
     public function info()
     {
-
-        $data =(new Request())->header('token');
-     //   $user = Auth::user();
-       // $id = self::getAdminId();
-//        $info = Admin::where('id', $id)
-//                     ->first(
-//                         [
-//                             'id',
-//                             'nickname',
-//                             'avatar'
-//                         ]);
-//        $info['access_token'] = $this->request->input('access_token');
-        return ResponseUtil::toJson($data);
+        $token = $this->request->header('token');
+        $admin = Admin::where('api_token',$token)
+                      ->first();
+        return ResponseUtil::toJson($admin);
     }
 }
