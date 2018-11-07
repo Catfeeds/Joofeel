@@ -33,6 +33,7 @@ class GoodsController extends Controller
         $data = $this->service->recommend();
         return ResponseUtil::toJson($data);
     }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      * 商品详情
@@ -78,5 +79,18 @@ class GoodsController extends Controller
         return ResponseUtil::toJson($data);
     }
 
-
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 上(下)架商品
+     */
+    public function operate()
+    {
+        $this->validate(
+            $this->request,
+            [
+                'id' => 'required|integer|exists:mysql.goods,id'
+            ]);
+        $this->service->operate($this->request->input('id'));
+        return ResponseUtil::toJson();
+    }
 }

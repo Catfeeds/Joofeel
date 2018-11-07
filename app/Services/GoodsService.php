@@ -91,6 +91,25 @@ class GoodsService
         }
     }
 
+    /**
+     * @param $id
+     * 上下架商品
+     */
+    public function operate($id)
+    {
+        $record = Goods::where('id',$id)
+                       ->first();
+        if($record['isShelves'] == Goods::SHELVES)
+        {
+            $record['isShelves'] = Goods::NOT_SHELVES;
+        }
+        else
+        {
+            $record['isShelves'] = Goods::SHELVES;
+        }
+        $record->save();
+    }
+
 
     /**
      * @return $this
