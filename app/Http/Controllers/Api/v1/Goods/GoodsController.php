@@ -15,9 +15,8 @@ use Illuminate\Http\Request;
 
 class GoodsController extends Controller
 {
-
-
     private $service;
+
     public function __construct(Request $req,GoodsService $service)
     {
         $this->service = $service;
@@ -92,5 +91,14 @@ class GoodsController extends Controller
             ]);
         $this->service->operate($this->request->input('id'));
         return ResponseUtil::toJson();
+    }
+
+    /**
+     * 库存紧张的商品
+     */
+    public function oos()
+    {
+        $data = $this->service->oos();
+        return ResponseUtil::toJson($data);
     }
 }

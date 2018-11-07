@@ -30,6 +30,7 @@ $api->version('v1', function ($api) {
             $api->get('info',      'GoodsController@info');
             $api->get('category',  'GoodsController@category');
             $api->get('search',    'GoodsController@search');
+            $api->get('oos',       'GoodsController@oos');
             $api->post('operate',  'GoodsController@operate');
             $api->group(
                 [

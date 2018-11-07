@@ -19,7 +19,7 @@ class GoodsService
          *推荐商品
          */
         $data = Recommend::leftJoin('goods as g','g.id','=','recommend.goods_id')
-                         ->select('g.id','g.name','g.goods_id','g.thu_url',
+                         ->select('g.id','g.name','g.goods_id','g.thu_url','g.stock',
                              'g.category_id as category','g.price','g.sale_price')
                          ->get();
         return $data;
@@ -108,6 +108,19 @@ class GoodsService
             $record['isShelves'] = Goods::SHELVES;
         }
         $record->save();
+    }
+
+    /**
+     * @return mixed
+     * 库存紧张的商品
+     */
+    public function oos()
+    {
+        $data = $this->query()
+                     ->where('stock','<',30)
+                     ->where('isShelves',Goods::SHELVES)
+                     ->get();
+        return $data;
     }
 
 
