@@ -75,6 +75,7 @@ $api->version('v1', function ($api) {
             $api->get('info',       'AuthController@info');
             $api->post('info',      'AuthController@updateInfo');
             $api->post('updatePwd', 'AuthController@updatePwd');
+            $api->post('reg',       'AuthController@reg');
         });
 
         $api->group(

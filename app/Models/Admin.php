@@ -14,7 +14,11 @@ class Admin extends Authenticatable
 {
     protected $table = 'admin';
     protected $fillable = [
-        'api_token'
+        'api_token',
+        'account',
+        'password',
+        'nickname',
+        'name'
     ];
     /**
      * @param $account

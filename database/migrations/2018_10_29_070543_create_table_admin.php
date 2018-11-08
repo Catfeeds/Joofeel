@@ -31,12 +31,12 @@ class CreateTableAdmin extends Migration
             $t->string('account',20)->unique();
             $t->string('password');
             $t->string('nickname');
-            $t->string('avatar');
+            $t->string('name');
             $t->string('api_token',64)->unique();
             $t->rememberToken();
             $t->integer('scope')->default(16);
             $t->tinyInteger('isBaned')->default(0);
-            $t->integer('login_time');
+            $t->integer('login_time')->nullable();
             $t->timestamps();
         });
     }

@@ -42,6 +42,35 @@ class AuthController extends Controller
         return ResponseUtil::toJson($data);
     }
 
+    /**
+     * @param AdminService $service
+     * @return \Illuminate\Http\JsonResponse
+     * 注册
+     */
+    public function reg(AdminService $service)
+    {
+        $this->validate(
+            $this->request,
+            [
+                'account'  => 'required|string',
+                'password' => 'required|string',
+                'nickname' => 'required|string',
+                'account'  => 'required|string',
+            ]);
+        try{
+            $service->reg(
+                $this->request->input('name'),
+                $this->request->input('account'),
+                $this->request->input('password'),
+                $this->request->input('nickname'));
+        }
+        catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
+    }
+
 
     /**
      * @param AdminService $service

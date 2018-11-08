@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Exceptions\AppException;
 use App\Models\Admin;
+use App\Services\Token\UserToken;
 
 class AdminService
 {
@@ -25,21 +26,43 @@ class AdminService
      */
     public function login($account,$password)
     {
-        $admin = Admin::where('account',$account)
-                      ->first();
+        $admin = $this->getAdminByAccount($account);
         if($admin)
         {
             if($admin['password'] == md5($password))
             {
                 $admin['login_time'] = time();
                 $admin->save();
-             //   Auth::login($admin,true);
                 $data['access_token'] = $admin['api_token'];
                 return $data;
             }
             throw new AppException('账号或密码错误');
         }
         throw new AppException('没有该账号');
+    }
+
+    /**
+     * @param $account
+     * @param $password
+     * @param $nickname
+     * @param $name
+     * @throws AppException
+     * 注册
+     */
+    public function reg($name,$account,$password,$nickname)
+    {
+        $record = $this->getAdminByAccount($account);
+        if($record)
+        {
+            throw new AppException('该账号已被注册');
+        }
+        Admin::create([
+            'name'      => $name,
+            'account'   => $account,
+            'password'  => md5($password),
+            'nickname'  => $nickname,
+            'api_token' => UserToken::generateToken()
+        ]);
     }
 
     /**
@@ -69,14 +92,26 @@ class AdminService
      */
     public function updateInfo($token,$nickname)
     {
-        $admin = self::getAdmin($token);
+        $admin = self::getAdminByToken($token);
         $admin['nickname'] = $nickname;
         $admin->save();
     }
-    static function getAdmin($token)
+
+    static function getAdminByToken($token)
     {
         $admin = Admin::where('api_token',$token)
                        ->first();
+        return $admin;
+    }
+
+    /**
+     * @param $account
+     * @return mixed
+     */
+    public function getAdminByAccount($account)
+    {
+        $admin = Admin::where('account',$account)
+            ->first();
         return $admin;
     }
 }
