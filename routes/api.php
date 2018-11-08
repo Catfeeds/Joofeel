@@ -15,22 +15,24 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
-    /**
-     * 商品
-     */
     $api->group(
         [
             'middleware' => 'token',
-            'namespace'  => 'App\Http\Controllers\Api\v1\Goods'
+
         ], function ($api) {
+        /**
+         * 商品
+         */
         $api->group(
             [
+                'namespace'  => 'App\Http\Controllers\Api\v1\Goods',
                 'prefix' => 'goods'
             ], function ($api) {
             $api->get('info',      'GoodsController@info');
             $api->get('category',  'GoodsController@category');
             $api->get('search',    'GoodsController@search');
             $api->get('oos',       'GoodsController@oos');
+            $api->get('failure',   'GoodsController@failure');
             $api->post('operate',  'GoodsController@operate');
             $api->post('update',   'GoodsController@update');
             $api->group(
@@ -40,6 +42,16 @@ $api->version('v1', function ($api) {
                 $api->get('',         'RecommendController@recommend');
                 $api->post('operate', 'RecommendController@operate');
             });
+        });
+        /**
+         * 抽奖
+         */
+        $api->group(
+            [
+                'namespace'  => 'App\Http\Controllers\Api\v1',
+                'prefix' => 'prize'
+            ], function ($api) {
+            $api->post('',   'PrizeController@prize');
         });
 
     });

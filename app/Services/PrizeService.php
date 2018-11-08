@@ -10,7 +10,6 @@ namespace App\Services;
 
 use App\Exceptions\AppException;
 use App\Models\Prize\Prize;
-use App\Models\Prize\PrizeOrder;
 
 class PrizeService extends BaseService
 {
@@ -23,7 +22,7 @@ class PrizeService extends BaseService
      */
     public function prize($id, $time)
     {
-        $result = $this->checkPrize();
+        $result = $this->checkExistPrize();
         if ($result)
         {
             Prize::create([
@@ -41,16 +40,19 @@ class PrizeService extends BaseService
      * @return bool
      * 检查是否还在参与抽奖
      */
-    private function checkPrize()
+    private function checkExistPrize()
     {
         $record = Prize::where('isPrize', Prize::ONGOING)
                        ->where('open_prize_time', '>', time())
                        ->first();
-        if ($record)
+        if (count($record) == 0)
         {
             return false;
         }
-        return true;
-    }
+        else
+        {
+            return true;
+        }
 
+    }
 }

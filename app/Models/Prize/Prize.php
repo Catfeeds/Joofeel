@@ -19,6 +19,11 @@ class Prize extends Model
 
     protected $table = 'prize';
 
+    protected $fillable =
+        [
+            'goods_id',
+            'open_prize_time'
+        ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      * 关联商品

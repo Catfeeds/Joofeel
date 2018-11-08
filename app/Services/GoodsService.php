@@ -19,8 +19,9 @@ class GoodsService
          *推荐商品
          */
         $data = Recommend::leftJoin('goods as g','g.id','=','recommend.goods_id')
+                         ->where('g.isShelves',Goods::SHELVES)
                          ->select('g.id','g.name','g.goods_id','g.thu_url','g.stock',
-                             'g.category_id as category','g.price','g.sale_price')
+                             'g.category_id as category','g.price','g.sale_price','g.isShelves')
                          ->get();
         return $data;
     }
@@ -33,10 +34,23 @@ class GoodsService
     public function category($category)
     {
         $data = $this->query()
-            ->where('category_id',$category)
-            ->where('isShelves', Goods::SHELVES)
-            ->orderByDesc('created_at')
-            ->get();
+                     ->where('category_id',$category)
+                     ->where('isShelves', Goods::SHELVES)
+                     ->orderByDesc('created_at')
+                     ->get();
+        return $this->checkRecommend($data);
+    }
+
+    /**
+     * @return mixed
+     * 失效商品
+     */
+    public function failure()
+    {
+        $data = $this->query()
+                     ->where('isShelves', Goods::NOT_SHELVES)
+                     ->orderByDesc('updated_at')
+                     ->get();
         return $data;
     }
 
@@ -50,12 +64,8 @@ class GoodsService
     {
         $data = Goods::with('category')
                      ->with('label')
-                     ->select('id', 'name', 'stock', 'notice',
-                         'carriage', 'category_id', 'recommend_reason',
-                         'price', 'sale_price', 'country', 'brand',
-                         'degrees', 'type', 'specifications', 'flavor',
-                         'thu_url', 'cov_url', 'det_url')
-                     ->first($id);
+                     ->where('id',$id)
+                     ->first();
         return $data;
     }
 
@@ -129,6 +139,7 @@ class GoodsService
      */
     public function update($data)
     {
+        unset($data['token']);
         Goods::where('id',$data['id'])
              ->update($data);
     }
@@ -141,8 +152,26 @@ class GoodsService
         $query = Goods::with('category')
                       ->with('label')
                       ->where('stock', '>', 0)
-                      ->select('name','thu_url','price',
-                          'sale_price','category_id','id','shop','isShelves');
+                      ->select('id','name','goods_id','thu_url','stock',
+                              'category_id','price','sale_price','isShelves');
         return $query;
+    }
+
+    private function checkRecommend($data)
+    {
+        foreach ($data as $item)
+        {
+            $record = Recommend::where('goods_id',$item['id'])
+                               ->first();
+            if($record)
+            {
+                $item['isRecommend'] = true;
+            }
+            else
+            {
+                $item['isRecommend'] = false;
+            }
+        }
+        return $data;
     }
 }

@@ -38,7 +38,7 @@ class PrizeController extends Controller
                 'open_prize_time' => 'required|date'
             ]);
         try{
-            $this->service->prize(
+            $data = $this->service->prize(
                 $this->request->input('id'),
                 $this->request->input('open_prize_time')
             );
@@ -47,6 +47,6 @@ class PrizeController extends Controller
         {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
         }
-        return ResponseUtil::toJson();
+        return ResponseUtil::toJson($data);
     }
 }
