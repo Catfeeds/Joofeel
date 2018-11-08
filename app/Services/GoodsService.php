@@ -187,18 +187,18 @@ class GoodsService
      */
     public function getExcel()
     {
-        if (!empty ($_FILES ['excel'] ['name'])) {
-            $tmp_file = $_FILES ['excel'] ['tmp_name'];
-            $file_types = explode(".", $_FILES ['excel'] ['name']);
+        if (!empty ($_FILES ['file'] ['name'])) {
+            $tmp_file = $_FILES ['file'] ['tmp_name'];
+            $file_types = explode(".", $_FILES ['file'] ['name']);
             $file_type = $file_types [count($file_types) - 1];
             if (strtolower($file_type) != "xlsx") {
-                $this->error('不是Excel文件，重新上传');
+                throw new AppException('不是Excel文件，重新上传');
             }
             $savePath = base_path('public/uploads/');
             $str = date('Ymdhis');
             $file_name = $str . "." . $file_type;
             if (!copy($tmp_file, $savePath . $file_name)) {
-                $this->error('上传失败');
+                throw new AppException('上传失败');
             }
             $ExcelToArray = new ExcelToArray();//实例化
             $res = $ExcelToArray->read($savePath . $file_name, "UTF-8", $file_type);//传参,判断office2007还是office2003
@@ -224,13 +224,11 @@ class GoodsService
                         $data[$k]['brand'] = $v[7];
                         $data[$k]['degrees'] = $v[8];
                         break;
-
                     case '预调酒水':
                         $data[$k]['category_id'] = 2;
                         $data[$k]['type'] = $v[7];
                         $data[$k]['degrees'] = $v[8];
                         break;
-
                     case '花式饮料':
                         $data[$k]['category_id'] = 3;
                         $data[$k]['type'] = $v[7];

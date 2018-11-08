@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api\v1\Goods;
 
+use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Services\GoodsService;
 use App\Utils\ResponseUtil;
@@ -146,7 +147,13 @@ class GoodsController extends Controller
      */
     public function excel()
     {
-        $this->service->getExcel();
+        try{
+            $this->service->getExcel();
+        }catch (AppException $e)
+        {
+            return ResponseUtil::toJson('',$e->getMessage(),$e->getCode());
+        }
+
         return ResponseUtil::toJson();
     }
 }

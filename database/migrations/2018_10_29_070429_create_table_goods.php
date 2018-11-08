@@ -36,7 +36,7 @@ class CreateTableGoods extends Migration
         Schema::create('goods',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
-            $t->string('goods_id',11)->unique();               //商品编码
+            $t->string('goods_id',11)->index();       //商品编码
             $t->string('name',50);                    //商品名
             $t->tinyInteger('category_id')->index();         //分类id
             $t->integer('stock');                            //库存
