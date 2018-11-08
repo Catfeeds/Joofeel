@@ -72,10 +72,13 @@ $api->version('v1', function ($api) {
                 'middleware' => 'token',
                 'prefix'     => 'admin'
             ], function ($api) {
+            $api->get('',           'AdminController@get');
             $api->get('info',       'AuthController@info');
             $api->post('info',      'AuthController@updateInfo');
             $api->post('updatePwd', 'AuthController@updatePwd');
             $api->post('reg',       'AuthController@reg');
+            $api->post('ban',       'AdminController@ban');
+            $api->post('set',       'AdminController@set');
         });
 
         $api->group(

@@ -75,4 +75,5 @@ class Controller extends BaseController
         $admin = Admin::where('api_token',$token)->first();
         return $admin['id'];
     }
+
 }

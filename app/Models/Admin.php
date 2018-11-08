@@ -20,12 +20,39 @@ class Admin extends Authenticatable
         'nickname',
         'name'
     ];
+    const ALLOW = 0;
+    const BANED = 1;
     /**
      * @param $account
      * @return mixed
      * 判断是否注册过
      */
     static function judgeRegistered($account)
+    {
+        $admin = self::where('account',$account)
+                     ->first();
+        return $admin;
+    }
+
+    static function getAdminById($id)
+    {
+        $admin = self::where('id',$id)
+                     ->first();
+        return $admin;
+    }
+
+    static function getAdminByToken($token)
+    {
+        $admin = self::where('api_token',$token)
+                     ->first();
+        return $admin;
+    }
+
+    /**
+     * @param $account
+     * @return mixed
+     */
+    static function getAdminByAccount($account)
     {
         $admin = self::where('account',$account)
                      ->first();

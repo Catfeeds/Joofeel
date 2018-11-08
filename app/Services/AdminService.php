@@ -14,9 +14,6 @@ use App\Services\Token\UserToken;
 
 class AdminService
 {
-
-
-
     /**
      * @param string $account 登录帐号
      * @param  string $password 登陆密码
@@ -26,9 +23,13 @@ class AdminService
      */
     public function login($account,$password)
     {
-        $admin = $this->getAdminByAccount($account);
+        $admin = Admin::getAdminByAccount($account);
         if($admin)
         {
+            if($admin['isBaned'] == Admin::BANED)
+            {
+                throw new AppException('你被禁止登录了');
+            }
             if($admin['password'] == md5($password))
             {
                 $admin['login_time'] = time();
@@ -51,7 +52,7 @@ class AdminService
      */
     public function reg($name,$account,$password,$nickname)
     {
-        $record = $this->getAdminByAccount($account);
+        $record = Admin::getAdminByAccount($account);
         if($record)
         {
             throw new AppException('该账号已被注册');
@@ -75,7 +76,7 @@ class AdminService
      */
     public function updatePwd($token,$oldPwd,$newPwd)
     {
-        $admin = self::getAdmin($token);
+        $admin = Admin::getAdminByToken($token);
         if($admin['password'] == md5($oldPwd))
         {
             $admin['password'] = md5($newPwd);
@@ -92,26 +93,39 @@ class AdminService
      */
     public function updateInfo($token,$nickname)
     {
-        $admin = self::getAdminByToken($token);
+        $admin = Admin::getAdminByToken($token);
         $admin['nickname'] = $nickname;
         $admin->save();
     }
 
-    static function getAdminByToken($token)
+
+    /**
+     * @param $id
+     * 禁止获取消禁止登录
+     */
+    public function ban($id)
     {
-        $admin = Admin::where('api_token',$token)
-                       ->first();
-        return $admin;
+        $admin = Admin::getAdminById($id);
+        if($admin['isBaned'] == Admin::BANED)
+        {
+            $admin['isBaned'] = Admin::ALLOW;
+        }
+        else
+        {
+            $admin['isBaned'] = Admin::BANED;
+        }
     }
 
     /**
-     * @param $account
-     * @return mixed
+     * @param $id
+     * @param $scope
+     * 设置权限
      */
-    public function getAdminByAccount($account)
+    public function set($id,$scope)
     {
-        $admin = Admin::where('account',$account)
-            ->first();
-        return $admin;
+        Admin::where('id',$id)
+             ->update([
+                 'scope' => $scope
+             ]);
     }
 }

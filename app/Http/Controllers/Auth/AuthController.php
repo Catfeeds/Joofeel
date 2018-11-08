@@ -55,7 +55,7 @@ class AuthController extends Controller
                 'account'  => 'required|string',
                 'password' => 'required|string',
                 'nickname' => 'required|string',
-                'account'  => 'required|string',
+                'name'     => 'required|string',
             ]);
         try{
             $service->reg(
