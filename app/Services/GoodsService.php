@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\AppException;
 use App\Models\Goods\Goods;
 use App\Models\Goods\GoodsLabel;
 use App\Models\Goods\Recommend;
@@ -204,7 +205,9 @@ class GoodsService
             $this->createExcelGoods($res);
            //删除本地Excel
             unlink(base_path('public/uploads/' . $file_name));
+            return true;
         }
+        throw new AppException('请上传文件');
     }
 
     /**
@@ -258,7 +261,7 @@ class GoodsService
                 $data[$k]['thu_url'] = $v[19];
                 $data[$k]['cov_url'] = $v[20];
                 $data[$k]['det_url'] = $v[21];
-                $data[$k]['state'] = Goods::NOT_SHELVES;  //暂时不上架
+                $data[$k]['isShelves'] = Goods::NOT_SHELVES;  //暂时不上架
                 $data[$k]['created_at'] = $data[$k]['updated_at'] = date('Y-m-d H:i:s');
                 $id = Goods::insertGetId($data[$k]);
                 $label = explode("；", $v[4]);

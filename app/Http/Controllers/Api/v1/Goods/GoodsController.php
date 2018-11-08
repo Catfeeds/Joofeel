@@ -146,6 +146,7 @@ class GoodsController extends Controller
      */
     public function excel()
     {
-
+        $this->service->getExcel();
+        return ResponseUtil::toJson();
     }
 }

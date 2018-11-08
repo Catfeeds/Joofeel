@@ -23,13 +23,13 @@ class ExcelToArray
     public function read($filename,$encode,$file_type){
         if(strtolower ( $file_type )=='xls')//判断excel表类型为2003还是2007
         {
-            require  '../extend/PHPExcel/PHPExcel/Reader/Excel5.php';
+            require  '../vendor/PHPExcel/PHPExcel/Reader/Excel5.php';
             $objReader = PHPExcel_IOFactory::createReader('Excel5');
             $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
         }elseif(strtolower ( $file_type )=='xlsx')
         {
-            require  '../extend/PHPExcel/PHPExcel/Reader/Excel2007.php';
+            require  '../vendor/PHPExcel/PHPExcel/Reader/Excel2007.php';
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         }
         $objReader->setReadDataOnly(true);

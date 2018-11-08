@@ -35,6 +35,7 @@ $api->version('v1', function ($api) {
             $api->get('failure',   'GoodsController@failure');
             $api->post('operate',  'GoodsController@operate');
             $api->post('update',   'GoodsController@update');
+            $api->post('excel',    'GoodsController@excel');
             $api->group(
                 [
                     'prefix' => 'recommend'

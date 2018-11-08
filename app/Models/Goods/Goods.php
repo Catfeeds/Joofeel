@@ -21,6 +21,35 @@ class Goods extends Model
 
     protected $table = 'goods';
 
+    protected $fillable =
+        [
+            'goods_id',
+            'category_id',
+            'type',
+            'flavor',
+            'goods_id',
+            'stock',
+            'name',
+            'delivery_place',
+            'country' ,
+            'purchase_price',
+            'logistics_standard',
+            'cost_price',
+            'reference_price',
+            'price',
+            'sale_price',
+            'recommend_reason',
+            'notice',
+            'channels',
+            'shop',
+            'purchase_address',
+            'thu_url',
+            'cov_url',
+            'det_url',
+            'state',
+            'updated_at',
+            'created_at'
+        ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      * 标签

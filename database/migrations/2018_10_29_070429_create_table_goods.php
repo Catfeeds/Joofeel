@@ -36,7 +36,7 @@ class CreateTableGoods extends Migration
         Schema::create('goods',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
-            $t->integer('goods_id')->unique();               //商品编码
+            $t->string('goods_id',11)->unique();               //商品编码
             $t->string('name',50);                    //商品名
             $t->tinyInteger('category_id')->index();         //分类id
             $t->integer('stock');                            //库存
@@ -54,11 +54,11 @@ class CreateTableGoods extends Migration
             $t->decimal('price',10,2);           //定价
             $t->decimal('sale_price',10,2);      //折扣价
             $t->string('country',20);                 //国家
-            $t->string('brand',20)->nullable();                  //品牌
-            $t->string('degrees',20)->nullable();                 //度数
-            $t->string('type',20)->nullable();                   //种类
-            $t->string('specifications',20)->nullable();         //规格
-            $t->string('flavor',20)->nullable();                 //口味
+            $t->string('brand',20)->nullable()->default('');                  //品牌
+            $t->string('degrees',20)->nullable()->default('');                 //度数
+            $t->string('type',20)->nullable()->default('');                   //种类
+            $t->string('specifications',20)->nullable()->default('');         //规格
+            $t->string('flavor',20)->nullable()->default('');                 //口味
             $t->string('thu_url',120);                //缩略图
             $t->string('cov_url',120);                //封面图
             $t->string('det_url',120);                //详情图
@@ -80,7 +80,8 @@ class CreateTableGoods extends Migration
         Schema::create('goods_label',function (Blueprint $t){
             $t->increments('id');
             $t->integer('goods_id')->nullable();
-            $t->string('label_name',4)->nullable();
+            $t->string('label_name',10)->nullable();
+            $t->timestamps();
         });
 
         /**

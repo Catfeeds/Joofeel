@@ -14,4 +14,9 @@ use Illuminate\Database\Eloquent\Model;
 class GoodsLabel extends Model
 {
     protected $table = 'goods_label';
+
+    protected $fillable = [
+        'goods_id',
+        'label_name'
+    ];
 }
