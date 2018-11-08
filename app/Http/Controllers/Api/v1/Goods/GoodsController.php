@@ -140,4 +140,12 @@ class GoodsController extends Controller
         $data = $this->service->failure();
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * Excel表添加商品
+     */
+    public function excel()
+    {
+
+    }
 }
