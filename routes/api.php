@@ -55,6 +55,31 @@ $api->version('v1', function ($api) {
             $api->post('',   'PrizeController@prize');
         });
 
+        /**
+         * 首页数据
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1',
+                'prefix'    => 'index'
+            ],function($api){
+            $api->get('sale',   'IndexController@salePercent');
+            $api->get('user',   'IndexController@recentUser');
+            $api->get('todo',   'IndexController@todo');
+        });
+
+    });
+
+
+    /**
+     * 首页获取数据
+     */
+    $api->group(
+        [
+            'namespace' => 'App\Http\Controllers\Api\v1',
+            'prefix'    => 'index'
+        ],function ($api){
+        $api->get('todo',   'IndexController@todo');
     });
 
     /**

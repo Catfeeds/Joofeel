@@ -12,12 +12,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class Goods extends Model
 {
+    //是否上架
     const SHELVES = 0;
     const NOT_SHELVES = 1;
 
     const DEFAULT_SORT = 0; //默认排序(按照created_at)
     const PRICE_ASC_SORT = 1; //价格升序
     const PRICE_DESC_SORT = 2; //价格降序
+
+    //是否处于待审状态(添加商品后的操作)
+    const PENDING = 0;
+    const NOT_PENDING = 1;
+
+    //分类
+    const BEER = 1;
+    const WINE = 2;
+    const DRINKS = 3;
+    const SNACKS = 4;
 
     protected $table = 'goods';
 

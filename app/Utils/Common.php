@@ -67,4 +67,14 @@ class Common
         }
     }
 
+    static function getWeeks($time = '', $format='Y-m-d'){
+        $time = $time != '' ? $time : time();
+        //组合数据
+        $date = [];
+        for ($i=1; $i<=7; $i++){
+            $date[$i] = date($format ,strtotime( '+' . $i-7 .' days', $time));
+        }
+        return $date;
+    }
+
 }

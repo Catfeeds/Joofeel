@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Services\AdminService;
@@ -46,6 +47,10 @@ class AdminController extends Controller
     {
         $data = Admin::orderByDesc('created_at')
                      ->get();
+        foreach ($data  as $item)
+        {
+            $item['login_time'] = date('Y-m-d H:i:s',$item['login_time']);
+        }
         return ResponseUtil::toJson($data);
     }
 
@@ -59,11 +64,14 @@ class AdminController extends Controller
             $this->request,
             [
                 'id'    => 'required|integer|exists:mysql.admin,id',
-                'scope' => 'required|integer|in:16,32,64,128'
             ]);
-        $this->service->set(
-            $this->request->input('id'),
-            $this->request->input('scope'));
+        try{
+            $this->service->set(
+                $this->request->input('id'));
+        }catch (AppException $e)
+        {
+            return ResponseUtil::toJson('',$e->getMessage(),$e->getCode());
+        }
         return ResponseUtil::toJson();
     }
 }

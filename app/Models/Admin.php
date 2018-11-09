@@ -22,6 +22,10 @@ class Admin extends Authenticatable
     ];
     const ALLOW = 0;
     const BANED = 1;
+
+    const PRIMARY = 16;
+    const SUPER = 32;
+    const BOSS  = 64;
     /**
      * @param $account
      * @return mixed

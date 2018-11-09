@@ -114,18 +114,22 @@ class AdminService
         {
             $admin['isBaned'] = Admin::BANED;
         }
+        $admin->save();
     }
 
     /**
      * @param $id
-     * @param $scope
+     * @throws AppException
      * 设置权限
      */
-    public function set($id,$scope)
+    public function set($id)
     {
-        Admin::where('id',$id)
-             ->update([
-                 'scope' => $scope
-             ]);
+        $admin = Admin::getAdminById($id);
+        if($admin['scope'] > Admin::BOSS)
+        {
+            throw new AppException('已经是最高权限了');
+        }
+        $admin['scope'] = 2* $admin['scope'];
+        $admin->save();
     }
 }
