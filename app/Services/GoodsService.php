@@ -56,6 +56,21 @@ class GoodsService
         return $data;
     }
 
+    /**
+     * @return mixed
+     * 获取待审商品
+     */
+    public function pending()
+    {
+        $data = Goods::where('isPending',Goods::PENDING)
+                     ->orderByDesc('created_at')
+                     ->select('id','name','goods_id','thu_url','stock',
+                              'category_id','price','sale_price',
+                              'isShelves','created_at')
+                     ->get();
+        return $data;
+    }
+
 
     /**
      * @param $id
@@ -153,6 +168,7 @@ class GoodsService
     {
         $query = Goods::with('category')
                       ->with('label')
+                      ->where('isPending','=',Goods::NOT_PENDING)
                       ->where('stock', '>', 0)
                       ->select('id','name','goods_id','thu_url','stock',
                               'category_id','price','sale_price','isShelves');
@@ -259,7 +275,8 @@ class GoodsService
                 $data[$k]['thu_url'] = $v[19];
                 $data[$k]['cov_url'] = $v[20];
                 $data[$k]['det_url'] = $v[21];
-                $data[$k]['isShelves'] = Goods::NOT_SHELVES;  //暂时不上架
+                $data[$k]['isPending'] = Goods::PENDING; //处于待审状态
+                $data[$k]['isShelves'] = Goods::SHELVES;
                 $data[$k]['created_at'] = $data[$k]['updated_at'] = date('Y-m-d H:i:s');
                 $id = Goods::insertGetId($data[$k]);
                 $label = explode("；", $v[4]);

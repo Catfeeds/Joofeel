@@ -143,6 +143,16 @@ class GoodsController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
+    public function pending()
+    {
+        $data = $this->service->pending();
+        return ResponseUtil::toJson($data);
+    }
+
+    /**
      * Excel表添加商品
      */
     public function excel()

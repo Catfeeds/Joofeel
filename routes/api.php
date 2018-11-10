@@ -28,8 +28,10 @@ $api->version('v1', function ($api) {
                 'namespace'  => 'App\Http\Controllers\Api\v1\Goods',
                 'prefix' => 'goods'
             ], function ($api) {
+            //商品详情
             $api->get('info',      'GoodsController@info');
             $api->get('category',  'GoodsController@category');
+            $api->get('pending',   'GoodsController@pending');
             $api->get('search',    'GoodsController@search');
             $api->get('oos',       'GoodsController@oos');
             $api->get('failure',   'GoodsController@failure');

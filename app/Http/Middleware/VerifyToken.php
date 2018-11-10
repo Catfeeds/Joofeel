@@ -12,8 +12,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Closure;
 
+define('LOGOUT',1001); //登陆失效
+
 class VerifyToken extends Controller
 {
+    const LOGOUT = 1001;
     /**
      * 处理传入的请求
      *
@@ -28,12 +31,20 @@ class VerifyToken extends Controller
                       ->first();
         if($admin)
         {
+            if(time() - $admin['login_time'] > 7200)
+            {
+                return response()->json(
+                    [
+                        'code' => LOGOUT,
+                        'msg'  => '登录已失效'
+                    ]);
+            }
             return $next($request);
         }
         return response()->json(
             [
-                'code'=>200,
-                'msg'=> '您尚未登录'
+                'code' => 200,
+                'msg'  => '您尚未登录'
             ]);
     }
 
