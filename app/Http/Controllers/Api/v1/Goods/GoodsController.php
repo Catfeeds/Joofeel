@@ -153,6 +153,22 @@ class GoodsController extends Controller
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     * 审核通过
+     */
+    public function pendingOperate()
+    {
+        $this->validate(
+            $this->request,
+            [
+                'id' => 'required|integer|exists:mysql.goods,id'
+            ]);
+        $this->service->pendingOperate($this->request->input('id'));
+        return ResponseUtil::toJson();
+    }
+
+
+    /**
      * Excel表添加商品
      */
     public function excel()

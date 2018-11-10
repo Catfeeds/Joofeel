@@ -31,13 +31,23 @@ $api->version('v1', function ($api) {
             //商品详情
             $api->get('info',      'GoodsController@info');
             $api->get('category',  'GoodsController@category');
-            $api->get('pending',   'GoodsController@pending');
+
             $api->get('search',    'GoodsController@search');
             $api->get('oos',       'GoodsController@oos');
             $api->get('failure',   'GoodsController@failure');
             $api->post('operate',  'GoodsController@operate');
             $api->post('update',   'GoodsController@update');
             $api->post('excel',    'GoodsController@excel');
+            /**
+             * 审核
+             */
+            $api->group(
+                [
+                    'prefix' => 'pending'
+                ], function ($api) {
+                $api->get('',         'GoodsController@pending');
+                $api->post('operate', 'GoodsController@pendingOperate');
+            });
             $api->group(
                 [
                     'prefix' => 'recommend'

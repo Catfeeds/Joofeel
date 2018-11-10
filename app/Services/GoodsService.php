@@ -71,6 +71,18 @@ class GoodsService
         return $data;
     }
 
+    /**
+     * @param $id
+     * 审核通过
+     */
+    public function pendingOperate($id)
+    {
+        Goods::where('id',$id)
+             ->update([
+                 'isPending' => Goods::NOT_PENDING
+             ]);
+    }
+
 
     /**
      * @param $id
