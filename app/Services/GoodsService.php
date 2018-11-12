@@ -13,9 +13,12 @@ use App\Models\Goods\Goods;
 use App\Models\Goods\GoodsLabel;
 use App\Models\Goods\Recommend;
 
+define('add',0);
+define('change',1);
+
 class GoodsService
 {
-    public function recommend()
+    public function recommend($limit)
     {
         /**
          *推荐商品
@@ -24,50 +27,54 @@ class GoodsService
                          ->where('g.isShelves',Goods::SHELVES)
                          ->select('g.id','g.name','g.goods_id','g.thu_url','g.stock',
                              'g.category_id as category','g.price','g.sale_price','g.isShelves')
-                         ->get();
+                         ->paginate($limit);
         return $data;
     }
 
     /**
      * @param $category
+     * @param $limit
      * @return mixed
-     * 分类下的全部商品(上架中)
+     * 分类下所有商品
      */
-    public function category($category)
+    public function category($category,$limit)
     {
         $data = $this->query()
                      ->where('category_id',$category)
                      ->where('isShelves', Goods::SHELVES)
                      ->orderByDesc('created_at')
-                     ->get();
+                     ->paginate($limit);
         return $this->checkRecommend($data);
     }
 
     /**
+     * @param $limit
      * @return mixed
-     * 失效商品
+     * 失效
      */
-    public function failure()
+    public function failure($limit)
     {
         $data = $this->query()
                      ->where('isShelves', Goods::NOT_SHELVES)
                      ->orderByDesc('updated_at')
-                     ->get();
+                     ->paginate($limit);
+
         return $data;
     }
 
     /**
+     * @param $limit
      * @return mixed
-     * 获取待审商品
+     * 待审
      */
-    public function pending()
+    public function pending($limit)
     {
         $data = Goods::where('isPending',Goods::PENDING)
                      ->orderByDesc('created_at')
                      ->select('id','name','goods_id','thu_url','stock',
                               'category_id','price','sale_price',
                               'isShelves','created_at')
-                     ->get();
+                     ->paginate($limit);
         return $data;
     }
 
@@ -100,17 +107,19 @@ class GoodsService
 
     /**
      * @param $content
+     * @param $limit
      * @return mixed
      * 搜索
      */
-    public function search($content)
+    public function search($content,$limit)
     {
         $goods = $this->query()
-                      ->orderByDesc('created_at')
                       ->where('name', 'like', '%'.$content.'%')
                       ->orWhere('recommend_reason','like','%'.$content.'%')
+                      ->orWhere('country','like','%'.$content.'%')
                       ->orWhere('shop','like','%'.$content.'%')
-                      ->get();
+                      ->orderByDesc('created_at')
+                      ->paginate($limit);
         return $goods;
     }
 
@@ -175,6 +184,7 @@ class GoodsService
 
     /**
      * @return $this
+     * 针对审核通过的商品的查询语句
      */
     private function query()
     {
@@ -213,7 +223,7 @@ class GoodsService
     /**
      * 得到Excel并处理
      */
-    public function getExcel()
+    public function getExcel($type)
     {
         if (!empty ($_FILES ['file'] ['name'])) {
             $tmp_file = $_FILES ['file'] ['tmp_name'];
@@ -230,12 +240,55 @@ class GoodsService
             }
             $ExcelToArray = new ExcelToArray();//实例化
             $res = $ExcelToArray->read($savePath . $file_name, "UTF-8", $file_type);//传参,判断office2007还是office2003
-            $this->createExcelGoods($res);
+            if($type == add)
+            {
+                $this->createExcelGoods($res);
+            }
+            else if($type == change)
+            {
+                $this->changeExcelGoods($res);
+            }
+
            //删除本地Excel
             unlink(base_path('public/uploads/' . $file_name));
             return true;
         }
         throw new AppException('请上传文件');
+    }
+
+    /**
+     * @param $excel
+     * 修改
+     */
+    private function changeExcelGoods($excel)
+    {
+        foreach ($excel as $k => $v) {
+            if ($k > 1) {
+                $goods = Goods::where('goods_id',$v[0])
+                              ->first();
+                $goods['goods_id'] = $v[0];
+                $goods['stock'] = $v[2];
+                $goods['name'] = $v[3];
+                $goods['delivery_place'] = $v[5];
+                $goods['country'] = $v[6];
+                $goods['purchase_price'] = $v[9];
+                $goods['logistics_standard'] = $v[10];
+                $goods['cost_price'] = $v[9] + $v[10];
+                $goods['reference_price'] = $v[12];
+                $goods['price'] = $v[13];
+                $goods['sale_price'] = $goods['price'];
+                $goods['recommend_reason'] = $v[14];
+                $goods['notice'] = $v[15];
+                $goods['channels'] = $v[16];
+                $goods['shop'] = $v[17];
+                $goods['purchase_address'] = $v[18];
+                $goods['thu_url'] = $v[19];
+                $goods['cov_url'] = $v[20];
+                $goods['det_url'] = $v[21];
+                $goods['created_at'] = $goods['updated_at'] = date('Y-m-d H:i:s');
+                $goods->save();
+            }
+        }
     }
 
     /**

@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
     $api->group(
@@ -30,13 +31,19 @@ $api->version('v1', function ($api) {
             ], function ($api) {
             //商品详情
             $api->get('info',      'GoodsController@info');
+            //分类下的所有商品
             $api->get('category',  'GoodsController@category');
-
+            //搜索
             $api->get('search',    'GoodsController@search');
+            //库存紧张的商品
             $api->get('oos',       'GoodsController@oos');
+            //失效的商品
             $api->get('failure',   'GoodsController@failure');
+            //上下架
             $api->post('operate',  'GoodsController@operate');
+            //修改商品信息
             $api->post('update',   'GoodsController@update');
+            //Excel添加商品
             $api->post('excel',    'GoodsController@excel');
             /**
              * 审核

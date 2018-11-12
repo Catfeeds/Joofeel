@@ -24,15 +24,6 @@ class GoodsController extends Controller
         parent::__construct($req);
     }
 
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     * 获取推荐商品
-     */
-    public function recommend()
-    {
-        $data = $this->service->recommend();
-        return ResponseUtil::toJson($data);
-    }
 
     /**
      * @return \Illuminate\Http\JsonResponse
@@ -60,7 +51,9 @@ class GoodsController extends Controller
             [
                 'category' => 'required|integer|in:1,2,3,4'
             ]);
-        $data = $this->service->category($this->request->input('category'));
+        $data = $this->service->category(
+            $this->request->input('category'),
+            $this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 
@@ -73,9 +66,11 @@ class GoodsController extends Controller
         $this->validate(
             $this->request,
             [
-                'content' => 'required|string'
+                'content' => 'required|string',
             ]);
-        $data = $this->service->search($this->request->input('content'));
+        $data = $this->service->search(
+            $this->request->input('content'),
+            $this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 
@@ -138,7 +133,7 @@ class GoodsController extends Controller
      */
     public function failure()
     {
-        $data = $this->service->failure();
+        $data = $this->service->failure($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 
@@ -148,7 +143,7 @@ class GoodsController extends Controller
      */
     public function pending()
     {
-        $data = $this->service->pending();
+        $data = $this->service->pending($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 
@@ -173,13 +168,17 @@ class GoodsController extends Controller
      */
     public function excel()
     {
+        $this->validate(
+            $this->request,
+            [
+                'type' => 'required|in:0,1'
+            ]);
         try{
-            $this->service->getExcel();
+            $this->service->getExcel($this->request->input('type'));
         }catch (AppException $e)
         {
             return ResponseUtil::toJson('',$e->getMessage(),$e->getCode());
         }
-
         return ResponseUtil::toJson();
     }
 }

@@ -28,7 +28,7 @@ class RecommendController extends Controller
      */
     public function recommend()
     {
-        $data = $this->service->recommend();
+        $data = $this->service->recommend($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 
