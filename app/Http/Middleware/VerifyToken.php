@@ -31,6 +31,14 @@ class VerifyToken extends Controller
                       ->first();
         if($admin)
         {
+            if($admin['isBaned'] == Admin::BANED)
+            {
+                return response()->json(
+                    [
+                        'code' => LOGOUT,
+                        'msg'  => '你已被禁止登陆'
+                    ]);
+            }
             if(time() - $admin['login_time'] > 7200)
             {
                 return response()->json(

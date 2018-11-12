@@ -12,6 +12,8 @@ use App\Exceptions\AppException;
 use App\Models\Admin;
 use App\Services\Token\UserToken;
 
+define('UP', 1);
+define('DOWN' , 0);
 class AdminService
 {
     /**
@@ -119,17 +121,29 @@ class AdminService
 
     /**
      * @param $id
+     * @param $type
      * @throws AppException
      * 设置权限
      */
-    public function set($id)
+    public function set($id,$type)
     {
         $admin = Admin::getAdminById($id);
-        if($admin['scope'] > Admin::BOSS)
+        if($type == DOWN)
         {
-            throw new AppException('已经是最高权限了');
+            if($admin['scope'] == Admin::PRIMARY)
+            {
+                throw new AppException('已经是最低权限了');
+            }
+            $admin['scope'] = $admin['scope'] / 2;
         }
-        $admin['scope'] = 2* $admin['scope'];
+        else
+        {
+            if($admin['scope'] > Admin::BOSS)
+            {
+                throw new AppException('已经是最高权限了');
+            }
+            $admin['scope'] = 2* $admin['scope'];
+        }
         $admin->save();
     }
 }

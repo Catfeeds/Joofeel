@@ -64,10 +64,12 @@ class AdminController extends Controller
             $this->request,
             [
                 'id'    => 'required|integer|exists:mysql.admin,id',
+                'type'  => 'required|in:0,1'
             ]);
         try{
             $this->service->set(
-                $this->request->input('id'));
+                $this->request->input('id'),
+                $this->request->input('type'));
         }catch (AppException $e)
         {
             return ResponseUtil::toJson('',$e->getMessage(),$e->getCode());
