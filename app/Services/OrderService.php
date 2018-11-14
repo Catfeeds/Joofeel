@@ -25,11 +25,21 @@ class OrderService extends Controller
         if($sign == 0)
         {
             $order = GoodsOrder::where('isSign',$sign)
-                               ->orderByDesc('create_at')
+                               ->where('isPay',GoodsOrder::PAID)
+                               ->orderByDesc('created_at')
                                ->paginate($limit);
             return $order;
         }
-        $order = GoodsOrder::orderByDesc('create_at')
+        else if($sign == 1)
+        {
+            $order = GoodsOrder::where('isPay',GoodsOrder::PAID)
+                               ->orderByDesc('created_at')
+                               ->paginate($limit);
+            return $order;
+        }
+        $order = GoodsOrder::where('isPay',GoodsOrder::UNPAID)
+                           ->where('created_at','>',date("Y-m-d H:i:s",strtotime("-1 day")))
+                           ->orderByDesc('created_at')
                            ->paginate($limit);
         return $order;
     }

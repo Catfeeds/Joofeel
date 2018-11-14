@@ -55,6 +55,9 @@ $api->version('v1', function ($api) {
                 $api->get('',         'GoodsController@pending');
                 $api->post('operate', 'GoodsController@pendingOperate');
             });
+            /**
+             * 推荐
+             */
             $api->group(
                 [
                     'prefix' => 'recommend'
@@ -101,17 +104,6 @@ $api->version('v1', function ($api) {
 
     });
 
-
-    /**
-     * 首页获取数据
-     */
-    $api->group(
-        [
-            'namespace' => 'App\Http\Controllers\Api\v1',
-            'prefix'    => 'index'
-        ],function ($api){
-        $api->get('todo',   'IndexController@todo');
-    });
 
     /**
      * 管理员

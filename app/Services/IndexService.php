@@ -107,6 +107,7 @@ class IndexService
     private function orderCount()
     {
         $count = GoodsOrder::where('isSign',GoodsOrder::NOTDELIVERY)
+                           ->where('isPay',GoodsOrder::PAID)
                            ->count();
         return $count;
     }
