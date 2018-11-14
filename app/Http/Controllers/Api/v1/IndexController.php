@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 class IndexController extends Controller
 {
     private $service;
+
     public function __construct(Request $req,IndexService $service)
     {
         $this->service = $service;

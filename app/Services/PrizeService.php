@@ -45,14 +45,10 @@ class PrizeService extends BaseService
         $record = Prize::where('isPrize', Prize::ONGOING)
                        ->where('open_prize_time', '>', time())
                        ->first();
-        if (count($record) == 0)
+        if ($record)
         {
             return false;
         }
-        else
-        {
-            return true;
-        }
-
+        return true;
     }
 }

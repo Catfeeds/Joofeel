@@ -127,6 +127,7 @@ class AdminService
      */
     public function set($id,$type)
     {
+        //判断是降还是升
         $admin = Admin::getAdminById($id);
         if($type == DOWN)
         {
@@ -142,7 +143,7 @@ class AdminService
             {
                 throw new AppException('已经是最高权限了');
             }
-            $admin['scope'] = 2* $admin['scope'];
+            $admin['scope'] = 2 * $admin['scope'];
         }
         $admin->save();
     }

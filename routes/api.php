@@ -63,6 +63,7 @@ $api->version('v1', function ($api) {
                 $api->post('operate', 'RecommendController@operate');
             });
         });
+
         /**
          * 抽奖
          */
@@ -72,6 +73,17 @@ $api->version('v1', function ($api) {
                 'prefix' => 'prize'
             ], function ($api) {
             $api->post('',   'PrizeController@prize');
+        });
+
+        /**
+         * 订单
+         */
+        $api->group(
+            [
+                'namespace'  => 'App\Http\Controllers\Api\v1',
+                'prefix' => 'order'
+            ],function ($api){
+            $api->get('','OrderController@get');
         });
 
         /**

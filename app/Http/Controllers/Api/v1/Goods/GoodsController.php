@@ -164,7 +164,7 @@ class GoodsController extends Controller
 
 
     /**
-     * Excel表添加商品
+     * Excel表操作商品
      */
     public function excel()
     {

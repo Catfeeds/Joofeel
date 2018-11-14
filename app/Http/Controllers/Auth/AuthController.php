@@ -120,7 +120,7 @@ class AuthController extends Controller
      */
     public function info()
     {
-        $token = $this->request->header('token');
+        $token = $this->request->input('token');
         $admin = Admin::where('api_token',$token)
                       ->first();
         return ResponseUtil::toJson($admin);
