@@ -221,39 +221,21 @@ class GoodsService
     }
 
     /**
-     * 得到Excel并处理
+     * @param $type
+     * @return bool
+     * @throws AppException
      */
     public function getExcel($type)
     {
-        if (!empty ($_FILES ['file'] ['name'])) {
-            $tmp_file = $_FILES ['file'] ['tmp_name'];
-            $file_types = explode(".", $_FILES ['file'] ['name']);
-            $file_type = $file_types [count($file_types) - 1];
-            if (strtolower($file_type) != "xlsx") {
-                throw new AppException('不是Excel文件，重新上传');
-            }
-            $savePath = base_path('public/uploads/');
-            $str = date('Ymdhis');
-            $file_name = $str . "." . $file_type;
-            if (!copy($tmp_file, $savePath . $file_name)) {
-                throw new AppException('上传失败');
-            }
-            $ExcelToArray = new ExcelToArray();//实例化
-            $res = $ExcelToArray->read($savePath . $file_name, "UTF-8", $file_type);//传参,判断office2007还是office2003
-            if($type == add)
-            {
-                $this->createExcelGoods($res);
-            }
-            else if($type == change)
-            {
-                $this->changeExcelGoods($res);
-            }
-
-           //删除本地Excel
-            unlink(base_path('public/uploads/' . $file_name));
-            return true;
+        $res = (new ExcelToArray())->getExcel();
+        if($type == add)
+        {
+            $this->createExcelGoods($res);
         }
-        throw new AppException('请上传文件');
+        else if($type == change)
+        {
+            $this->changeExcelGoods($res);
+        }
     }
 
     /**

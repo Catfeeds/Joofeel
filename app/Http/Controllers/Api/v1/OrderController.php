@@ -90,4 +90,41 @@ class OrderController extends Controller
             $this->request->input('tracking_id'));
         return ResponseUtil::toJson();
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 通过Excel更新订单数据
+     */
+    public function updateExcel()
+    {
+        try
+        {
+            $this->order->excelUpdate();
+        }catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 未发货订单得到Excel数据
+     */
+    public function orderExcel()
+    {
+        $this->validate($this->request,
+            [
+                'sign' => 'required|in:0,1'
+            ]);
+        try
+        {
+            $this->order->getNotDeliveryOrderExcel($this->request->input('sign'));
+        }
+        catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
+    }
 }

@@ -100,7 +100,9 @@ $api->version('v1', function ($api) {
                 'prefix'    => 'update'
             ],function ($api){
                 //单个修改
-                $api->post('', 'OrderController@update');
+                $api->post('',      'OrderController@update');
+                //单个修改
+                $api->post('excel', 'OrderController@updateExcel');
             });
 
             $api->post('delivery', 'OrderController@delivery');

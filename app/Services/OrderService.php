@@ -101,4 +101,45 @@ class OrderService extends Controller
                       'tracking_id' => $tracking_id
                   ]);
     }
+
+    public function excelUpdate()
+    {
+        $res = (new ExcelToArray())->getExcel();
+    }
+
+    /**
+     * @param $sign
+     */
+    public function getNotDeliveryOrderExcel($sign)
+    {
+        if($sign == GoodsOrder::NOTDELIVERY)
+        {
+            $data = GoodsOrder::where('isPay',GoodsOrder::PAID)
+                ->where('isSign',GoodsOrder::NOTDELIVERY)
+                ->get();
+            (new ExcelToArray())->orderExcel($this->transOrderSign($data),'未发货订单');
+        }
+
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     * 转换状态
+     */
+    private function transOrderSign($data)
+    {
+        foreach ($data as $item)
+        {
+            if($item['isSign'] = GoodsOrder::NOTDELIVERY)
+            {
+                $item['isSign'] = '未发货';
+            }
+            else
+            {
+                $item['isSign'] = '已发货';
+            }
+        }
+        return $data;
+    }
 }
