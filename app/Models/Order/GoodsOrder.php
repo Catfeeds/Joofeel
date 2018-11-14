@@ -8,6 +8,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class GoodsOrder extends Model
@@ -41,5 +42,10 @@ class GoodsOrder extends Model
     public function goods()
     {
         return $this->hasMany(OrderId::class, 'order_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

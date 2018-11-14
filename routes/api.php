@@ -88,6 +88,8 @@ $api->version('v1', function ($api) {
             ],function ($api){
             //获取不同状态下的订单
             $api->get('',          'OrderController@get');
+            //订单详情
+            $api->get('info',      'OrderController@info');
             //发货操作
             $api->post('delivery', 'OrderController@delivery');
         });

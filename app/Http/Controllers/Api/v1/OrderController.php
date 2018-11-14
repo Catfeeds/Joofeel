@@ -60,4 +60,18 @@ class OrderController extends Controller
         }
         return ResponseUtil::toJson();
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 订单详情
+     */
+    public function info()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|exists:mysql.goods_order,id'
+            ]);
+        $data = $this->order->info($this->request->input('id'));
+        return ResponseUtil::toJson($data);
+    }
 }

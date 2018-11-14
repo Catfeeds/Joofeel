@@ -61,4 +61,26 @@ class OrderService extends Controller
         $order['isSign'] = GoodsOrder::DELIVERIED;
         $order->save();
     }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model|null|object|static
+     * 订单详情
+     */
+    public function info($id)
+    {
+        $order = GoodsOrder::with(['goods' =>function($query){
+                           $query->select('id','order_id','goods_id')
+                                 ->with(['goods'=>function($query){
+                                 $query->select('thu_url','id','price','name');
+                           }]);
+                                }])
+                           ->with('user')
+                           ->select('id','order_id','tracking_id','price',
+                                   'sale_price','sale','receipt_name','receipt_address',
+                                   'receipt_phone','user_id')
+                           ->where('id',$id)
+                           ->first();
+        return $order;
+    }
 }
