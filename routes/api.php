@@ -92,6 +92,18 @@ $api->version('v1', function ($api) {
             $api->get('info',      'OrderController@info');
             //发货操作
             $api->post('delivery', 'OrderController@delivery');
+
+            /**
+             * 修改订单号
+             */
+            $api->group([
+                'prefix'    => 'update'
+            ],function ($api){
+                //单个修改
+                $api->post('', 'OrderController@update');
+            });
+
+            $api->post('delivery', 'OrderController@delivery');
         });
 
         /**

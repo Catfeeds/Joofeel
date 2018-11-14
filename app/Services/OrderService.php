@@ -54,12 +54,17 @@ class OrderService extends Controller
     {
         $order=  GoodsOrder::where('id',$id)
                            ->first();
-        if($order['tracking_id'] == GoodsOrder::NOTTRACKINGID)
+        if($order['tracking_id'] !== GoodsOrder::NOTTRACKINGID)
         {
-            throw new AppException('未填写快递单号,不能发货');
+            $order['isSign'] = GoodsOrder::DELIVERIED;
+            $order->save();
+
         }
-        $order['isSign'] = GoodsOrder::DELIVERIED;
-        $order->save();
+        else
+        {
+            throw new AppException('未填写快递单号,不能发货','');
+        }
+
     }
 
     /**
@@ -82,5 +87,18 @@ class OrderService extends Controller
                            ->where('id',$id)
                            ->first();
         return $order;
+    }
+
+    /**
+     * @param $id
+     * @param $tracking_id
+     * 单个修改订单信息(只能修改快递单号)
+     */
+    public function update($id,$tracking_id)
+    {
+        GoodsOrder::where('id',$id)
+                  ->update([
+                      'tracking_id' => $tracking_id
+                  ]);
     }
 }

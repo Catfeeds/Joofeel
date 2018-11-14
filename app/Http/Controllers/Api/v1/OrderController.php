@@ -74,4 +74,20 @@ class OrderController extends Controller
         $data = $this->order->info($this->request->input('id'));
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 单个修改订单信息(快递单号)
+     */
+    public function update()
+    {
+        $this->validate($this->request,[
+            'id'          => 'required|exists:mysql.goods_order,id',
+            'tracking_id' => 'required|string'
+        ]);
+        $this->order->update(
+            $this->request->input('id'),
+            $this->request->input('tracking_id'));
+        return ResponseUtil::toJson();
+    }
 }
