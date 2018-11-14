@@ -86,7 +86,10 @@ $api->version('v1', function ($api) {
                 'namespace'  => 'App\Http\Controllers\Api\v1',
                 'prefix' => 'order'
             ],function ($api){
-            $api->get('','OrderController@get');
+            //获取不同状态下的订单
+            $api->get('',          'OrderController@get');
+            //发货操作
+            $api->post('delivery', 'OrderController@delivery');
         });
 
         /**

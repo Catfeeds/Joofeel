@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 
+use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Services\OrderService;
 use App\Utils\ResponseUtil;
@@ -38,5 +39,25 @@ class OrderController extends Controller
             $this->request->input('sign'),
             $this->request->input('limit'));
         return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 发货
+     */
+    public function delivery()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|exists:mysql.goods_order,id'
+            ]);
+        try
+        {
+            $this->order->delivery($this->request->input('id'));
+        }catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
     }
 }

@@ -32,6 +32,8 @@ class GoodsOrder extends Model
     //订单已完成
     const DONE = 2;
 
+    const NOTTRACKINGID = 0;//未填写快递单号
+
 
 
     protected  $table = 'goods_order';
