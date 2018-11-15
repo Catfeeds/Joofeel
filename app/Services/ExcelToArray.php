@@ -26,7 +26,6 @@ class ExcelToArray
         {
             require  '../vendor/PHPExcel/PHPExcel/Reader/Excel5.php';
             $objReader = PHPExcel_IOFactory::createReader('Excel5');
-            $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
         }elseif(strtolower ( $file_type )=='xlsx')
         {
