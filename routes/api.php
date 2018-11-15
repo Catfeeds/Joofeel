@@ -119,6 +119,7 @@ $api->version('v1', function ($api) {
             $api->get('sale',   'IndexController@salePercent');
             $api->get('user',   'IndexController@recentUser');
             $api->get('todo',   'IndexController@todo');
+            $api->get('test',   'IndexController@test');
         });
 
     });

@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Models\Order\GoodsOrder;
@@ -25,22 +26,22 @@ class OrderService extends Controller
         if($sign == 0)
         {
             $order = GoodsOrder::where('isSign',$sign)
-                               ->where('isPay',GoodsOrder::PAID)
-                               ->orderByDesc('created_at')
-                               ->paginate($limit);
+                ->where('isPay',GoodsOrder::PAID)
+                ->orderByDesc('created_at')
+                ->paginate($limit);
             return $order;
         }
         else if($sign == 1)
         {
             $order = GoodsOrder::where('isPay',GoodsOrder::PAID)
-                               ->orderByDesc('created_at')
-                               ->paginate($limit);
+                ->orderByDesc('created_at')
+                ->paginate($limit);
             return $order;
         }
         $order = GoodsOrder::where('isPay',GoodsOrder::UNPAID)
-                           ->where('created_at','>',date("Y-m-d H:i:s",strtotime("-1 day")))
-                           ->orderByDesc('created_at')
-                           ->paginate($limit);
+            ->where('created_at','>',date("Y-m-d H:i:s",strtotime("-1 day")))
+            ->orderByDesc('created_at')
+            ->paginate($limit);
         return $order;
     }
 
@@ -52,7 +53,7 @@ class OrderService extends Controller
     public function delivery($id)
     {
         $order=  GoodsOrder::where('id',$id)
-                           ->first();
+            ->first();
         if($order['tracking_id'] != GoodsOrder::NOTTRACKINGID)
         {
             $order['isSign'] = GoodsOrder::DELIVERIED;
@@ -73,17 +74,17 @@ class OrderService extends Controller
     public function info($id)
     {
         $order = GoodsOrder::with(['goods' =>function($query){
-                           $query->select('id','order_id','goods_id')
-                                 ->with(['goods'=>function($query){
-                                 $query->select('thu_url','id','price','name');
-                           }]);
-                                }])
-                           ->with('user')
-                           ->select('id','order_id','tracking_id','price',
-                                   'sale_price','sale','receipt_name','receipt_address',
-                                   'receipt_phone','user_id')
-                           ->where('id',$id)
-                           ->first();
+            $query->select('id','order_id','goods_id')
+                ->with(['goods'=>function($query){
+                    $query->select('thu_url','id','price','name');
+                }]);
+        }])
+            ->with('user')
+            ->select('id','order_id','tracking_id','price',
+                'sale_price','sale','receipt_name','receipt_address',
+                'receipt_phone','user_id')
+            ->where('id',$id)
+            ->first();
         return $order;
     }
 
@@ -95,14 +96,31 @@ class OrderService extends Controller
     public function update($id,$tracking_id)
     {
         GoodsOrder::where('id',$id)
-                  ->update([
-                      'tracking_id' => $tracking_id
-                  ]);
+            ->update([
+                'tracking_id' => $tracking_id
+            ]);
     }
 
+    public function excelUpdate()
+    {
+        $res = (new ExcelToArray())->getExcel();
+    }
 
-
-
+    /**
+     * @param $sign
+     */
+    public function getOrderExcel($sign)
+    {
+        if($sign == GoodsOrder::NOTDELIVERY)
+        {
+            $data = GoodsOrder::where('isPay',GoodsOrder::PAID)
+                                 ->where('isSign',GoodsOrder::NOTDELIVERY)
+                                 ->get();
+            (new ExcelToArray())->orderExcel(
+                $this->transOrderSign($data),
+                '未发货订单');
+        }
+    }
 
     /**
      * @param $data
