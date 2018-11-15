@@ -55,7 +55,7 @@ class OrderService extends Controller
     {
         $order=  GoodsOrder::where('id',$id)
                            ->first();
-        if($order['tracking_id'] != GoodsOrder::NOTTRACKINGID)
+        if($order['tracking_id'])
         {
             $order['isSign'] = GoodsOrder::DELIVERIED;
             $order->save();
@@ -108,6 +108,14 @@ class OrderService extends Controller
     public function updateExcel()
     {
         $res = (new ExcelToArray())->getExcel();
+        foreach ($res as $k => $v) {
+            if ($k > 1) {
+                $order = GoodsOrder::where('order_id',$v[0])
+                                   ->first();
+                $order['tracking_id'] = $v[1];
+                $order->save();
+            }
+        }
     }
 
     /**
