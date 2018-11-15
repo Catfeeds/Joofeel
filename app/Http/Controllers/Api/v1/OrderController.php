@@ -119,7 +119,7 @@ class OrderController extends Controller
             ]);
         try
         {
-            $this->order->getNotDeliveryOrderExcel($this->request->input('sign'));
+            $this->order->getOrderExcel($this->request->input('sign'));
         }
         catch (AppException $exception)
         {

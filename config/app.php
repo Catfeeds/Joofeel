@@ -166,6 +166,7 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
         Dingo\Api\Provider\LaravelServiceProvider::class,
 
+
         /*
          * Package Service Providers...
          */
@@ -179,7 +180,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Overtrue\LaravelWeChat\ServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -230,7 +232,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
-        'Image'     => Intervention\Image\Facades\Image::class
+        'Image'     => Intervention\Image\Facades\Image::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ]
 
 ];

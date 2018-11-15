@@ -101,11 +101,11 @@ $api->version('v1', function ($api) {
             ],function ($api){
                 //单个修改
                 $api->post('',      'OrderController@update');
-                //单个修改
+                //excel表修改
                 $api->post('excel', 'OrderController@updateExcel');
             });
-
-            $api->post('delivery', 'OrderController@delivery');
+            //获取订单的Excel(未发货,全部)
+            $api->get('excel',     'OrderController@orderExcel');
         });
 
         /**

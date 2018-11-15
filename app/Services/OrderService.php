@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Models\Order\GoodsOrder;
@@ -54,11 +53,10 @@ class OrderService extends Controller
     {
         $order=  GoodsOrder::where('id',$id)
                            ->first();
-        if($order['tracking_id'] !== GoodsOrder::NOTTRACKINGID)
+        if($order['tracking_id'] != GoodsOrder::NOTTRACKINGID)
         {
             $order['isSign'] = GoodsOrder::DELIVERIED;
             $order->save();
-
         }
         else
         {
@@ -102,25 +100,9 @@ class OrderService extends Controller
                   ]);
     }
 
-    public function excelUpdate()
-    {
-        $res = (new ExcelToArray())->getExcel();
-    }
 
-    /**
-     * @param $sign
-     */
-    public function getNotDeliveryOrderExcel($sign)
-    {
-        if($sign == GoodsOrder::NOTDELIVERY)
-        {
-            $data = GoodsOrder::where('isPay',GoodsOrder::PAID)
-                ->where('isSign',GoodsOrder::NOTDELIVERY)
-                ->get();
-            (new ExcelToArray())->orderExcel($this->transOrderSign($data),'未发货订单');
-        }
 
-    }
+
 
     /**
      * @param $data
