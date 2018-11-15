@@ -99,7 +99,7 @@ class OrderController extends Controller
     {
         try
         {
-            $this->order->excelUpdate();
+            $this->order->updateExcel();
         }catch (AppException $exception)
         {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());

@@ -12,8 +12,7 @@ namespace App\Services;
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Models\Order\GoodsOrder;
-use Illuminate\Support\Facades\App;
-use Maatwebsite\Excel\Excel;
+use PHPExcel;
 
 class OrderService extends Controller
 {
@@ -103,7 +102,10 @@ class OrderService extends Controller
                   ]);
     }
 
-    public function excelUpdate()
+    /**
+     * 通过订单号修改信息
+     */
+    public function updateExcel()
     {
         $res = (new ExcelToArray())->getExcel();
     }
@@ -119,15 +121,16 @@ class OrderService extends Controller
             $data = GoodsOrder::where('isPay',GoodsOrder::PAID)
                               ->where('isSign',GoodsOrder::NOTDELIVERY)
                               ->get();
-            (new ExcelToArray())->orderExcel($this->transOrderSign($data), '未发货订单');
+            $name = '未发货订单';
         }
         else
         {
             $data = GoodsOrder::where('isPay',GoodsOrder::PAID)
                               ->orderByDesc('created_at')
                               ->get();
-            (new ExcelToArray())->orderExcel($this->transOrderSign($data), '全部订单');
+            $name = '全部订单';
         }
+        (new ExcelToArray())->orderExcel($this->transOrderSign($data), $name);
     }
 
     /**
