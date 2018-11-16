@@ -129,7 +129,7 @@ $api->version('v1', function ($api) {
      */
     $api->group(
         [
-            'namespace' => 'App\Http\Controllers\Auth'
+            'namespace' => 'App\Http\Controllers'
         ], function ($api) {
         /**
          * 需要判定是否登陆
@@ -137,22 +137,9 @@ $api->version('v1', function ($api) {
         $api->group(
             [
                 'middleware' => 'token',
-                'prefix'     => 'admin'
+                'prefix'     => 'excel'
             ], function ($api) {
-            $api->get('',           'AdminController@get');
-            $api->get('info',       'AuthController@info');
-            $api->post('info',      'AuthController@updateInfo');
-            $api->post('updatePwd', 'AuthController@updatePwd');
-            $api->post('reg',       'AuthController@reg');
-            $api->post('ban',       'AdminController@ban');
-            $api->post('set',       'AdminController@set');
-        });
-
-        $api->group(
-            [
-                'prefix' => 'admin'
-            ], function ($api) {
-            $api->post('login', 'AuthController@login');
+            $api->get('goods',           'ExcelController@goods');
         });
     });
 });

@@ -38,6 +38,7 @@ class OrderController extends Controller
         $data = $this->order->get(
             $this->request->input('sign'),
             $this->request->input('limit'));
+
         return ResponseUtil::toJson($data);
     }
 
@@ -97,13 +98,7 @@ class OrderController extends Controller
      */
     public function updateExcel()
     {
-        try
-        {
-            $this->order->updateExcel();
-        }catch (AppException $exception)
-        {
-            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
-        }
+        $this->order->updateExcel();
         return ResponseUtil::toJson();
     }
 
@@ -117,14 +112,7 @@ class OrderController extends Controller
             [
                 'sign' => 'required|in:0,1'
             ]);
-        try
-        {
-            $this->order->getOrderExcel($this->request->input('sign'));
-        }
-        catch (AppException $exception)
-        {
-            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
-        }
+        $this->order->getOrderExcel($this->request->input('sign'));
         return ResponseUtil::toJson();
     }
 }
