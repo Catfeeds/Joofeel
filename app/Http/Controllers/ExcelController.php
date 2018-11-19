@@ -11,23 +11,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Goods\Goods;
 use App\Services\ExcelToArray;
-use Illuminate\Http\Request;
 
 class ExcelController extends Controller
 {
-    private $excel;
-    public function __construct(Request $req,ExcelToArray $excel)
-    {
-        $this->excel = $excel;
-        parent::__construct($req);
-    }
+
 
     public function goods()
     {
-        $res = $this->excel->getExcel();
+        $res = (new ExcelToArray())->getExcel();
         foreach ($res as $k => $v) {
             if ($k > 0) {
                 Goods::create([
+                    'id'      => $v[0],
                     'goods_id' => $v[1],
                     'name' => $v[2],
                     'category_id' => $v[3],
@@ -55,8 +50,8 @@ class ExcelController extends Controller
                     'cov_url' => $v[25],
                     'det_url' => $v[26],
                     'isShelves' => $v[27],
-                    'created_at' => date('Y-m-d H:i:s',$v[28]),
-                    'updated_at' => date('Y-m-d H:i:s',$v[29]),
+                    'created_at' => $v[28],
+                    'updated_at' => $v[29],
                 ]);
             }
         }

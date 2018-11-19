@@ -34,7 +34,8 @@ class CreateTableOrder extends Migration
                 ->default(\App\Models\Order\GoodsOrder::NOT_DELETE);
             $t->tinyInteger('isPay')->index()
                 ->default(\App\Models\Order\GoodsOrder::UNPAID);
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -55,7 +56,8 @@ class CreateTableOrder extends Migration
                 ->default(\App\Models\Order\OrderId::NOT_SELECT);
             $t->integer('count')->nullable();
             $t->decimal('price',10,2)->nullable();
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -71,7 +73,8 @@ class CreateTableOrder extends Migration
             $t->string('refuse_reason')->nullable();
             $t->tinyInteger('isAgree')->index()
                 ->default(\App\Models\Order\RefundOrder::UNTREATED);
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
     }
 

@@ -37,7 +37,8 @@ class CreateTablePrize extends Migration
             $t->integer('open_prize_time');
             $t->tinyInteger('isPrize')->index()
                 ->default(\App\Models\Prize\Prize::ONGOING); //标记是否处于抽奖中 0抽奖中1结束
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -49,7 +50,8 @@ class CreateTablePrize extends Migration
            $t->integer('prize_id')->index();
            $t->string('form_id',50);
            $t->tinyInteger('isLucky')->default(\App\Models\Prize\PrizeOrder::NOT_LUCKY); //标记是否中奖 0未中奖1中奖
-           $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
     }
 }

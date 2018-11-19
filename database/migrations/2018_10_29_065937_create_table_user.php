@@ -44,7 +44,8 @@ class CreateTableUser extends Migration
             $t->string('avatar')->nullable();
             $t->tinyInteger('isNewUser')
                 ->default(\App\Models\User\User::IS_NEW); //标记是否为新用户 0为新用户1为老用户
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -74,7 +75,8 @@ class CreateTableUser extends Migration
             $t->string('receipt_phone',11);
             $t->tinyInteger('label')->default(\App\Models\User\DeliveryAddress::HOME); //所属标签
             $t->tinyInteger('isDefault')->index();    //标记是否为默认地址 0是1不是
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -86,7 +88,8 @@ class CreateTableUser extends Migration
             $t->integer('goods_id')->index();
             $t->integer('count');
             $t->tinyInteger('isSelect')->default(\App\Models\User\ShoppingCart::SELECTED); // 标记该条记录是否处于勾选中
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
     }
 

@@ -4,7 +4,7 @@ namespace App\Services;
 use App\Exceptions\AppException;
 use PHPExcel_IOFactory;
 use PHPExcel_Cell;
-use PHPExcel;
+
 /**
  * 读取Excel数据
  */

@@ -64,7 +64,8 @@ class CreateTableGoods extends Migration
             $t->string('det_url',120);                //详情图
             $t->tinyInteger('isPending')->default(\App\Models\Goods\Goods::PENDING)->index();
             $t->tinyInteger('isShelves')->default(\App\Models\Goods\Goods::SHELVES)->index();           //是否上架
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -82,7 +83,8 @@ class CreateTableGoods extends Migration
             $t->increments('id');
             $t->integer('goods_id')->nullable();
             $t->string('label_name',10)->nullable();
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
 
         /**
@@ -91,7 +93,8 @@ class CreateTableGoods extends Migration
         Schema::create('recommend',function (Blueprint $t){
             $t->increments('id');
             $t->integer('goods_id')->nullable();
-            $t->timestamps();
+            $t->integer('created_at');
+            $t->integer('updated_at');
         });
     }
 }

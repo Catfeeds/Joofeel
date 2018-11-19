@@ -57,7 +57,7 @@ class Goods extends Model
             'thu_url',
             'cov_url',
             'det_url',
-            'state',
+            'isShelves',
             'updated_at',
             'created_at'
         ];
