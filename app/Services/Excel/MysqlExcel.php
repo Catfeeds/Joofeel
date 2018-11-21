@@ -13,6 +13,7 @@ use App\Models\Coupon\Coupon;
 use App\Models\Goods\Goods as GoodsModel;
 use App\Models\Goods\GoodsCategory;
 use App\Models\Goods\GoodsLabel;
+use App\Models\Order\GoodsOrder;
 use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
@@ -157,6 +158,38 @@ class MysqlExcel
                 GoodsLabel::create([
                     'goods_id' => $v[1],
                     'label_name'  => $v[2]
+                ]);
+            }
+        }
+    }
+
+    public function sqlGoodsOrder($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                GoodsOrder::create([
+                    'id' => $v[0],
+                    'user_id' => $v[1],
+                    'order_id'  => $v[2],
+                    'tracking_id'  => $v[3],
+                    'prepay_id'  => $v[4],
+                    'price'  => $v[5],
+                    'sale_price'  => $v[6],
+                    'sale'  => $v[7],
+                    'carriage'  => $v[8],
+                    'receipt_id'  => $v[9],
+                    'coupon_id'  => $v[10],
+                    'receipt_name'  => $v[11],
+                    'receipt_address'  => $v[12],
+                    'receipt_phone'  => $v[13],
+                    'isSign'  => $v[14],
+                    'isDeleteUser'  => $v[15],
+                    'isPay'  => $v[16],
+                    'isDeleteAdmin'  => $v[17],
+                    'created_at' => date('Y-m-d H:i:s',$v[18]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[19]),
                 ]);
             }
         }

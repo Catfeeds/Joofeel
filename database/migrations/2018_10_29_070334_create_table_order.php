@@ -25,15 +25,19 @@ class CreateTableOrder extends Migration
             $t->decimal('sale_price',10,2);
             $t->integer('sale')->default(0);
             $t->integer('carriage')->default(0);
+            $t->integer('receipt_id')->default(0);
+            $t->integer('coupon_id')->default(0);
             $t->string('receipt_name',20);
             $t->string('receipt_address',50);
-            $t->string('receipt_phone',11);
+            $t->string('receipt_phone',12);
             $t->tinyInteger('isSign')->index()
                 ->default(\App\Models\Order\GoodsOrder::NOTDELIVERY);
             $t->tinyInteger('isDeleteUser')->index()
                 ->default(\App\Models\Order\GoodsOrder::NOT_DELETE);
             $t->tinyInteger('isPay')->index()
                 ->default(\App\Models\Order\GoodsOrder::UNPAID);
+            $t->tinyInteger('isDeleteAdmin')->index()
+                ->default(\App\Models\Order\GoodsOrder::NOT_DELETE);
             $t->timestamps();
         });
 

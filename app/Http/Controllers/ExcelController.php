@@ -73,4 +73,10 @@ class ExcelController extends Controller
         return ResponseUtil::toJson('','导入成功');
     }
 
+    public function goodsOrder()
+    {
+        (new Excel)->sqlGoodsOrder((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
 }

@@ -170,6 +170,7 @@ $api->version('v1', function ($api) {
             $api->post('address', 'ExcelController@address');
             $api->post('goods/category', 'ExcelController@goodsCategory');
             $api->post('goods/label', 'ExcelController@goodsLabel');
+            $api->post('goods/order', 'ExcelController@goodsOrder');
         });
     });
 });

@@ -36,8 +36,31 @@ class GoodsOrder extends Model
     const NOTTRACKINGID = 0;//未填写快递单号
 
 
+    protected $table = 'goods_order';
 
-    protected  $table = 'goods_order';
+    protected $fillable =
+        [
+            'id',
+            'user_id',
+            'order_id',
+            'tracking_id',
+            'prepay_id',
+            'price',
+            'sale_price',
+            'sale',
+            'carriage',
+            'receipt_id',
+            'coupon_id',
+            'receipt_name',
+            'receipt_address',
+            'receipt_phone',
+            'isSign',
+            'isDeleteUser',
+            'isPay',
+            'isDeleteAdmin',
+            'created_at',
+            'updated_at'
+        ];
 
     public function goods()
     {
