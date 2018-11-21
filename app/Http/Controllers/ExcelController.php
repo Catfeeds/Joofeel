@@ -14,16 +14,6 @@ use App\Utils\ResponseUtil;
 
 class ExcelController extends Controller
 {
-
-    /**
-     *商品表
-     */
-    public function goods()
-    {
-        (new Excel)->sqlGoods((new ExcelToArray())->getExcel());
-        return ResponseUtil::toJson('','导入成功');
-    }
-
     /**
      * @return \Illuminate\Http\JsonResponse
      * banner表
@@ -51,6 +41,35 @@ class ExcelController extends Controller
     public function address()
     {
         (new Excel)->sqlDeliveryAddress((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     *商品表
+     */
+    public function goods()
+    {
+        (new Excel)->sqlGoods((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 商品分类表
+     */
+    public function goodsCategory()
+    {
+        (new Excel)->sqlGoodsCategory((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 商品标签
+     */
+    public function goodsLabel()
+    {
+        (new Excel)->sqlGoodsLabel((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
 

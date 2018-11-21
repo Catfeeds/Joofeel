@@ -26,6 +26,7 @@ class DeliveryAddress extends Model
     protected  $table = 'delivery_address';
 
     public $timestamps = false;
+
     protected $fillable =
         [
             'user_id',

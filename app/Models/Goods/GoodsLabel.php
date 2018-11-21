@@ -19,4 +19,6 @@ class GoodsLabel extends Model
         'goods_id',
         'label_name'
     ];
+
+    public $timestamps = false;
 }

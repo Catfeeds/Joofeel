@@ -80,10 +80,8 @@ class CreateTableGoods extends Migration
          * 商品标签
          */
         Schema::create('goods_label',function (Blueprint $t){
-            $t->increments('id');
-            $t->integer('goods_id')->nullable();
+            $t->integer('goods_id')->index();
             $t->string('label_name',10)->nullable();
-            $t->timestamps();
         });
 
         /**

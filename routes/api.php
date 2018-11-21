@@ -168,6 +168,8 @@ $api->version('v1', function ($api) {
             $api->post('banner', 'ExcelController@banner');
             $api->post('coupon', 'ExcelController@coupon');
             $api->post('address', 'ExcelController@address');
+            $api->post('goods/category', 'ExcelController@goodsCategory');
+            $api->post('goods/label', 'ExcelController@goodsLabel');
         });
     });
 });

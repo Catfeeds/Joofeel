@@ -11,6 +11,8 @@ namespace App\Services\Excel;
 use App\Models\Banner;
 use App\Models\Coupon\Coupon;
 use App\Models\Goods\Goods as GoodsModel;
+use App\Models\Goods\GoodsCategory;
+use App\Models\Goods\GoodsLabel;
 use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
@@ -119,6 +121,42 @@ class MysqlExcel
                     'receipt_phone'  => $v[5],
                     'label'  => $v[6],
                     'isDefault' => $v[7],
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 商品分类
+     */
+    public function sqlGoodsCategory($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                GoodsCategory::create([
+                    'id'      => $v[0],
+                    'name' => $v[1],
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 导入商品标签
+     */
+    public function sqlGoodsLabel($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                GoodsLabel::create([
+                    'goods_id' => $v[1],
+                    'label_name'  => $v[2]
                 ]);
             }
         }

@@ -14,4 +14,11 @@ use Illuminate\Database\Eloquent\Model;
 class GoodsCategory extends Model
 {
     protected $table = 'goods_category';
+
+    protected $fillable =
+        [
+            'id',
+            'name'
+        ];
+    public $timestamps = false;
 }
