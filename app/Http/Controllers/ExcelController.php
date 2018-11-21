@@ -65,7 +65,7 @@ class ExcelController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
-     * 商品标签
+     * 商品标签表
      */
     public function goodsLabel()
     {
@@ -75,7 +75,7 @@ class ExcelController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
-     * 订单
+     * 订单表
      */
     public function goodsOrder()
     {
@@ -83,9 +83,22 @@ class ExcelController extends Controller
         return ResponseUtil::toJson('','导入成功');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 聚会留言表
+     */
     public function message()
     {
         (new Excel)->sqlMessage((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     *订单详情
+     */
+    public function orderId()
+    {
+        (new Excel)->sqlOrderId((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
 

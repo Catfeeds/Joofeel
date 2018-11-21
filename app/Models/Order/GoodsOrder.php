@@ -40,7 +40,7 @@ class GoodsOrder extends Model
 
     protected $fillable =
         [
-            'id',
+//            'id',
             'user_id',
             'order_id',
             'tracking_id',
@@ -58,8 +58,8 @@ class GoodsOrder extends Model
             'isDeleteUser',
             'isPay',
             'isDeleteAdmin',
-            'created_at',
-            'updated_at'
+//            'created_at',
+//            'updated_at'
         ];
 
     public function goods()

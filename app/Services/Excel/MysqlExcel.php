@@ -14,6 +14,7 @@ use App\Models\Goods\Goods as GoodsModel;
 use App\Models\Goods\GoodsCategory;
 use App\Models\Goods\GoodsLabel;
 use App\Models\Order\GoodsOrder;
+use App\Models\Order\OrderId;
 use App\Models\Party\Message;
 use App\Models\User\DeliveryAddress;
 
@@ -217,6 +218,30 @@ class MysqlExcel
                     'content' => $v[3],
                     'created_at' => date('Y-m-d H:i:s',$v[4]),
                     'updated_at' => date('Y-m-d H:i:s',$v[5]),
+                ]);
+            }
+        }
+    }
+
+    public function sqlOrderId($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                OrderId::create([
+                    'id' => $v[0],
+                    'order_id' => $v[1],
+                    'goods_id'  => $v[2],
+                    'user_id' => $v[3],
+                    'party_id' => $v[4],
+                    'isPay' => $v[5],
+                    'isDeleteUser' => $v[6],
+                    'isSelect' => $v[7],
+                    'count' => $v[9],
+                    'price' => $v[8],
+                    'created_at' => date('Y-m-d H:i:s',$v[10]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[11]),
                 ]);
             }
         }

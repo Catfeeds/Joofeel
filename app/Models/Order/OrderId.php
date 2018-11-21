@@ -31,6 +31,7 @@ class OrderId extends Model
 
     protected $fillable =
         [
+            'id',
             'order_id',
             'goods_id',
             'user_id',
@@ -39,7 +40,9 @@ class OrderId extends Model
             'isDeleteUser',
             'isSelect',
             'count',
-            'price'
+            'price',
+            'created_at',
+            'updated_at'
         ];
 
     public function goods()
