@@ -44,4 +44,14 @@ class ExcelController extends Controller
         return ResponseUtil::toJson('','导入成功');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 收货地址
+     */
+    public function address()
+    {
+        (new Excel)->sqlDeliveryAddress((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
 }

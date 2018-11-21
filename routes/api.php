@@ -167,6 +167,7 @@ $api->version('v1', function ($api) {
             $api->post('goods',  'ExcelController@goods');
             $api->post('banner', 'ExcelController@banner');
             $api->post('coupon', 'ExcelController@coupon');
+            $api->post('address', 'ExcelController@address');
         });
     });
 });

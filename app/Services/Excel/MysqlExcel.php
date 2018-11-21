@@ -11,6 +11,7 @@ namespace App\Services\Excel;
 use App\Models\Banner;
 use App\Models\Coupon\Coupon;
 use App\Models\Goods\Goods as GoodsModel;
+use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
 {
@@ -99,9 +100,28 @@ class MysqlExcel
         }
     }
 
-    public function sqlDeliveryAddress()
+    /**
+     * @param $res
+     * 收货地址
+     */
+    public function sqlDeliveryAddress($res)
     {
-
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                DeliveryAddress::create([
+                    'id'      => $v[0],
+                    'user_id' => $v[1],
+                    'receipt_name' => $v[2],
+                    'receipt_area' => $v[3],
+                    'receipt_address' => $v[4],
+                    'receipt_phone'  => $v[5],
+                    'label'  => $v[6],
+                    'isDefault' => $v[7],
+                ]);
+            }
+        }
     }
 
 }
