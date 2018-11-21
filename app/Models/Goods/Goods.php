@@ -34,6 +34,7 @@ class Goods extends Model
 
     protected $fillable =
         [
+            'id',
             'goods_id',
             'category_id',
             'type',
