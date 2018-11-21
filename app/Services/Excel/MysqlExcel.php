@@ -14,6 +14,7 @@ use App\Models\Goods\Goods as GoodsModel;
 use App\Models\Goods\GoodsCategory;
 use App\Models\Goods\GoodsLabel;
 use App\Models\Order\GoodsOrder;
+use App\Models\Party\Message;
 use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
@@ -163,6 +164,10 @@ class MysqlExcel
         }
     }
 
+    /**
+     * @param $res
+     * 订单表
+     */
     public function sqlGoodsOrder($res)
     {
         foreach ($res as $k => $v)
@@ -190,6 +195,28 @@ class MysqlExcel
                     'isDeleteAdmin'  => $v[17],
                     'created_at' => date('Y-m-d H:i:s',$v[18]),
                     'updated_at' => date('Y-m-d H:i:s',$v[19]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 留言
+     */
+    public function sqlMessage($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                Message::create([
+                    'id' => $v[0],
+                    'user_id' => $v[1],
+                    'party_id'  => $v[2],
+                    'content' => $v[3],
+                    'created_at' => date('Y-m-d H:i:s',$v[4]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[5]),
                 ]);
             }
         }
