@@ -9,6 +9,7 @@
 namespace App\Services\Excel;
 
 use App\Models\Banner;
+use App\Models\Coupon\Coupon;
 use App\Models\Goods\Goods as GoodsModel;
 
 class MysqlExcel
@@ -75,14 +76,27 @@ class MysqlExcel
         }
     }
 
-    public function sqlAdmin()
+    /**
+     * @param $res
+     * 购物券
+     */
+    public function sqlCoupon($res)
     {
-
-    }
-
-    public function sqlCoupon()
-    {
-
+        foreach ($res as $k => $v) {
+            if ($k > 0) {
+                Coupon::create([
+                    'id'      => $v[0],
+                    'name' => $v[1],
+                    'rule' => $v[2],
+                    'sale' => $v[3],
+                    'category' => $v[4],
+                    'count'  => $v[5],
+                    'isReceive' => $v[6],
+                    'start_time' => $v[7],
+                    'end_time' => $v[8]
+                ]);
+            }
+        }
     }
 
     public function sqlDeliveryAddress()

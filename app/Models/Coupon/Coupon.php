@@ -17,4 +17,19 @@ class Coupon extends Model
     const CAN_NOT_RECEIVE = 1;
 
     protected $table = 'coupon';
+
+    public $timestamps = false;
+
+    protected $fillable =
+        [
+            'id',
+            'name',
+            'rule',
+            'sale',
+            'category',
+            'count',
+            'isReceive',
+            'start_time',
+            'end_time'
+        ];
 }

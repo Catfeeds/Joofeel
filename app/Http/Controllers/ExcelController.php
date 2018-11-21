@@ -24,10 +24,23 @@ class ExcelController extends Controller
         return ResponseUtil::toJson('','导入成功');
     }
 
-
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * banner表
+     */
     public function banner()
     {
         (new Excel)->sqlBanner((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 购物券表
+     */
+    public function coupon()
+    {
+        (new Excel)->sqlCoupon((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
 

@@ -34,13 +34,13 @@ class Goods extends Model
 
     protected $fillable =
         [
-            'id',
+//            'id',
             'goods_id',
             'category_id',
             'type',
             'flavor',
             'goods_id',
-            'stock',
+//            'stock',
             'name',
             'delivery_place',
             'country',
@@ -63,10 +63,10 @@ class Goods extends Model
             'thu_url',
             'cov_url',
             'det_url',
-            'isShelves',
-            'sold',
-            'created_at',
-            'updated_at'
+//            'isShelves',
+//            'sold',
+//            'created_at',
+//            'updated_at'
         ];
 
     /**

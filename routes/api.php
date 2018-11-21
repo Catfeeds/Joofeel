@@ -164,8 +164,9 @@ $api->version('v1', function ($api) {
             [
                 'prefix' => 'excel'
             ], function ($api) {
-            $api->post('goods', 'ExcelController@goods');
+            $api->post('goods',  'ExcelController@goods');
             $api->post('banner', 'ExcelController@banner');
+            $api->post('coupon', 'ExcelController@coupon');
         });
     });
 });
