@@ -102,4 +102,13 @@ class ExcelController extends Controller
         return ResponseUtil::toJson('','导入成功');
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 派对
+     */
+    public function party()
+    {
+        (new Excel)->sqlParty((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
 }

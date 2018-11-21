@@ -173,6 +173,7 @@ $api->version('v1', function ($api) {
             $api->post('goods/order', 'ExcelController@goodsOrder');
             $api->post('message', 'ExcelController@message');
             $api->post('order/id', 'ExcelController@orderId');
+            $api->post('party', 'ExcelController@party');
         });
     });
 });

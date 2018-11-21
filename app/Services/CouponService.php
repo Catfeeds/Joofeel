@@ -27,7 +27,8 @@ class CouponService extends BaseService
                      ->toArray();
         foreach ($data as $key => $item) {
             $record = UserCoupon::getCoupon($item['id'],$this->uid);
-            if ($record) {
+            if ($record)
+            {
                 array_splice($data, $key, 1);
             }
         }

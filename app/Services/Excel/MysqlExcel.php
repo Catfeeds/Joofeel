@@ -16,10 +16,15 @@ use App\Models\Goods\GoodsLabel;
 use App\Models\Order\GoodsOrder;
 use App\Models\Order\OrderId;
 use App\Models\Party\Message;
+use App\Models\Party\Party;
 use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
 {
+    /**
+     * @param $res
+     * 商品
+     */
     public function sqlGoods($res)
     {
         foreach ($res as $k => $v) {
@@ -223,12 +228,17 @@ class MysqlExcel
         }
     }
 
+    /**
+     * @param $res
+     * 订单详情
+     */
     public function sqlOrderId($res)
     {
         foreach ($res as $k => $v)
         {
             if($k>0)
             {
+
                 OrderId::create([
                     'id' => $v[0],
                     'order_id' => $v[1],
@@ -243,6 +253,43 @@ class MysqlExcel
                     'created_at' => date('Y-m-d H:i:s',$v[10]),
                     'updated_at' => date('Y-m-d H:i:s',$v[11]),
                 ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 聚会表导入
+     */
+    public function sqlParty($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                $excelTime = $v[7] + $v[8];
+                $time = ($excelTime - 25569) * 24*60*60;
+                Party::create([
+                    'id' => $v[0],
+                    'user_id' => $v[1],
+                    'image'  => $v[2],
+                    'description' => $v[3],
+                    'way' => $v[4],
+                    'people_no' => $v[6],
+                    'remaining_people_no' => $v[5],
+                    'date' => date('Y-m-d',$time),
+                    'time' => date('H:i',$time-8*60*60),
+                    'site' => $v[9],
+                    'longitude' => $v[10],
+                    'latitude' => $v[11],
+                    'created_at' => date('Y-m-d H:i:s',$v[12]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[13]),
+                    'start_time' => $v[14],
+                    'isDeleteAdmin' =>$v[15],
+                    'isDeleteUser' => $v[16],
+                    'isClose' => $v[17]
+                ]);
+
             }
         }
     }

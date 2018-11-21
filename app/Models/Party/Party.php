@@ -33,8 +33,10 @@ class Party extends Model
 
     protected $table = 'party';
 
+    public $timestamps = false;
     protected $fillable =
         [
+            'id',
             'user_id',
             'image',
             'description',
@@ -47,22 +49,29 @@ class Party extends Model
             'start_time',
             'latitude',
             'longitude',
+            'created_at',
+            'updated_at',
+            'isDeleteAdmin',
+            'isDeleteUser',
+            'isClose'
         ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      * 参与者
      */
-    public function participants(){
-        return $this->hasMany(PartyOrder::class,'party_id','id');
+    public function participants()
+    {
+        return $this->hasMany(PartyOrder::class, 'party_id', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      * 聚会评论
      */
-    public function message(){
-        return $this->hasMany(Message::class,'party_id','id');
+    public function message()
+    {
+        return $this->hasMany(Message::class, 'party_id', 'id');
     }
 
     /**
@@ -78,7 +87,8 @@ class Party extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      * 来点feel
      */
-    public function goods(){
+    public function goods()
+    {
         return $this->hasMany(OrderId::Class, 'party_id', 'id');
     }
 
@@ -87,14 +97,15 @@ class Party extends Model
      * @return mixed
      * 获取用户举办的派对
      */
-    static public function getUserHostParty($uid){
+    static public function getUserHostParty($uid)
+    {
         $party = self::withCount('participants')
-                     ->withCount('message')
-                     ->where('isDeleteAdmin',self::NOT_DELETE)
-                     ->where('isDeleteUser', self::NOT_DELETE)
-                     ->where('user_id', $uid)
-                     ->orderBy('created_at', 'desc')
-                     ->get();
+            ->withCount('message')
+            ->where('isDeleteAdmin', self::NOT_DELETE)
+            ->where('isDeleteUser', self::NOT_DELETE)
+            ->where('user_id', $uid)
+            ->orderBy('created_at', 'desc')
+            ->get();
         return $party;
     }
 }
