@@ -17,5 +17,20 @@ class Banner extends Model
 
     const NOT_SHOW = 1;
 
+    const GOODS_DETAIL = 1;
+    const ACTIVITY_DETAIL = 2;
+    const GOODS_CATEGORY = 3;
+
     protected $table = 'banner';
+
+    protected $fillable =
+        [
+            'id',
+            'type',
+            'url',
+            'image',
+            'isShow',
+            'created_at',
+            'updated_at'
+        ];
 }

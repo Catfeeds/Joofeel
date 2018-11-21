@@ -8,6 +8,7 @@
 
 namespace App\Services\Excel;
 
+use App\Models\Banner;
 use App\Models\Goods\Goods as GoodsModel;
 
 class MysqlExcel
@@ -52,4 +53,41 @@ class MysqlExcel
             }
         }
     }
+
+    /**
+     * @param $res
+     * 导入banner表数据
+     */
+    public function sqlBanner($res)
+    {
+        foreach ($res as $k => $v) {
+            if ($k > 0) {
+                Banner::create([
+                    'id'      => $v[0],
+                    'image' => $v[1],
+                    'isShow' => $v[2],
+                    'created_at' => date('Y-m-d H:i:s',$v[3]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[4]),
+                    'type'  => Banner::GOODS_DETAIL,
+                    'url' => $v[5]
+                ]);
+            }
+        }
+    }
+
+    public function sqlAdmin()
+    {
+
+    }
+
+    public function sqlCoupon()
+    {
+
+    }
+
+    public function sqlDeliveryAddress()
+    {
+
+    }
+
 }
