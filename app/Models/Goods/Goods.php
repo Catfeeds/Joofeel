@@ -42,7 +42,12 @@ class Goods extends Model
             'stock',
             'name',
             'delivery_place',
-            'country' ,
+            'country',
+            'brand',
+            'degrees',
+            'type',
+            'flavor',
+            'specifications',
             'purchase_price',
             'logistics_standard',
             'cost_price',
@@ -58,9 +63,11 @@ class Goods extends Model
             'cov_url',
             'det_url',
             'isShelves',
-            'updated_at',
-            'created_at'
+            'sold',
+            'created_at',
+            'updated_at'
         ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      * 标签

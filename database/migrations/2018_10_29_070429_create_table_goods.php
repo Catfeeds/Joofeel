@@ -40,6 +40,7 @@ class CreateTableGoods extends Migration
             $t->string('name',50);                    //商品名
             $t->tinyInteger('category_id')->index();         //分类id
             $t->integer('stock');                            //库存
+            $t->integer('sold');                             //销售
             $t->string('notice');                            //须知
             $t->integer('carriage')->default(0);             //运费
             $t->string('recommend_reason');                  //推荐理由
@@ -54,18 +55,17 @@ class CreateTableGoods extends Migration
             $t->decimal('price',10,2);           //定价
             $t->decimal('sale_price',10,2);      //折扣价
             $t->string('country',20);                 //国家
-            $t->string('brand',20)->nullable()->default('');                  //品牌
-            $t->string('degrees',20)->nullable()->default('');                 //度数
-            $t->string('type',20)->nullable()->default('');                   //种类
-            $t->string('specifications',20)->nullable()->default('');         //规格
-            $t->string('flavor',20)->nullable()->default('');                 //口味
+            $t->string('brand',20)->default('');                  //品牌
+            $t->string('degrees',20)->default('');                 //度数
+            $t->string('type',20)->default('');                   //种类
+            $t->string('specifications',20)->default('');         //规格
+            $t->string('flavor',20)->default('');                 //口味
             $t->string('thu_url',120);                //缩略图
             $t->string('cov_url',120);                //封面图
             $t->string('det_url',120);                //详情图
             $t->tinyInteger('isPending')->default(\App\Models\Goods\Goods::PENDING)->index();
             $t->tinyInteger('isShelves')->default(\App\Models\Goods\Goods::SHELVES)->index();           //是否上架
-            $t->integer('created_at');
-            $t->integer('updated_at');
+            $t->timestamps();
         });
 
         /**
@@ -83,8 +83,7 @@ class CreateTableGoods extends Migration
             $t->increments('id');
             $t->integer('goods_id')->nullable();
             $t->string('label_name',10)->nullable();
-            $t->integer('created_at');
-            $t->integer('updated_at');
+            $t->timestamps();
         });
 
         /**
@@ -93,8 +92,7 @@ class CreateTableGoods extends Migration
         Schema::create('recommend',function (Blueprint $t){
             $t->increments('id');
             $t->integer('goods_id')->nullable();
-            $t->integer('created_at');
-            $t->integer('updated_at');
+            $t->timestamps();
         });
     }
 }

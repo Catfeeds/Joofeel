@@ -8,14 +8,14 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Goods\Goods;
 use App\Services\ExcelToArray;
 
 class ExcelController extends Controller
 {
-
-
+    /**
+     *商品表
+     */
     public function goods()
     {
         $res = (new ExcelToArray())->getExcel();
@@ -50,8 +50,9 @@ class ExcelController extends Controller
                     'cov_url' => $v[25],
                     'det_url' => $v[26],
                     'isShelves' => $v[27],
-                    'created_at' => $v[28],
-                    'updated_at' => $v[29],
+                    'sold'   => $v[30],
+                    'created_at' => date('Y-m-d H:i:s',$v[28]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[29]),
                 ]);
             }
         }

@@ -160,7 +160,6 @@ $api->version('v1', function ($api) {
         [
             'namespace' => 'App\Http\Controllers'
         ], function ($api) {
-
         $api->group(
             [
                 'prefix' => 'excel'
