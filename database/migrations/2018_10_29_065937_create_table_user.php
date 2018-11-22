@@ -88,6 +88,4 @@ class CreateTableUser extends Migration
             $t->timestamps();
         });
     }
-
-
 }

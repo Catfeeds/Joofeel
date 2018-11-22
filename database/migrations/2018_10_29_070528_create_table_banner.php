@@ -25,9 +25,6 @@ class CreateTableBanner extends Migration
     {
         Schema::create('banner',function (Blueprint $t){
             $t->increments('id');
-            $t->tinyInteger('type');
-            $t->string('url');
-            $t->string('image');
             $t->tinyInteger('isShow')
                 ->default(\App\Models\Banner::SHOW)->index();
             $t->timestamps();

@@ -111,4 +111,14 @@ class ExcelController extends Controller
         (new Excel)->sqlParty((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 排队订单表
+     */
+    public function partyOrder()
+    {
+        (new Excel)->sqlPartyOrder((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
 }

@@ -16,7 +16,7 @@ class CreateTableTitle extends Migration
         Schema::create('title',function (Blueprint $t){
             $t->increments('id');
             $t->string('content',100);
-            $t->tinyInteger('isShow')->index()
+            $t->tinyInteger('isShow')
                 ->default(\App\Models\Title::SHOW);
         });
     }

@@ -164,16 +164,17 @@ $api->version('v1', function ($api) {
             [
                 'prefix' => 'excel'
             ], function ($api) {
-            $api->post('goods',  'ExcelController@goods');
-            $api->post('banner', 'ExcelController@banner');
-            $api->post('coupon', 'ExcelController@coupon');
-            $api->post('address', 'ExcelController@address');
+            $api->post('goods',          'ExcelController@goods');
+            $api->post('banner',         'ExcelController@banner');
+            $api->post('coupon',         'ExcelController@coupon');
+            $api->post('address',        'ExcelController@address');
             $api->post('goods/category', 'ExcelController@goodsCategory');
-            $api->post('goods/label', 'ExcelController@goodsLabel');
-            $api->post('goods/order', 'ExcelController@goodsOrder');
-            $api->post('message', 'ExcelController@message');
-            $api->post('order/id', 'ExcelController@orderId');
-            $api->post('party', 'ExcelController@party');
+            $api->post('goods/label',    'ExcelController@goodsLabel');
+            $api->post('goods/order',    'ExcelController@goodsOrder');
+            $api->post('message',        'ExcelController@message');
+            $api->post('order/id',       'ExcelController@orderId');
+            $api->post('party',          'ExcelController@party');
+            $api->post('party/order',    'ExcelController@partyOrder');
         });
     });
 });
