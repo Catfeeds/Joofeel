@@ -20,12 +20,12 @@ class RefundOrder extends Model
     const DISAGREE = 2;
 
     protected $table = 'refund_order';
-
     protected $fillable = [
         'user_id',
         'order_id',
         'refundNumber',
         'refund_reason',
+        'refuse_reason',
     ];
 
     public function user()

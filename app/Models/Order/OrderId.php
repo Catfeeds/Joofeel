@@ -29,6 +29,7 @@ class OrderId extends Model
 
     protected $table = 'order_id';
 
+  //  public $timestamps = false;
     protected $fillable =
         [
          //   'id',

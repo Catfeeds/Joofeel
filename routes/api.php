@@ -178,6 +178,8 @@ $api->version('v1', function ($api) {
             $api->post('prize',          'ExcelController@prize');
             $api->post('prize/order',    'ExcelController@prizeOrder');
             $api->post('recommend',      'ExcelController@recommend');
+            $api->post('cart',           'ExcelController@cart');
+            $api->post('title',          'ExcelController@title');
         });
     });
 });

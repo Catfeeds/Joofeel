@@ -38,6 +38,7 @@ class GoodsOrder extends Model
 
     protected $table = 'goods_order';
 
+    public $timestamps = false;
     protected $fillable =
         [
 //            'id',

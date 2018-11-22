@@ -21,7 +21,9 @@ use App\Models\Party\Party;
 use App\Models\Party\PartyOrder;
 use App\Models\Prize\Prize;
 use App\Models\Prize\PrizeOrder;
+use App\Models\Title;
 use App\Models\User\DeliveryAddress;
+use App\Models\User\ShoppingCart;
 
 class MysqlExcel
 {
@@ -380,6 +382,48 @@ class MysqlExcel
                     'goods_id' => $v[1],
                     'created_at' => date('Y-m-d H:i:s',$v[2]),
                     'updated_at' => date('Y-m-d H:i:s',$v[3]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 推荐表
+     */
+    public function sqlCart($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                ShoppingCart::create([
+                    'id' => $v[0],
+                    'user_id' => $v[1],
+                    'goods_id' => $v[2],
+                    'count' => $v[3],
+                    'isSelect' => $v[4],
+                    'created_at' => date('Y-m-d H:i:s',$v[5]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[6]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 推荐表
+     */
+    public function sqlTitle($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                Title::create([
+                    'id' => $v[0],
+                    'content' => $v[1],
+                    'isShow' => $v[2],
                 ]);
             }
         }

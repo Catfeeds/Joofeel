@@ -16,6 +16,7 @@ class Message extends Model
 {
     protected $table = 'message';
 
+  //  public $timestamps = false;
     protected $fillable =
         [
        //     'id',

@@ -25,6 +25,7 @@ class UserCoupon extends Model
 
     protected $table = 'user_coupon';
 
+
     protected $hidden =
         [
             'user_id',

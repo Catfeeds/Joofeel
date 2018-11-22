@@ -33,7 +33,7 @@ class Party extends Model
 
     protected $table = 'party';
 
-    public $timestamps = false;
+ //   public $timestamps = false;
     protected $fillable =
         [
          //   'id',

@@ -20,10 +20,16 @@ class ShoppingCart extends Model
 
     protected $table = 'shopping_cart';
 
+   // public $timestamps = false;
+
     protected $fillable =
         [
+      //      'id',
             'user_id',
             'goods_id',
-            'count'
+            'count',
+  //          'isSelect',
+  //          'created_at',
+ //           'updated_at'
         ];
 }

@@ -144,11 +144,31 @@ class ExcelController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
-     * 排队订单表
+     * 推荐表
      */
     public function recommend()
     {
         (new Excel)->sqlRecommend((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 购物车表
+     */
+    public function cart()
+    {
+        (new Excel)->sqlCart((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 购物车表
+     */
+    public function title()
+    {
+        (new Excel)->sqlTitle((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
 }

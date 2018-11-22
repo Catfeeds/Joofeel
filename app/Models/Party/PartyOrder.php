@@ -19,7 +19,7 @@ class PartyOrder extends Model
 
     protected $table = 'party_order';
 
-    public $timestamps = false;
+ //   public $timestamps = false;
 
     protected $fillable =
         [

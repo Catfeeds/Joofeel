@@ -20,5 +20,5 @@ class GoodsLabel extends Model
         'label_name'
     ];
 
-  //  public $timestamps = false;
+    public $timestamps = false;
 }

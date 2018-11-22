@@ -22,13 +22,13 @@ class Coupon extends Model
 
     protected $fillable =
         [
-            'id',
+    //        'id',
             'name',
             'rule',
             'sale',
             'category',
             'count',
-            'isReceive',
+  //          'isReceive',
             'start_time',
             'end_time'
         ];

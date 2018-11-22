@@ -20,5 +20,12 @@ class Title extends Model
     //聚小仓界面今日推荐标题
     protected $table = 'title';
 
+    public $timestamps = false;
 
+    protected $fillable =
+        [
+            'id',
+            'content',
+            'isShow'
+        ];
 }
