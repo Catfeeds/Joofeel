@@ -24,7 +24,7 @@ class Title extends Model
 
     protected $fillable =
         [
-            'id',
+      //      'id',
             'content',
             'isShow'
         ];

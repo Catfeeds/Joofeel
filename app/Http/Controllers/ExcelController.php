@@ -171,4 +171,20 @@ class ExcelController extends Controller
         (new Excel)->sqlTitle((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 用户表
+     */
+    public function user()
+    {
+        (new Excel)->sqlUser((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    public function userCoupon()
+    {
+        (new Excel)->sqlUserCoupon((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
 }

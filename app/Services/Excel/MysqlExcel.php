@@ -24,6 +24,8 @@ use App\Models\Prize\PrizeOrder;
 use App\Models\Title;
 use App\Models\User\DeliveryAddress;
 use App\Models\User\ShoppingCart;
+use App\Models\User\User;
+use App\Models\User\UserCoupon;
 
 class MysqlExcel
 {
@@ -412,7 +414,7 @@ class MysqlExcel
 
     /**
      * @param $res
-     * 推荐表
+     * 推荐标题表
      */
     public function sqlTitle($res)
     {
@@ -424,6 +426,52 @@ class MysqlExcel
                     'id' => $v[0],
                     'content' => $v[1],
                     'isShow' => $v[2],
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 用户表
+     */
+    public function sqlUser($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                User::create([
+                    'id' => $v[0],
+                    'openid' => $v[1],
+                    'nickname' => $v[2],
+                    'avatar' => $v[3],
+                    'isNewUser' => $v[4],
+                    'created_at' => date('Y-m-d H:i:s',$v[5]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[6]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 用户购物券
+     */
+    public function sqlUserCoupon($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                UserCoupon::create([
+                    'id' => $v[0],
+                    'user_id' => $v[1],
+                    'coupon_id' => $v[2],
+                    'state' => $v[3],
+                    'status' => $v[4],
+                    'start_time' => $v[5],
+                    'end_time' => $v[6]
                 ]);
             }
         }

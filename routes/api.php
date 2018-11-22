@@ -180,6 +180,8 @@ $api->version('v1', function ($api) {
             $api->post('recommend',      'ExcelController@recommend');
             $api->post('cart',           'ExcelController@cart');
             $api->post('title',          'ExcelController@title');
+            $api->post('user',           'ExcelController@user');
+            $api->post('user/coupon',    'ExcelController@userCoupon');
         });
     });
 });

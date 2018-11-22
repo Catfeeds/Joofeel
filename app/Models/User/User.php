@@ -18,4 +18,16 @@ class User extends Model
 
     protected $table = 'user';
 
+    public $timestamps = false;
+
+    protected  $fillable =
+        [
+            'id',
+            'openid',
+            'nickname',
+            'avatar',
+            'isNewUser',
+            'created_at',
+            'updated_at'
+        ];
 }

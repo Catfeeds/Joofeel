@@ -33,10 +33,13 @@ class UserCoupon extends Model
 
     protected $fillable =
         [
+            'id',
             'user_id',
             'coupon_id',
             'start_time',
-            'end_time'
+            'end_time',
+            'state',
+            'status'
         ];
 
     public $timestamps = false;
