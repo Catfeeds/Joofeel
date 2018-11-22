@@ -13,12 +13,14 @@ use App\Models\Coupon\Coupon;
 use App\Models\Goods\Goods as GoodsModel;
 use App\Models\Goods\GoodsCategory;
 use App\Models\Goods\GoodsLabel;
+use App\Models\Goods\Recommend;
 use App\Models\Order\GoodsOrder;
 use App\Models\Order\OrderId;
 use App\Models\Party\Message;
 use App\Models\Party\Party;
 use App\Models\Party\PartyOrder;
 use App\Models\Prize\Prize;
+use App\Models\Prize\PrizeOrder;
 use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
@@ -335,6 +337,49 @@ class MysqlExcel
                     'isPrize' => $v[3],
                     'created_at' => date('Y-m-d H:i:s',$v[4]),
                     'updated_at' => date('Y-m-d H:i:s',$v[5]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 抽奖订单表
+     */
+    public function sqlPrizeOrder($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                PrizeOrder::create([
+                    'id' => $v[0],
+                    'prize_id' => $v[1],
+                    'user_id'  => $v[2],
+                    'form_id'  => $v[3],
+                    'isLucky' => $v[4],
+                    'created_at' => date('Y-m-d H:i:s',$v[5]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[6]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 推荐表
+     */
+    public function sqlRecommend($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                Recommend::create([
+                    'id' => $v[0],
+                    'goods_id' => $v[1],
+                    'created_at' => date('Y-m-d H:i:s',$v[2]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[3]),
                 ]);
             }
         }

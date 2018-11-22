@@ -131,4 +131,24 @@ class ExcelController extends Controller
         (new Excel)->sqlPrize((new ExcelToArray())->getExcel());
         return ResponseUtil::toJson('','导入成功');
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 排队订单表
+     */
+    public function prizeOrder()
+    {
+        (new Excel)->sqlPrizeOrder((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 排队订单表
+     */
+    public function recommend()
+    {
+        (new Excel)->sqlRecommend((new ExcelToArray())->getExcel());
+        return ResponseUtil::toJson('','导入成功');
+    }
 }
