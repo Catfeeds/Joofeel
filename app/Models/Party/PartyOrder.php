@@ -23,12 +23,12 @@ class PartyOrder extends Model
 
     protected $fillable =
         [
-            'id',
+      //      'id',
             'user_id',
             'party_id',
-            'isDeleteUser',
-            'created_at',
-            'updated_at'
+     //       'isDeleteUser',
+    //        'created_at',
+   //         'updated_at'
         ];
 
     public function party(){

@@ -18,6 +18,7 @@ use App\Models\Order\OrderId;
 use App\Models\Party\Message;
 use App\Models\Party\Party;
 use App\Models\Party\PartyOrder;
+use App\Models\Prize\Prize;
 use App\Models\User\DeliveryAddress;
 
 class MysqlExcel
@@ -310,6 +311,28 @@ class MysqlExcel
                     'user_id' => $v[1],
                     'party_id'  => $v[2],
                     'isDeleteUser' => $v[3],
+                    'created_at' => date('Y-m-d H:i:s',$v[4]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[5]),
+                ]);
+            }
+        }
+    }
+
+    /**
+     * @param $res
+     * 抽奖表导入
+     */
+    public function sqlPrize($res)
+    {
+        foreach ($res as $k => $v)
+        {
+            if($k>0)
+            {
+                Prize::create([
+                    'id' => $v[0],
+                    'goods_id' => $v[1],
+                    'open_prize_time'  => $v[2],
+                    'isPrize' => $v[3],
                     'created_at' => date('Y-m-d H:i:s',$v[4]),
                     'updated_at' => date('Y-m-d H:i:s',$v[5]),
                 ]);

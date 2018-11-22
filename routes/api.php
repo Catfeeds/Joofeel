@@ -175,6 +175,8 @@ $api->version('v1', function ($api) {
             $api->post('order/id',       'ExcelController@orderId');
             $api->post('party',          'ExcelController@party');
             $api->post('party/order',    'ExcelController@partyOrder');
+            $api->post('prize',          'ExcelController@prize');
+            $api->post('prize/order',    'ExcelController@prizeOrder');
         });
     });
 });

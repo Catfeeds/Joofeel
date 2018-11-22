@@ -18,7 +18,7 @@ class Coupon extends Model
 
     protected $table = 'coupon';
 
-    public $timestamps = false;
+  //  public $timestamps = false;
 
     protected $fillable =
         [

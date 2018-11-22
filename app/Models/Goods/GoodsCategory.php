@@ -20,5 +20,5 @@ class GoodsCategory extends Model
             'id',
             'name'
         ];
-    public $timestamps = false;
+   // public $timestamps = false;
 }

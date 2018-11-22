@@ -36,7 +36,7 @@ class Party extends Model
     public $timestamps = false;
     protected $fillable =
         [
-            'id',
+         //   'id',
             'user_id',
             'image',
             'description',
@@ -49,11 +49,11 @@ class Party extends Model
             'start_time',
             'latitude',
             'longitude',
-            'created_at',
-            'updated_at',
-            'isDeleteAdmin',
-            'isDeleteUser',
-            'isClose'
+//            'created_at',
+//            'updated_at',
+//            'isDeleteAdmin',
+//            'isDeleteUser',
+//            'isClose'
         ];
 
     /**
