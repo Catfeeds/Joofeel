@@ -295,6 +295,10 @@ class MysqlExcel
         }
     }
 
+    /**
+     * @param $res
+     * 派对订单表导入
+     */
     public function sqlPartyOrder($res)
     {
         foreach ($res as $k => $v)
