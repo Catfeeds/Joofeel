@@ -43,10 +43,9 @@ class CreateTableOrder extends Migration
         Schema::create('order_id',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
-            $t->integer('order_id')->index()->nullable();
-            $t->integer('goods_id')->index()->nullable();
-            $t->integer('user_id')->index()->nullable();
-            $t->integer('party_id')->index()->default(0);
+            $t->integer('order_id')->index();
+            $t->integer('goods_id')->index();
+            $t->integer('user_id')->index();
             $t->tinyInteger('isPay')->index()
                 ->default(\App\Models\Order\OrderId::UNPAID);
             $t->tinyInteger('isDeleteUser')->index()

@@ -252,14 +252,13 @@ class MysqlExcel
                     'order_id' => $v[1],
                     'goods_id'  => $v[2],
                     'user_id' => $v[3],
-                    'party_id' => $v[4],
-                    'isPay' => $v[5],
-                    'isDeleteUser' => $v[6],
-                    'isSelect' => $v[7],
-                    'count' => $v[9],
-                    'price' => $v[8],
-                    'created_at' => date('Y-m-d H:i:s',$v[10]),
-                    'updated_at' => date('Y-m-d H:i:s',$v[11]),
+                    'isPay' => $v[4],
+                    'isDeleteUser' => $v[5],
+                    'isSelect' => $v[6],
+                    'count' => $v[8],
+                    'price' => $v[7],
+                    'created_at' => date('Y-m-d H:i:s',$v[9]),
+                    'updated_at' => date('Y-m-d H:i:s',$v[10]),
                 ]);
             }
         }

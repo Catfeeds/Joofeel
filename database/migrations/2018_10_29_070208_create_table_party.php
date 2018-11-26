@@ -65,6 +65,15 @@ class CreateTableParty extends Migration
         });
 
         /**
+         * 派对订单记录
+         */
+        Schema::create('party_goods',function (Blueprint $t){
+            $t->increments('id');
+            $t->integer('goods_id')->index();
+            $t->integer('party_id')->index();
+        });
+
+        /**
          * 派对留言板记录
          */
         Schema::create('message',function (Blueprint $t){

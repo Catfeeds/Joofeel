@@ -51,7 +51,7 @@ class VerifyToken extends Controller
         }
         return response()->json(
             [
-                'code' => 200,
+                'code' => LOGOUT,
                 'msg'  => '您尚未登录'
             ]);
     }

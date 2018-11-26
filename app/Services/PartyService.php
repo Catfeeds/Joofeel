@@ -13,6 +13,7 @@ use App\Exceptions\AppException;
 use App\Models\Order\OrderId;
 use App\Models\Party\Message;
 use App\Models\Party\Party;
+use App\Models\Party\PartyGoods;
 use App\Models\Party\PartyOrder;
 
 class PartyService extends BaseService
@@ -138,8 +139,18 @@ class PartyService extends BaseService
      * @param $longitude
      * 举办派对
      */
-    public function host($description,$way,$people_no,$date,$time,$site,$image,$orders,$latitude,$longitude)
-    {
+    public function host(
+        $description,
+        $way,
+        $people_no,
+        $date,
+        $time,
+        $site,
+        $image,
+        $orders,
+        $latitude,
+        $longitude
+    ){
         //此时聚会并未发起
         //isDeleteUser            = 1 处于删除状态
         $data = [
@@ -162,13 +173,10 @@ class PartyService extends BaseService
         $id = Party::insertGetId($data);
         foreach ($orders as $item)
         {
-            $order = OrderId::where('id',$item['order_id'])
-                            ->first();
-            if($order)
-            {
-                $order['party_id'] = $id;
-                $order->save();
-            }
+            PartyGoods::create([
+                'goods_id' => $item['goods_id'],
+                'party_id' => $id
+            ]);
         }
     }
 
@@ -178,10 +186,6 @@ class PartyService extends BaseService
      */
     public function bind($id)
     {
-        OrderId::where('party_id',$id)
-               ->update([
-                   'isSelect' => OrderId::SELECT
-               ]);
         $this->query($id)
              ->update([
                  'isDeleteUser' => Party::NOT_DELETE
