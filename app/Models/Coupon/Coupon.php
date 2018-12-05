@@ -18,17 +18,19 @@ class Coupon extends Model
 
     protected $table = 'coupon';
 
-  //  public $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable =
         [
-    //        'id',
+            'id',
             'name',
             'rule',
             'sale',
+            'species',
             'category',
+            'day',
             'count',
-  //          'isReceive',
+            'isReceive',
             'start_time',
             'end_time'
         ];

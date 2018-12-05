@@ -37,7 +37,7 @@ class CreateTableParty extends Migration
             $t->increments('id');
             $t->integer('user_id')->index()->nullable();
             $t->string('image',120);
-            $t->string('description',36);
+            $t->string('description',255);
             $t->string('way',4);
             $t->tinyInteger('people_no');
             $t->tinyInteger('remaining_people_no');
@@ -48,7 +48,7 @@ class CreateTableParty extends Migration
             $t->string('longitude');
             $t->string('latitude');
             $t->tinyInteger('isDeleteAdmin')->index()->default(\App\Models\Party\Party::NOT_DELETE);
-            $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\Party\Party::NOT_DELETE);
+            $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\Party\Party::DELETE);
             $t->tinyInteger('isClose')->index()->default(\App\Models\Party\Party::NOT_CLOSE);
             $t->timestamps();
         });

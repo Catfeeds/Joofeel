@@ -35,6 +35,7 @@ class CreateTablePrize extends Migration
             $t->increments('id');
             $t->integer('goods_id')->index();
             $t->integer('open_prize_time');
+            $t->string('share_url')->nullable();
             $t->tinyInteger('isPrize')->unique()
                 ->default(\App\Models\Prize\Prize::ONGOING); //标记是否处于抽奖中 0抽奖中1结束
             $t->timestamps();

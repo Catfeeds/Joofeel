@@ -25,6 +25,11 @@ class CreateTableBanner extends Migration
     {
         Schema::create('banner',function (Blueprint $t){
             $t->increments('id');
+            $t->string('url');
+            $t->tinyInteger('isPrize')->default(0);
+            $t->string('image',100);
+            $t->integer('goods_id');
+            $t->tinyInteger('type');
             $t->tinyInteger('isShow')
                 ->default(\App\Models\Banner::SHOW)->index();
             $t->timestamps();

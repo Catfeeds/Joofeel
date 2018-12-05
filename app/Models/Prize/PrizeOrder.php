@@ -19,15 +19,15 @@ class PrizeOrder extends Model
 
     protected $table = 'prize_order';
 
-  //  public $timestamps = false;
+    public $timestamps = false;
     protected $fillable =
         [
-       //     'id',
+            'id',
             'prize_id',
             'user_id',
             'form_id',
-   //         'created_at',
-   //         'updated_at'
+            'created_at',
+            'updated_at'
         ];
 
     public function user(){

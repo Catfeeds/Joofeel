@@ -41,26 +41,24 @@ class GoodsOrder extends Model
     public $timestamps = false;
     protected $fillable =
         [
-//            'id',
+            'id',
             'user_id',
             'order_id',
             'tracking_id',
+            'tracking_company',
             'prepay_id',
             'price',
             'sale_price',
             'sale',
             'carriage',
-            'receipt_id',
-            'coupon_id',
             'receipt_name',
             'receipt_address',
             'receipt_phone',
             'isSign',
             'isDeleteUser',
             'isPay',
-            'isDeleteAdmin',
-//            'created_at',
-//            'updated_at'
+            'created_at',
+            'updated_at'
         ];
 
     public function goods()

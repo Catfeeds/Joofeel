@@ -20,6 +20,7 @@ class CreateTableOrder extends Migration
             $t->integer('user_id')->index();
             $t->string('order_id',16)->index();
             $t->string('tracking_id')->default(0);
+            $t->string('tracking_company')->default(0);
             $t->string('prepay_id',40)->nullable();
             $t->decimal('price',10,2);
             $t->decimal('sale_price',10,2);

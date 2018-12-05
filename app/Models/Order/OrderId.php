@@ -29,10 +29,10 @@ class OrderId extends Model
 
     protected $table = 'order_id';
 
-  //  public $timestamps = false;
+    public $timestamps = false;
     protected $fillable =
         [
-         //   'id',
+            'id',
             'order_id',
             'goods_id',
             'user_id',
@@ -42,8 +42,8 @@ class OrderId extends Model
             'isSelect',
             'count',
             'price',
-//            'created_at',
-//            'updated_at'
+            'created_at',
+            'updated_at'
         ];
 
     public function goods()

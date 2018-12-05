@@ -38,11 +38,11 @@ class CreateTableGoods extends Migration
         Schema::create('goods',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
-            $t->integer('goods_id')->unique();               //商品编码
+            $t->integer('goods_id')->unique();                //商品编码
             $t->string('name',50);                    //商品名
             $t->tinyInteger('category_id')->index();         //分类id
             $t->integer('stock');                            //库存
-            $t->integer('sold');                             //销售
+            $t->integer('sold');                 //销售
             $t->string('notice');                            //须知
             $t->integer('carriage')->default(0);             //运费
             $t->string('recommend_reason');                  //推荐理由
@@ -58,13 +58,14 @@ class CreateTableGoods extends Migration
             $t->decimal('sale_price',10,2)->index(); //折扣价
             $t->string('country',20);                 //国家
             $t->string('brand',20)->nullable();                  //品牌
-            $t->string('degrees',20)->nullable();                 //度数
+            $t->string('degrees',40)->nullable();                 //度数
             $t->string('type',20)->nullable();                   //种类
             $t->string('specifications',20)->nullable();         //规格
             $t->string('flavor',20)->nullable();                 //口味
             $t->string('thu_url',120);                //缩略图
             $t->string('cov_url',120);                //封面图
             $t->string('det_url',120);                //详情图
+            $t->string('share_url',120)->nullable();  //分享图
             $t->tinyInteger('isShelves')->default(\App\Models\Goods\Goods::SHELVES)->index();//是否上架
             $t->tinyInteger('isPending')->default(\App\Models\Goods\Goods::PENDING)->index();//是否审核通过
             $t->timestamps();
@@ -84,7 +85,7 @@ class CreateTableGoods extends Migration
         Schema::create('goods_label',function (Blueprint $t){
             $t->increments('id');
             $t->integer('goods_id')->index();
-            $t->string('label_name',4);
+            $t->string('label_name',10);
         });
 
         /**

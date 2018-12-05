@@ -27,12 +27,13 @@ class Banner extends Model
 
     protected $fillable =
         [
-//            'id',
+            'id',
             'type',
             'url',
-            'image',
+            'goods_id',
+            'isPrize',
             'isShow',
-//            'created_at',
-//            'updated_at'
+            'created_at',
+            'updated_at'
         ];
 }

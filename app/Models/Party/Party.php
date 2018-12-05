@@ -33,10 +33,10 @@ class Party extends Model
 
     protected $table = 'party';
 
- //   public $timestamps = false;
+    public $timestamps = false;
     protected $fillable =
         [
-         //   'id',
+            'id',
             'user_id',
             'image',
             'description',
@@ -49,11 +49,11 @@ class Party extends Model
             'start_time',
             'latitude',
             'longitude',
-//            'created_at',
-//            'updated_at',
-//            'isDeleteAdmin',
-//            'isDeleteUser',
-//            'isClose'
+            'created_at',
+            'updated_at',
+            'isDeleteAdmin',
+            'isDeleteUser',
+            'isClose'
         ];
 
     /**
@@ -89,7 +89,7 @@ class Party extends Model
      */
     public function goods()
     {
-        return $this->hasMany(OrderId::Class, 'party_id', 'id');
+        return $this->hasMany(PartyGoods::Class, 'party_id', 'id');
     }
 
     /**

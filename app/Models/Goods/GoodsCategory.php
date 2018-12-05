@@ -17,7 +17,7 @@ class GoodsCategory extends Model
 
     protected $fillable =
         [
-      //      'id',
+            'id',
             'name'
         ];
     public $timestamps = false;

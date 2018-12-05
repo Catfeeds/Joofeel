@@ -19,16 +19,16 @@ class PartyOrder extends Model
 
     protected $table = 'party_order';
 
- //   public $timestamps = false;
+    public $timestamps = false;
 
     protected $fillable =
         [
-      //      'id',
+            'id',
             'user_id',
             'party_id',
-     //       'isDeleteUser',
-    //        'created_at',
-   //         'updated_at'
+            'isDeleteUser',
+            'created_at',
+            'updated_at'
         ];
 
     public function party(){

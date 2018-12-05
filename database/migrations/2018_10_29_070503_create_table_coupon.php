@@ -22,8 +22,12 @@ class CreateTableCoupon extends Migration
             $t->string('name',10);
             $t->integer('rule')->default(0);
             $t->integer('sale');
+            $t->tinyInteger('species');  //种类 1不固定时间(过期时间顺延) 2固定时间
             $t->tinyInteger('category');
+            $t->integer('day');
             $t->integer('count');
+            $t->integer('start_time');
+            $t->integer('end_time');
             $t->tinyInteger('isReceive')
                 ->default(\App\Models\Coupon\Coupon::CAN_RECEIVE)->index();
         });

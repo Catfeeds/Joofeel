@@ -34,8 +34,8 @@ class DeliveryAddress extends Model
             'receipt_name',
             'receipt_address',
             'receipt_phone',
-    //        'label',
- //           'isDefault',
+            'label',
+            'isDefault',
         ];
 
     /**
