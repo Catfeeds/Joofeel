@@ -67,12 +67,15 @@ class PrizeService
                      ->paginate($limit);
         foreach ($data as $item)
         {
-            $item['open_prize_time'] = date('Y-m-d H:i:s');
+            $item['open_prize_time'] = date('Y-m-d H:i:s',$item['open_prize_time']);
             if($item['isPrize'] == Prize::End)
             {
-                $record =   $this->query($item['id'])
-                                 ->where('isLucky',PrizeOrder::LUCKY)
-                                 ->first();
+                $record = PrizeOrder::with(['user' => function($query){
+                                        $query->select('avatar','id','openid');
+                                     }])
+                                    ->where('prize_id',$item['id'])
+                                    ->where('isLucky',PrizeOrder::LUCKY)
+                                    ->first();
                 $item['user'] = $record['user'];
             }
         }
@@ -87,36 +90,70 @@ class PrizeService
      */
     public function open($id,$userId)
     {
-        $record = $this->query($id)
-                       ->get();
-        Prize::where('id',$id)
-             ->update([
-                 'isPrize' => Prize::End
-             ]);
-        if(count($record) == 0)
-        {
-            throw new AppException( '没有人参与');
+        $this->checkOpenValid($id);
+        $record = $this->order($id);
+        if (count($record) == 0) {
+            throw new AppException('没有人参与');
         }
-        if($userId == 0)
-        {
-            $userId = $record[rand(0,count($record)-1)]['user']['id'];
+        if ($userId == 0) {
+            $userId = $record[rand(0, count($record) - 1)]['user']['id'];
 
         }
-        PrizeOrder::where('prize_id',$id)
-                  ->where('user_id',$userId)
-                  ->update([
-                      'isLucky' => PrizeOrder::LUCKY
-                  ]);
-        (new Message())->sendPrizeMessage($record,$id);
-
+        PrizeOrder::where('prize_id', $id)
+            ->where('user_id', $userId)
+            ->update([
+                'isLucky' => PrizeOrder::LUCKY
+            ]);
+        (new Message())->sendPrizeMessage($record, $id);
     }
 
-    private function query($id)
+    /**
+     * @param $id
+     * @throws AppException
+     * 检查是否可以开奖
+     */
+    private function checkOpenValid($id)
     {
-        $query = PrizeOrder::with(['user' => function($query){
-                               $query->select('avatar','id','openid');
-                           }])
-                           ->where('prize_id',$id);
-        return $query;
+        $prize = Prize::where('id',$id)
+                      ->select('id','open_prize_time','isPrize')
+                      ->first();
+        if(time() > $prize['open_prize_time'])
+        {
+            $prize['isPrize'] = Prize::End;
+        }
+        else
+        {
+            throw new AppException('没有到开奖时间');
+        }
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * 详情
+     */
+    public function info($id)
+    {
+        $data = Prize::with(['orders' => function($query){
+                        $query->with('user')->select('user_id','isLucky','prize_id');
+                    }])
+                     ->where('id',$id)
+                     ->select('id','isPrize')
+                     ->first();
+        foreach ($data['orders'] as $item)
+        {
+            $item['isPrize'] = $data['isPrize'];
+        }
+        return $data['orders'];
+    }
+
+    private function order($id)
+    {
+        $order = PrizeOrder::with(['user' => function ($query) {
+                        $query->select('avatar', 'id', 'openid');
+                                }])
+                            ->where('prize_id', $id)
+                            ->get();
+        return $order;
     }
 }

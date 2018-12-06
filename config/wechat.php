@@ -94,8 +94,8 @@ return [
      */
      'mini_program' => [
          'default' => [
-             'app_id'  => env('WECHAT_MINI_PROGRAM_APPID', 'wx35c845c26c3c6c61'),
-             'secret'  => env('WECHAT_MINI_PROGRAM_SECRET', 'df829ac15f691075636847ab02bc0ac3'),
+             'app_id'  => 'wx35c845c26c3c6c61',
+             'secret'  => 'df829ac15f691075636847ab02bc0ac3',
              'token'   => env('WECHAT_MINI_PROGRAM_TOKEN', ''),
              'aes_key' => env('WECHAT_MINI_PROGRAM_AES_KEY', ''),
          ],

@@ -76,6 +76,7 @@ $api->version('v1', function ($api) {
                 'prefix' => 'prize'
             ], function ($api) {
             $api->get('',        'PrizeController@record');
+            $api->get('info',    'PrizeController@info');
             $api->post('',       'PrizeController@prize');
             $api->post('open',   'PrizeController@open');
 

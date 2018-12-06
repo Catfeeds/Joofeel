@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Services\PrizeService;
@@ -56,6 +55,7 @@ class PrizeController extends Controller
      */
     public function record()
     {
+
         $data = $this->service->record($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
@@ -73,7 +73,25 @@ class PrizeController extends Controller
         {
             $userId = 0;
         }
-        $this->service->open($this->request->input('id'),$userId);
+        try{
+            $this->service->open($this->request->input('id'),$userId);
+        }catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
         return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 抽奖信息(参与者列表)
+     */
+    public function info()
+    {
+        $this->validate($this->request,[
+            'id' => 'required|integer|exists:mysql.prize,id'
+        ]);
+        $data = $this->service->info($this->request->input('id'));
+        return ResponseUtil::toJson($data);
     }
 }
