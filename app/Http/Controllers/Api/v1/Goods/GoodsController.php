@@ -139,7 +139,7 @@ class GoodsController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
-     *
+     *获取待审核商品
      */
     public function pending()
     {

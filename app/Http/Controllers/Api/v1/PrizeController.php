@@ -38,7 +38,7 @@ class PrizeController extends Controller
                 'open_prize_time' => 'required|date'
             ]);
         try{
-            $data = $this->service->prize(
+             $this->service->prize(
                 $this->request->input('id'),
                 $this->request->input('open_prize_time')
             );
@@ -47,6 +47,33 @@ class PrizeController extends Controller
         {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
         }
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 抽奖记录
+     */
+    public function record()
+    {
+        $data = $this->service->record($this->request->input('limit'));
         return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * 开奖
+     */
+    public function open()
+    {
+        $this->validate($this->request,[
+            'id' => 'required|integer|exists:mysql.prize,id'
+        ]);
+        $userId = $this->request->input('user_id');
+        if(!$userId)
+        {
+            $userId = 0;
+        }
+        $this->service->open($this->request->input('id'),$userId);
+        return ResponseUtil::toJson();
     }
 }

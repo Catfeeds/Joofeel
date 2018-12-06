@@ -75,7 +75,10 @@ $api->version('v1', function ($api) {
                 'namespace'  => 'App\Http\Controllers\Api\v1',
                 'prefix' => 'prize'
             ], function ($api) {
-            $api->post('',   'PrizeController@prize');
+            $api->get('',        'PrizeController@record');
+            $api->post('',       'PrizeController@prize');
+            $api->post('open',   'PrizeController@open');
+
         });
 
         /**
@@ -159,10 +162,12 @@ $api->version('v1', function ($api) {
 
 
 
+
+
+
+
+
     /**
-     *
-     *
-     *
      * 通过Excel导入数据库中各个表的内容
      */
     $api->group(

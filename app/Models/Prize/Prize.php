@@ -42,4 +42,10 @@ class Prize extends Model
         return $this->hasMany(PrizeOrder::class,'prize_id','id');
     }
 
+    static function get($id)
+    {
+        $data = self::where('id',$id)
+                    ->first();
+        return $data;
+    }
 }
