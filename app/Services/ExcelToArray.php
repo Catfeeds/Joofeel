@@ -9,27 +9,29 @@ use PHPExcel_Cell;
  * 读取Excel数据
  */
 
+
 class ExcelToArray
 {
-    public function __construct() {
+    public function __construct()
+    {
         //这些文件需要下载phpexcel，然后放在vendor文件里面。具体参考上一篇数据导出。
-        require  '../vendor/PHPExcel/PHPExcel.php';
-        require  '../vendor/PHPExcel/PHPExcel/Writer/IWriter.php';
-        require  '../vendor/PHPExcel/PHPExcel/Writer/Abstract.php';
-        require  '../vendor/PHPExcel/PHPExcel/Writer/Excel5.php';
-        require  '../vendor/PHPExcel/PHPExcel/Writer/Excel2007.php';
-        require  '../vendor/PHPExcel/PHPExcel/IOFactory.php';
+        require '../vendor/PHPExcel/PHPExcel.php';
+        require '../vendor/PHPExcel/PHPExcel/Writer/IWriter.php';
+        require '../vendor/PHPExcel/PHPExcel/Writer/Abstract.php';
+        require '../vendor/PHPExcel/PHPExcel/Writer/Excel5.php';
+        require '../vendor/PHPExcel/PHPExcel/Writer/Excel2007.php';
+        require '../vendor/PHPExcel/PHPExcel/IOFactory.php';
     }
 
-    public function read($filename,$encode,$file_type){
-        if(strtolower ( $file_type )=='xls')//判断excel表类型为2003还是2007
+    public function read($filename, $encode, $file_type)
+    {
+        if (strtolower($file_type) == 'xls')//判断excel表类型为2003还是2007
         {
-            require  '../vendor/PHPExcel/PHPExcel/Reader/Excel5.php';
+            require '../vendor/PHPExcel/PHPExcel/Reader/Excel5.php';
             $objReader = PHPExcel_IOFactory::createReader('Excel5');
 
-        }elseif(strtolower ( $file_type )=='xlsx')
-        {
-            require  '../vendor/PHPExcel/PHPExcel/Reader/Excel2007.php';
+        } elseif (strtolower($file_type) == 'xlsx') {
+            require '../vendor/PHPExcel/PHPExcel/Reader/Excel2007.php';
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         }
         $objReader->setReadDataOnly(true);
@@ -41,7 +43,7 @@ class ExcelToArray
         $excelData = array();
         for ($row = 1; $row <= $highestRow; $row++) {
             for ($col = 0; $col < $highestColumnIndex; $col++) {
-                $excelData[$row][] =(string)$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+                $excelData[$row][] = (string)$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
             }
         }
         return $excelData;
@@ -52,7 +54,7 @@ class ExcelToArray
      * @throws AppException
      * 得到Excel数据
      */
-    public function getExcel()
+    public function get()
     {
         if (!empty ($_FILES ['file'] ['name'])) {
             $tmp_file = $_FILES ['file'] ['tmp_name'];
@@ -76,26 +78,52 @@ class ExcelToArray
     }
 
     /**
-     * @param $data
      * @param $name
-     * 获取订单的Excel
+     * @param $data
+     * @param $header
+     * @param string $info
+     * 输出EXCEL
      */
-    public function orderExcel($data,$name)
+    private function out($name,$data,$header,$info = '',$info_header = '')
     {
-        $excel = new \PHPExcel(); //引用phpexcel
+        $excel = new \PHPExcel();
         iconv('UTF-8', 'gb2312', $name); //针对中文名转码
-        $header = ['订单号', '快递单号', '支付价格', '收货人', '收货地址','联系方式','状态']; //表头,名称可自定义
         $excel->setActiveSheetIndex(0);
         $excel->getActiveSheet()->setTitle($name); //设置表名
         $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(18);
-        $excel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-        $excel->getActiveSheet()->getColumnDimension('B')->setWidth(40);
-        $excel->getActiveSheet()->getColumnDimension('C')->setWidth(14);
-        $excel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-        $excel->getActiveSheet()->getColumnDimension('E')->setWidth(60);
-        $excel->getActiveSheet()->getColumnDimension('F')->setWidth(18);
-        $excel->getActiveSheet()->getColumnDimension('G')->setWidth(10);
-        $letter = ['A', 'B', 'C', 'D', 'E','F','G'];//列坐标
+        $coordinate = 'A';
+        $letter = [];
+
+        //写入数据
+        foreach ($data as $k => $v) {
+            $coordinate= 'A';
+            for($i=0;$i<count($header);$i++)
+            {
+                $excel->getActiveSheet()->setCellValue($coordinate . ($k + 2), $v[$i]);
+                $coordinate =  chr(ord($coordinate) +1);
+            }
+        }
+        foreach ($data as $k => $v)
+        {
+            foreach ($info as $key => $item)
+            {
+                for($i=0;$i<count($item);$i++)
+                {
+                    array_push($header,$info_header[$i]);
+                    $excel->getActiveSheet()->setCellValue($coordinate . ($k + 2), $item[$i]);
+                    $coordinate = chr(ord($coordinate) +1);
+                }
+            }
+        }
+        $head_coordinate = 'A';
+        for($i=0;$i<count($header);$i++)
+        {
+            $letter[$i] = $head_coordinate;
+            $excel->getActiveSheet()->getColumnDimension($head_coordinate)->setWidth(25);
+            $head_coordinate =  chr(ord($head_coordinate) +1);
+        }
+
+
         for ($i = 0; $i < count($header); $i++) {
             //设置表头值
             $excel->getActiveSheet()->setCellValue("$letter[$i]1", $header[$i]);
@@ -112,22 +140,11 @@ class ExcelToArray
             //设置单元格背景色
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->getStartColor()->setARGB('FFFFFFFF');
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
-            $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->getStartColor()->setARGB('FF6DBA43');
+            $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->getStartColor()->setARGB('FFC901');
             //设置字体颜色
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFont()->getColor()->setARGB('FFFFFFFF');
         }
-        //写入数据
-        foreach ($data as $k => $v) {
-            //从第二行开始写入数据（第一行为表头）
-            $excel->getActiveSheet()->setCellValue('A' . ($k + 2), $v['order_id']);
-            $excel->getActiveSheet()->setCellValue('B' . ($k + 2), $v['tracking_id']);
-            $excel->getActiveSheet()->setCellValue('C' . ($k + 2), $v['sale_price']);
-            $excel->getActiveSheet()->setCellValue('D' . ($k + 2), $v['receipt_name']);
-            $excel->getActiveSheet()->setCellValue('E' . ($k + 2), $v['receipt_address']);
-            $excel->getActiveSheet()->setCellValue('F' . ($k + 2), $v['receipt_phone']);
-            $excel->getActiveSheet()->setCellValue('G' . ($k + 2), $v['sign']);
-        }
-        $excel->getActiveSheet()->getStyle("A1:G" . (count($data) + 1))
+        $excel->getActiveSheet()->getStyle("A1:I" . (count($data) + 1))
             ->getBorders()
             ->getAllBorders()
             ->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
@@ -137,6 +154,33 @@ class ExcelToArray
         header('Cache-Control: max-age=0');
         $res_excel = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $res_excel->save('php://output');
+
+
     }
 
+    /**
+     * @param $data
+     * @param $name
+     * @param $info
+     * 获取订单
+     */
+    public function order($data, $name,$info)
+    {
+        $array = [];
+        $header = ['订单号', '快递单号','快递公司', '支付价格', '收货人', '收货地址','联系方式','状态','下单时间'];
+        foreach ($data as $key => $item)
+        {
+            $array[$key][0] = $item['order_id'];
+            $array[$key][1] = $item['tracking_id'];
+            $array[$key][2] = $item['tracking_company'];
+            $array[$key][3] = $item['sale_price'];
+            $array[$key][4] = $item['receipt_name'];
+            $array[$key][5] = $item['receipt_address'];
+            $array[$key][6] = $item['receipt_phone'];
+            $array[$key][7] = $item['isSign'];
+            $array[$key][8] = $item['created_at'];
+        }
+        $info_header = ['商品名','数量'];
+        $this->out($name,$array,$header,$info,$info_header);
+    }
 }

@@ -120,6 +120,7 @@ class PrizeService
         if(time() > $prize['open_prize_time'])
         {
             $prize['isPrize'] = Prize::End;
+            $prize->save();
         }
         else
         {

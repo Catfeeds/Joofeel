@@ -227,7 +227,7 @@ class GoodsService
      */
     public function getExcel($type)
     {
-        $res = (new ExcelToArray())->getExcel();
+        $res = (new ExcelToArray())->get();
         if($type == add)
         {
             $this->createExcelGoods($res);

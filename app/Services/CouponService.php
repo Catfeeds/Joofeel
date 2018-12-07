@@ -8,11 +8,6 @@
 
 namespace App\Services;
 
-use App\Exceptions\AppException;
-use App\Models\Coupon\Coupon;
-use App\Models\User\UserCoupon;
-use App\Utils\Common;
-
 class CouponService
 {
 

@@ -8,13 +8,14 @@
 
 namespace App\Services;
 
-
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
+use App\Models\Goods\Goods;
 use App\Models\Order\GoodsOrder;
+use App\Models\Order\OrderId;
 use PHPExcel;
 
-class OrderService extends Controller
+class OrderService
 {
     /**
      * @param $sign
@@ -107,7 +108,7 @@ class OrderService extends Controller
      */
     public function updateExcel()
     {
-        $res = (new ExcelToArray())->getExcel();
+        $res = (new ExcelToArray())->get();
         foreach ($res as $k => $v) {
             if ($k > 1) {
                 $order = GoodsOrder::where('order_id',$v[0])
@@ -138,7 +139,29 @@ class OrderService extends Controller
                               ->get();
             $name = '全部订单';
         }
-        (new ExcelToArray())->orderExcel($this->transOrderSign($data), $name);
+        (new ExcelToArray())->order($this->transOrderSign($data), $name,$this->orderRecord($data));
+    }
+
+    /**
+     * @param $data
+     * @return array
+     * 获取订单中商品信息g
+     */
+    private function orderRecord($data)
+    {
+        $info = [];
+        foreach ($data as $order)
+        {
+            $single = OrderId::where('order_id',$order['id'])->get();
+            foreach ($single as $item)
+            {
+                $goods = Goods::where('id',$item['goods_id'])->first();
+                $record[0]  = $goods['name'];
+                $record[1] = $item['count'];
+                array_push($info,$record);
+            }
+        }
+        return $info;
     }
 
     /**

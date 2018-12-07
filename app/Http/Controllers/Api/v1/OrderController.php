@@ -113,6 +113,7 @@ class OrderController extends Controller
                 'sign' => 'required|in:0,1'
             ]);
         $this->order->getOrderExcel($this->request->input('sign'));
-        return ResponseUtil::toJson();
+
+
     }
 }
