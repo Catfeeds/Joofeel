@@ -23,6 +23,11 @@ class CouponService
                       ->select('id','sale','rule','species','category','day',
                           'count','start_time','end_time','isReceive')
                       ->get();
+        foreach ($data as $item)
+        {
+            $item['start_time'] = date('Y-m-d H:i',$item['start_time']);
+            $item['end_time'] = date('Y-m-d H:i',$item['end_time']);
+        }
         return $data;
     }
 }

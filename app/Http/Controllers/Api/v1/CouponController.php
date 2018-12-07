@@ -14,7 +14,7 @@ use App\Services\CouponService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
-class Coupon extends Controller
+class CouponController extends Controller
 {
 
     private $service;
