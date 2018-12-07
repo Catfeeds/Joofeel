@@ -8,7 +8,21 @@
 
 namespace App\Services;
 
+use App\Models\Coupon\Coupon;
+
 class CouponService
 {
+    public function add()
+    {
 
+    }
+
+    public function all()
+    {
+        $data = Coupon::orderByDesc('start_time')
+                      ->select('id','sale','rule','species','category','day',
+                          'count','start_time','end_time','isReceive')
+                      ->get();
+        return $data;
+    }
 }

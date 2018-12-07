@@ -125,6 +125,18 @@ $api->version('v1', function ($api) {
             $api->get('todo',   'IndexController@todo');
         });
 
+        /**
+         * 优惠券
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1',
+                'prefix'    => 'coupon'
+            ],function($api){
+            $api->get('all',   'CouponController@all');
+            $api->post('add',  'CouponController@add');
+        });
+
     });
 
 

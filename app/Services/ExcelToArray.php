@@ -82,7 +82,7 @@ class ExcelToArray
      * @param $data
      * @param $header
      * @param string $info
-     * 输出EXCEL
+     * @param string $info_header
      */
     private function out($name,$data,$header,$info = '',$info_header = '')
     {
@@ -93,7 +93,6 @@ class ExcelToArray
         $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(18);
         $coordinate = 'A';
         $letter = [];
-
         //写入数据
         foreach ($data as $k => $v) {
             $coordinate= 'A';
@@ -103,15 +102,18 @@ class ExcelToArray
                 $coordinate =  chr(ord($coordinate) +1);
             }
         }
-        foreach ($data as $k => $v)
+        if($info)
         {
-            foreach ($info as $key => $item)
+            foreach ($data as $k => $v)
             {
-                for($i=0;$i<count($item);$i++)
+                foreach ($info as $key => $item)
                 {
-                    array_push($header,$info_header[$i]);
-                    $excel->getActiveSheet()->setCellValue($coordinate . ($k + 2), $item[$i]);
-                    $coordinate = chr(ord($coordinate) +1);
+                    for($i=0;$i<count($item);$i++)
+                    {
+                        array_push($header,$info_header[$i]);
+                        $excel->getActiveSheet()->setCellValue($coordinate . ($k + 2), $item[$i]);
+                        $coordinate = chr(ord($coordinate) +1);
+                    }
                 }
             }
         }
@@ -125,23 +127,15 @@ class ExcelToArray
 
 
         for ($i = 0; $i < count($header); $i++) {
-            //设置表头值
             $excel->getActiveSheet()->setCellValue("$letter[$i]1", $header[$i]);
-            //设置表头字体样式
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFont()->setName('宋体');
-            //设置表头字体大小
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFont()->setSize(14);
-            //设置表头字体是否加粗
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFont()->setBold(true);
-            //设置表头文字水平居中
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-            //设置文字上下居中
             $excel->getActiveSheet()->getStyle($letter[$i])->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
-            //设置单元格背景色
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->getStartColor()->setARGB('FFFFFFFF');
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFill()->getStartColor()->setARGB('FFC901');
-            //设置字体颜色
             $excel->getActiveSheet()->getStyle("$letter[$i]1")->getFont()->getColor()->setARGB('FFFFFFFF');
         }
         $excel->getActiveSheet()->getStyle("A1:I" . (count($data) + 1))
