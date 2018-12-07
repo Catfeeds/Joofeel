@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Exceptions\AppException;
 use App\Models\Goods\Goods;
+use App\Models\Goods\GoodsImage;
 use App\Models\Goods\GoodsLabel;
 use App\Models\Goods\Recommend;
 
@@ -221,119 +222,176 @@ class GoodsService
     }
 
     /**
-     * @param $type
-     * @return bool
-     * @throws AppException
+     *
      */
-    public function getExcel($type)
+    public function getExcel()
     {
         $res = (new ExcelToArray())->get();
-        if($type == add)
-        {
-            $this->createExcelGoods($res);
-        }
-        else if($type == change)
-        {
-            $this->changeExcelGoods($res);
+        foreach ($res as $k => $v) {
+            if ($k > 1) {
+                $record = Goods::where('goods_id',$v[0])
+                    ->first();
+                if($record)
+                {
+                    $this->updateExcel($v);
+                }
+                else
+                {
+                    $this->addExcel($v);
+                }
+            }
         }
     }
 
-    /**
-     * @param $excel
-     * 修改
-     */
-    private function changeExcelGoods($excel)
+    public function updateExcel($v)
     {
-        foreach ($excel as $k => $v) {
+        $record = Goods::where('goods_id',$v[0])
+                       ->first();
+        switch ($v[1]){
+            case '全球精酿':
+                $record['category_id'] = 1;
+                $record['brand'] = $v[7];
+                $record['degrees'] = $v[8];
+                break;
+            case '低度轻饮':
+                $record['category_id'] = 2;
+                $record['type'] = $v[7];
+                $record['degrees'] = $v[8];
+                break;
+            case '花式饮品':
+                $record['category_id'] = 3;
+                $record['type'] = $v[7];
+                $record['specifications'] = $v[8];
+                break;
+            case '美味零食':
+                $record['category_id'] = 4;
+                $record['type'] = $v[7];
+                $record['flavor'] = $v[8];
+                break;
+        }
+        $record['goods_id'] = $v[0];
+        $record['stock'] = $v[2];
+        $record['name'] = $v[3];
+        $record['delivery_place'] = $v[5];
+        $record['country'] = $v[6];
+        $record['purchase_price'] = $v[9];
+        $record['logistics_standard'] = $v[10];
+        $record['cost_price'] = $v[11];
+        $record['reference_price'] = $v[12];
+        $record['price'] = $v[14];
+        $record['sale_price'] = $v[13];
+        $record['recommend_reason'] = $v[15];
+        $record['notice'] = $v[16];
+        $record['channels'] = $v[17];
+        $record['shop'] = $v[18];
+        $record['purchase_address'] = $v[19];
+        $record['thu_url'] = $v[20];
+        $record['cov_url'] = $v[21];
+        $record['det_url'] = $v[22];
+        $record['share_url'] = $v[23];
+        $record->save();
+        $label = explode("；", $v[4]);
+        GoodsLabel::where('goods_id',$record['id'])->delete();
+        for($i=0;$i<sizeof($label);$i++){
+            GoodsLabel::create([
+                'label_name' => $label[$i],
+                'goods_id' => $record['id']
+            ]);
+        }
+    }
+
+    public function addExcel($v)
+    {
+        if($v[1] == '全球精酿' || $v[1] == '低度轻饮'||$v[1] == '花式饮品'||$v[1] == '美味零食')
+        {
+            switch ($v[1]){
+                case '全球精酿':
+                    $data['category_id'] = 1;
+                    $data['brand'] = $v[7];
+                    $data['degrees'] = $v[8];
+                    break;
+                case '低度轻饮':
+                    $data['category_id'] = 2;
+                    $data['type'] = $v[7];
+                    $data['degrees'] = $v[8];
+                    break;
+                case '花式饮品':
+                    $data['category_id'] = 3;
+                    $data['type'] = $v[7];
+                    $data['specifications'] = $v[8];
+                    break;
+                case '美味零食':
+                    $data['category_id'] = 4;
+                    $data['type'] = $v[7];
+                    $data['flavor'] = $v[8];
+                    break;
+            }
+            $data['goods_id'] = $v[0];
+            $data['stock'] = $v[2];
+            $data['name'] = $v[3];
+            $data['delivery_place'] = $v[5];
+            $data['country'] = $v[6];
+            $data['purchase_price'] = $v[9];
+            $data['logistics_standard'] = $v[10];
+            $data['cost_price'] = $v[11];
+            $data['reference_price'] = $v[12];
+            $data['price'] = $v[14];
+            $data['sale_price'] = $v[13];
+            $data['recommend_reason'] = $v[15];
+            $data['notice'] = $v[16];
+            $data['channels'] = $v[17];
+            $data['shop'] = $v[18];
+            $data['purchase_address'] = $v[19];
+            $data['thu_url'] = $v[20];
+            $data['cov_url'] = $v[21];
+            $data['det_url'] = $v[22];
+            $data['share_url'] = $v[23];
+            $id = Goods::insertGetId($data);
+            $label = explode("；", $v[4]);
+            for($i=0;$i<sizeof($label);$i++){
+                GoodsLabel::create([
+                    'label_name' => $label[$i],
+                    'goods_id' => $id
+                ]);
+            }
+
+        }
+        else{
+            throw new AppException( '出错了,检查excel表');
+        }
+
+    }
+
+    /**
+     * 上传商品图片
+     */
+    public function image()
+    {
+        $res = (new ExcelToArray())->get();
+        foreach ($res as $k => $v) {
             if ($k > 1) {
                 $goods = Goods::where('goods_id',$v[0])
-                              ->first();
-                $goods['goods_id'] = $v[0];
-                $goods['stock'] = $v[2];
-                $goods['name'] = $v[3];
-                $goods['delivery_place'] = $v[5];
-                $goods['country'] = $v[6];
-                $goods['purchase_price'] = $v[9];
-                $goods['logistics_standard'] = $v[10];
-                $goods['cost_price'] = $v[9] + $v[10];
-                $goods['reference_price'] = $v[12];
-                $goods['price'] = $v[13];
-                $goods['sale_price'] = $goods['price'];
-                $goods['recommend_reason'] = $v[14];
-                $goods['notice'] = $v[15];
-                $goods['channels'] = $v[16];
-                $goods['shop'] = $v[17];
-                $goods['purchase_address'] = $v[18];
-                $goods['thu_url'] = $v[19];
-                $goods['cov_url'] = $v[20];
-                $goods['det_url'] = $v[21];
-                $goods['created_at'] = $goods['updated_at'] = date('Y-m-d H:i:s');
-                $goods->save();
+                    ->first();
+                $record = GoodsImage::where('goods_id',$goods['id'])
+                                    ->where('order',$v[2])
+                                    ->first();
+                if($record)
+                {
+                    $record['goods_id'] = $goods['id'];
+                    $record['order'] = $v[2];
+                    $record['url'] = $v[1];
+                    $record->save();
+                }
+                else {
+                    $record = new GoodsImage();
+                    $record['goods_id'] = $goods['id'];
+                    $record['order'] = $v[2];
+                    $record['url'] = $v[1];
+                    $record->save();
+                }
             }
         }
     }
 
-    /**
-     * @param $excel
-     * 入库开始
-     */
-    private function createExcelGoods($excel)
-    {
-        foreach ($excel as $k => $v) {
-            if ($k > 1) {
-                switch ($v[1]){
-                    case '精酿啤酒':
-                        $data[$k]['category_id'] = 1;
-                        $data[$k]['brand'] = $v[7];
-                        $data[$k]['degrees'] = $v[8];
-                        break;
-                    case '预调酒水':
-                        $data[$k]['category_id'] = 2;
-                        $data[$k]['type'] = $v[7];
-                        $data[$k]['degrees'] = $v[8];
-                        break;
-                    case '花式饮料':
-                        $data[$k]['category_id'] = 3;
-                        $data[$k]['type'] = $v[7];
-                        $data[$k]['specifications'] = $v[8];
-                        break;
-                    case '休闲零食':
-                        $data[$k]['category_id'] = 4;
-                        $data[$k]['type'] = $v[7];
-                        $data[$k]['flavor'] = $v[8];
-                        break;
-                }
-                $data[$k]['goods_id'] = $v[0];
-                $data[$k]['stock'] = $v[2];
-                $data[$k]['name'] = $v[3];
-                $data[$k]['delivery_place'] = $v[5];
-                $data[$k]['country'] = $v[6];
-                $data[$k]['purchase_price'] = $v[9];
-                $data[$k]['logistics_standard'] = $v[10];
-                $data[$k]['cost_price'] = $v[9] + $v[10];
-                $data[$k]['reference_price'] = $v[12];
-                $data[$k]['price'] = $v[13];
-                $data[$k]['sale_price'] = $data[$k]['price'];
-                $data[$k]['recommend_reason'] = $v[14];
-                $data[$k]['notice'] = $v[15];
-                $data[$k]['channels'] = $v[16];
-                $data[$k]['shop'] = $v[17];
-                $data[$k]['purchase_address'] = $v[18];
-                $data[$k]['thu_url'] = $v[19];
-                $data[$k]['cov_url'] = $v[20];
-                $data[$k]['det_url'] = $v[21];
-                $data[$k]['isPending'] = Goods::PENDING; //处于待审状态
-                $data[$k]['isShelves'] = Goods::SHELVES;
-                $data[$k]['created_at'] = $data[$k]['updated_at'] = date('Y-m-d H:i:s');
-                $id = Goods::insertGetId($data[$k]);
-                $label = explode("；", $v[4]);
-                for($i=0;$i<sizeof($label);$i++){
-                    GoodsLabel::create([
-                        'label_name' => $label[$i],
-                        'goods_id' => $id
-                    ]);
-                }
-            }
-        }
-    }
+
 }

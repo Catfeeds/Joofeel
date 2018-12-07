@@ -41,7 +41,6 @@ class Goods extends Model
             'category_id',
             'type',
             'flavor',
-            'sold',
             'stock',
             'name',
             'delivery_place',
@@ -67,8 +66,6 @@ class Goods extends Model
             'det_url',
             'isShelves',
             'isPending',
-            'created_at',
-            'updated_at'
         ];
 
     /**

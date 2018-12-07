@@ -168,17 +168,22 @@ class GoodsController extends Controller
      */
     public function excel()
     {
-        $this->validate(
-            $this->request,
-            [
-                'type' => 'required|in:0,1'
-            ]);
         try{
-            $this->service->getExcel($this->request->input('type'));
+            $this->service->getExcel();
         }catch (AppException $e)
         {
             return ResponseUtil::toJson('',$e->getMessage(),$e->getCode());
         }
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 通过excel上传图片
+     */
+    public function excelImage()
+    {
+        $this->service->image();
         return ResponseUtil::toJson();
     }
 }

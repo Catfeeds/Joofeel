@@ -37,7 +37,7 @@ class CouponController extends Controller
      */
     public function all()
     {
-        $data = $this->service->all();
+        $data = $this->service->all($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 }

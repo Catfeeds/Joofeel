@@ -45,6 +45,8 @@ $api->version('v1', function ($api) {
             $api->post('update',   'GoodsController@update');
             //Excel添加商品
             $api->post('excel',    'GoodsController@excel');
+            //Excel添加商品图
+            $api->post('image',    'GoodsController@excelImage');
             /**
              * 审核
              */

@@ -17,12 +17,12 @@ class CouponService
 
     }
 
-    public function all()
+    public function all($limit)
     {
         $data = Coupon::orderByDesc('start_time')
                       ->select('id','sale','rule','species','category','day',
                           'count','start_time','end_time','isReceive')
-                      ->get();
+                      ->paginate($limit);
         foreach ($data as $item)
         {
             $item['start_time'] = date('Y-m-d H:i',$item['start_time']);
