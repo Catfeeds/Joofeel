@@ -70,7 +70,7 @@ class CreateTableUser extends Migration
             $t->integer('user_id')->index();
             $t->string('receipt_name',20);
             $t->string('receipt_area',20);
-            $t->string('receipt_address',30);
+            $t->string('receipt_address',255);
             $t->string('receipt_phone',12);
             $t->tinyInteger('label')->default(\App\Models\User\DeliveryAddress::HOME); //所属标签
             $t->tinyInteger('isDefault')->index();    //标记是否为默认地址 0是1不是

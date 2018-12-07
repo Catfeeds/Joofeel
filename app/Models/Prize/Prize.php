@@ -19,16 +19,12 @@ class Prize extends Model
 
     protected $table = 'prize';
 
-    public $timestamps = false;
-
     protected $fillable =
         [
             'id',
             'goods_id',
             'open_prize_time',
             'isPrize',
-            'created_at',
-            'updated_at'
         ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

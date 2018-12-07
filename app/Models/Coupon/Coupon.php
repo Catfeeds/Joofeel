@@ -22,8 +22,6 @@ class Coupon extends Model
 
     protected $fillable =
         [
-            'id',
-            'name',
             'rule',
             'sale',
             'species',

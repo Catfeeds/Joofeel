@@ -12,9 +12,11 @@ use App\Models\Coupon\Coupon;
 
 class CouponService
 {
-    public function add()
+    public function add($data)
     {
-
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        Coupon::create($data);
     }
 
     public function all($limit)

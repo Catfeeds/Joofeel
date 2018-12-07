@@ -28,7 +28,19 @@ class CouponController extends Controller
 
     public function add()
     {
-
+        $this->validate($this->request,
+            [
+                'category' => 'required|integer|in:0,1,2,3,4',
+                'species'  => 'required|integer|in:0,1',
+                'rule'     => 'required|integer',
+                'sale'     => 'required|integer|min:0',
+                'start_time' => 'required',
+                'end_time' => 'required',
+                'day'      => 'required|integer|min:0',
+                'count'    => 'required|integer|min:0',
+            ]);
+        $this->service->add($this->request->all());
+        return ResponseUtil::toJson();
     }
 
     /**
