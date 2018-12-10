@@ -21,19 +21,23 @@ class Banner extends Model
     const ACTIVITY_DETAIL = 2;
     const GOODS_CATEGORY = 3;
 
-    protected $table = 'banner';
+    const PRIZE = 1;
+    const NOT_PRIZE = 0;
 
-//    public $timestamps = false;
+    protected $table = 'banner';
 
     protected $fillable =
         [
-            'id',
             'type',
             'url',
             'goods_id',
             'isPrize',
             'isShow',
-            'created_at',
-            'updated_at'
         ];
+
+    static function get($id)
+    {
+        $banner = self::where('id',$id)->first();
+        return $banner;
+    }
 }
