@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\AppException;
 use EasyWeChat\Factory;
 
 
@@ -23,13 +24,13 @@ class Message
     /**
      * @param $record
      * @param $id
-     * 抽奖模板消息发送
+     * @throws AppException
      */
     public function sendPrizeMessage($record,$id)
     {
         foreach ($record as $item)
         {
-            $this->app->template_message->send([
+            $data = $this->app->template_message->send([
                 'touser' => $item['user']['openid'],
                 'template_id' => 'V4jut_BN7CVL4xQ-VV7k28H3h9eIjRlD030njTKFGMI',
                 'url' => '/pages/shishouqi2/shishouqi2?id=' . $id,
@@ -46,6 +47,10 @@ class Message
                     ],
                 ],
             ]);
+            if($data['errorcode'] != 0)
+            {
+                throw new AppException($data['errmsg']);
+            }
         }
     }
 }

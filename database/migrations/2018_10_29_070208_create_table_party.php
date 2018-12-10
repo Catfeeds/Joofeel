@@ -38,7 +38,7 @@ class CreateTableParty extends Migration
             $t->integer('user_id')->index()->nullable();
             $t->string('image',120);
             $t->string('description',255);
-            $t->string('details',255);
+            $t->text('details');
             $t->string('way',4);
             $t->tinyInteger('people_no');
             $t->tinyInteger('remaining_people_no');

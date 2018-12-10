@@ -27,7 +27,7 @@ class CreateTableOrder extends Migration
             $t->integer('sale')->default(0);
             $t->integer('carriage')->default(0);
             $t->string('receipt_name',20);
-            $t->string('receipt_address',50);
+            $t->string('receipt_address',255);
             $t->string('receipt_phone',11);
             $t->tinyInteger('isSign')->index()
                 ->default(\App\Models\Order\GoodsOrder::NOTDELIVERY);

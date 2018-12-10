@@ -114,8 +114,6 @@ class ExcelToArray
                         $excel->getActiveSheet()->setCellValue($info_coordinate . ($k + 2), $info[$k][$i][$j]);
                         $info_coordinate = chr(ord($info_coordinate) +1);
                     }
-
-
                 }
             }
         }
