@@ -157,6 +157,26 @@ $api->version('v1', function ($api) {
             $api->post('upload',   'BannerController@upload');
         });
 
+
+        /**
+         * 配置API
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1\Config',
+                'prefix'    => 'config'
+            ],function($api){
+                $api->group([
+                    'prefix' => 'search'
+                ],function ($api){
+                    $api->get('get',       'SearchController@get');
+                    $api->post('add',      'SearchController@add');
+                    $api->post('update',   'SearchController@update');
+                    $api->delete('delete', 'SearchController@delete');
+                });
+
+        });
+
     });
 
 

@@ -131,6 +131,4 @@ class BannerController extends Controller
         $data = (new FileService())->upload($request,'banner');
         return ResponseUtil::toJson($data);
     }
-
-
 }
