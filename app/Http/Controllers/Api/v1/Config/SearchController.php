@@ -14,10 +14,6 @@ use Illuminate\Support\Facades\Cache;
 
 class SearchController extends Controller
 {
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     * 获取
-     */
     public function get()
     {
         $data = Cache::get('hotSearch');
@@ -30,13 +26,80 @@ class SearchController extends Controller
      */
     public function add()
     {
+//        $data = [
+//            [
+//                'name' => '苹果教皇'
+//            ],
+//            [
+//                'name' => 'LeftHand'
+//            ],
+//            [
+//                'name' => 'DogfishHead'
+//            ],
+//            [
+//                'name' => 'RedBrick'
+//            ],
+//            [
+//                'name' => '白梨西打'
+//            ]
+//        ];
         $this->validate($this->request,
             [
                'content' => 'required|string'
             ]);
+        $add = [
+            'name' => $this->request->input('content')
+        ];
         $data = Cache::get('hotSearch');
-        array_push($data,$this->request->input('content'));
-        Cache::pull('hotSearch',$data);
+        array_push($data,$add);
+        Cache::forever('hotSearch',$data);
+        return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 删除
+     */
+    public function delete()
+    {
+        $this->validate($this->request,
+            [
+                'content' => 'required|string'
+            ]);
+        $data = Cache::get('hotSearch');
+        foreach ($data as $key => $item)
+        {
+            if($item['name'] == $this->request->input('content'))
+            {
+                array_splice($data,$key,1);
+            }
+        }
+        Cache::forever('hotSearch',$data);
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 修改
+     */
+    public function update()
+    {
+        $this->validate($this->request,
+            [
+                'content'        => 'required|string',
+                'update_content' => 'required|string'
+            ]);
+        $data = Cache::get('hotSearch');
+        $index = 0;
+        foreach ($data as $key =>  $item)
+        {
+            if($item['name'] == $this->request->input('content'))
+            {
+                $index = $key;
+            }
+        }
+        $data[$index]['name'] = $this->request->input('update_content');
+        Cache::forever('hotSearch',$data);
         return ResponseUtil::toJson($data);
     }
 }
