@@ -116,6 +116,7 @@ class GoodsService
     {
         $goods = $this->query()
                       ->where('name', 'like', '%'.$content.'%')
+                      ->orWhere('goods_id','like','%'.$content.'%')
                       ->orWhere('recommend_reason','like','%'.$content.'%')
                       ->orWhere('country','like','%'.$content.'%')
                       ->orWhere('shop','like','%'.$content.'%')

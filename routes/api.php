@@ -152,6 +152,7 @@ $api->version('v1', function ($api) {
             $api->get('all',       'BannerController@all');
             $api->post('add',      'BannerController@add');
             $api->post('operate',  'BannerController@operate');
+            $api->post('upload',   'BannerController@upload');
         });
 
     });

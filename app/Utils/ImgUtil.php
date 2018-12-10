@@ -15,25 +15,23 @@ require '../vendor/oss/autoload.php';
 
 class ImgUtil
 {
-
     private $accessKeyId = 'LTAIjfhhjAEa69tU';
     private $accessKeySecret = 'z9jMoqELKVfFwzJUtJVsh304Cwq1LD';
     private $endpoint = 'http://oss-cn-hangzhou.aliyuncs.com';
-    private $bucket = 'jufeeloss';
-    private $url = 'https://jufeeloss.oss-cn-hangzhou.aliyuncs.com/upload/';
-
+    private $bucket = 'joofeel';
+    private $url = 'https://oss.joofeel.com/';
 
     /**
      * @param $fileName
+     * @param $url
      * @return string
-     *OSS上传
      */
-    public function ossUpload($fileName){
+    public function ossUpload($fileName,$url){
         $ossClient = new OssClient($this->accessKeyId, $this->accessKeySecret, $this->endpoint);
-        if( !$ossClient->doesBucketExist($this->bucket)){
+        if(!$ossClient->doesBucketExist($this->bucket)){
             $ossClient->createBucket($this->bucket);
         }
-        $object = 'upload/'. $fileName;//想要保存文件的名称
+        $object = $url. '/' . $fileName;//想要保存文件的名称
         //找到文件在服务器上的根目录
         $path = base_path('public/uploads/' . $fileName);
         try{
@@ -44,6 +42,6 @@ class ImgUtil
         } catch(OssException $e) {
             printf($e->getMessage() . "\n");
         }
-        return $this->url. $fileName;
+        return $this->url. $url. '/' . $fileName;
     }
 }
