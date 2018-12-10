@@ -91,7 +91,7 @@ class ExcelToArray
         $excel->setActiveSheetIndex(0);
         $excel->getActiveSheet()->setTitle($name); //设置表名
         $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(18);
-        $coordinate = 'A';
+
         $letter = [];
         //写入数据
         foreach ($data as $k => $v) {
@@ -106,14 +106,16 @@ class ExcelToArray
         {
             foreach ($data as $k => $v)
             {
-                foreach ($info as $key => $item)
+                $info_coordinate = chr(ord('A') + count($header));
+                for($i=0;$i<count($info[$k]);$i++)
                 {
-                    for($i=0;$i<count($item);$i++)
+                    for ($j=0;$j<count($info[$k][$i]);$j++)
                     {
-                        array_push($header,$info_header[$i]);
-                        $excel->getActiveSheet()->setCellValue($coordinate . ($k + 2), $item[$i]);
-                        $coordinate = chr(ord($coordinate) +1);
+                        $excel->getActiveSheet()->setCellValue($info_coordinate . ($k + 2), $info[$k][$i][$j]);
+                        $info_coordinate = chr(ord($info_coordinate) +1);
                     }
+
+
                 }
             }
         }
@@ -175,6 +177,6 @@ class ExcelToArray
             $array[$key][8] = $item['created_at'];
         }
         $info_header = ['商品名','数量'];
-        $this->out($name,$array,$header,$info,$info_header);
+        return $this->out($name,$array,$header,$info,$info_header);
     }
 }

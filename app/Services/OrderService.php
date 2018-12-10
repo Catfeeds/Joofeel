@@ -114,6 +114,7 @@ class OrderService
                 $order = GoodsOrder::where('order_id',$v[0])
                                    ->first();
                 $order['tracking_id'] = $v[1];
+                $order['tracking_company'] = $v[2];
                 $order->save();
             }
         }
@@ -139,7 +140,7 @@ class OrderService
                               ->get();
             $name = '全部订单';
         }
-        (new ExcelToArray())->order($this->transOrderSign($data), $name,$this->orderRecord($data));
+        return (new ExcelToArray())->order($this->transOrderSign($data), $name,$this->orderRecord($data));
     }
 
     /**
@@ -149,17 +150,19 @@ class OrderService
      */
     private function orderRecord($data)
     {
-        $info = [];
+        $info = array();
         foreach ($data as $order)
         {
+            $singleInfo = array();
             $single = OrderId::where('order_id',$order['id'])->get();
-            foreach ($single as $item)
+            foreach ($single as  $item)
             {
                 $goods = Goods::where('id',$item['goods_id'])->first();
                 $record[0]  = $goods['name'];
                 $record[1] = $item['count'];
-                array_push($info,$record);
+                array_push($singleInfo,$record);
             }
+            array_push($info,$singleInfo);
         }
         return $info;
     }
