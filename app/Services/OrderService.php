@@ -84,7 +84,7 @@ class OrderService
                            ->with('user')
                            ->select('id','order_id','tracking_id','price',
                                'sale_price','sale','receipt_name','receipt_address',
-                               'receipt_phone','user_id')
+                               'receipt_phone','user_id','tracking_company')
                            ->where('id',$id)
                            ->first();
         return $order;

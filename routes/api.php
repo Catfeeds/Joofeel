@@ -135,8 +135,22 @@ $api->version('v1', function ($api) {
                 'namespace' => 'App\Http\Controllers\Api\v1',
                 'prefix'    => 'coupon'
             ],function($api){
-            $api->get('all',   'CouponController@all');
-            $api->post('add',  'CouponController@add');
+            $api->get('all',       'CouponController@all');
+            $api->post('add',      'CouponController@add');
+            //下加优惠券
+            $api->post('operate',  'CouponController@operate');
+        });
+
+        /**
+         * Banner
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1',
+                'prefix'    => 'banner'
+            ],function($api){
+            $api->get('all',   'BannerController@all');
+            $api->post('add',  'BannerController@add');
         });
 
     });

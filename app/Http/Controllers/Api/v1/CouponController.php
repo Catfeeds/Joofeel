@@ -52,4 +52,18 @@ class CouponController extends Controller
         $data = $this->service->all($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * 下架优惠券
+     */
+    public function operate()
+    {
+        $this->validate($this->request,
+            [
+
+                'id' => 'required|integer|exists:mysql.coupon,id'
+            ]);
+        $this->service->operate($this->request->input('id'));
+        return ResponseUtil::toJson();
+    }
 }

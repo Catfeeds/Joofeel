@@ -32,4 +32,25 @@ class CouponService
         }
         return $data;
     }
+
+    /**
+     * @param $id
+     * 下架优惠券
+     */
+    public function operate($id)
+    {
+        $coupon = Coupon::where('id',$id)->first();
+        if($coupon['isReceive'] == Coupon::CAN_RECEIVE)
+        {
+            $receive = Coupon::CAN_NOT_RECEIVE;
+        }
+        else
+        {
+            $receive = Coupon::CAN_RECEIVE;
+        }
+        Coupon::where('id',$id)
+              ->update([
+                  'isReceive' => $receive
+              ]);
+    }
 }
