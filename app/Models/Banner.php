@@ -33,6 +33,7 @@ class Banner extends Model
             'goods_id',
             'isPrize',
             'isShow',
+            'image'
         ];
 
     static function get($id)

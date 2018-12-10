@@ -149,8 +149,10 @@ $api->version('v1', function ($api) {
                 'namespace' => 'App\Http\Controllers\Api\v1',
                 'prefix'    => 'banner'
             ],function($api){
+            $api->get('',          'BannerController@get');
             $api->get('all',       'BannerController@all');
             $api->post('add',      'BannerController@add');
+            $api->post('update',   'BannerController@update');
             $api->post('operate',  'BannerController@operate');
             $api->post('upload',   'BannerController@upload');
         });

@@ -60,4 +60,27 @@ class BannerService
             }
         }
     }
+
+    public function add($image,$isPrize,$type,$url)
+    {
+        $this->checkIsFull($isPrize);
+        switch ($type)
+        {
+            case Banner::GOODS_DETAIL:
+                $url = '/pages/details/details?id=' . $url;
+                break;
+            case Banner::ACTIVITY_DETAIL:
+                $url = '/pages/activity/details?id=' . $url;
+                break;
+            case Banner::GOODS_CATEGORY:
+                $url = '/pages/juxiaocang-fenlei/juxiaocang-fenlei?item=' . $url;
+                break;
+        }
+        Banner::create([
+            'image' => $image,
+            'url'   => $url,
+            'isPrize' => $isPrize,
+            'type' => $type
+        ]);
+    }
 }

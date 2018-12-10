@@ -37,9 +37,44 @@ class BannerController extends Controller
         return ResponseUtil::toJson($data);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 获取
+     */
+    public function get()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.banner,id'
+            ]);
+        $data = Banner::get($this->request->input('id'));
+        return ResponseUtil::toJson($data);
+    }
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 添加
+     */
     public function add()
     {
-
+        $this->validate($this->request,
+            [
+                'image'   => 'required|string',
+                'isPrize' => 'required|integer|in:0,1',
+                'type'    => 'required|integer|in:1,2,3',
+                'url'     => 'required'
+            ]);
+        try{
+            $this->service->add(
+                $this->request->input('image'),
+                $this->request->input('isPrize'),
+                $this->request->input('type'),
+                $this->request->input('url')
+            );
+        }catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
     }
 
     /**
@@ -53,7 +88,34 @@ class BannerController extends Controller
 
                 'id' => 'required|integer|exists:mysql.banner,id'
             ]);
-        $this->service->operate($this->request->input('id'));
+        try{
+            $this->service->operate($this->request->input('id'));
+        }catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 修改
+     */
+    public function update()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.banner,id',
+                'image'   => 'required|string',
+                'isPrize' => 'required|integer|in:0,1',
+                'type'    => 'required|integer|in:1,2,3',
+                'url'     => 'required'
+            ]);
+        $data = $this->request->all();
+        unset($data['file']);
+        unset($data['token']);
+        Banner::where('id',$this->request->input('id'))->update($data);
         return ResponseUtil::toJson();
     }
 
