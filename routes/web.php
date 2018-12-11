@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 Route::group([
-    'namespace' => '\Api\v1'
+    'namespace' => '\Api\v1\Config'
 ],function(){
-    Route::get('test','IndexController@salePercent');
+    Route::get('title','ConfigController@title');
 });
 
