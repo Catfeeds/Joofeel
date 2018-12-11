@@ -74,8 +74,17 @@ class RefundService
         throw new AppException($result['err_code_des']);
     }
 
-    public function refuse()
+    /**
+     * @param $id
+     * @param $refuseReason
+     * 拒绝
+     */
+    public function refuse($id,$refuseReason)
     {
-
+        RefundOrder::where('id',$id)
+                   ->update([
+                       'refuse_reason' => $refuseReason,
+                       'isAgree'       => RefundOrder::DISAGREE
+                   ]);
     }
 }

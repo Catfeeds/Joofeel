@@ -51,4 +51,21 @@ class RefundController extends Controller
         }
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 拒绝
+     */
+    public function refuse()
+    {
+        $this->validate($this->request,
+            [
+                'id'            => 'exists:mysql.refund_order,id',
+                'refuse_reason' => 'required|string'
+            ]);
+        $this->service->refuse(
+            $this->request->input('id'),
+            $this->request->input('refuse_reason'));
+        return ResponseUtil::toJson();
+    }
 }
