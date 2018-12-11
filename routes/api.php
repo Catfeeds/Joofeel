@@ -68,6 +68,18 @@ $api->version('v1', function ($api) {
                 $api->post('operate', 'RecommendController@operate');
                 $api->post('order',   'RecommendController@order');
             });
+            /**
+             * 推荐
+             */
+            $api->group(
+                [
+                    'prefix' => 'label'
+                ], function ($api) {
+                $api->get('get',       'LabelController@get');
+                $api->post('update',   'LabelController@update');
+                $api->post('add',      'LabelController@add');
+                $api->delete('delete', 'LabelController@delete');
+            });
         });
 
         /**
