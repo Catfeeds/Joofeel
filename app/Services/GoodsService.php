@@ -182,15 +182,21 @@ class GoodsService
      */
     public function recommendOperate($id)
     {
-
+        $max = Recommend::max('order');
         $record = Recommend::where('goods_id',$id)->first();
         if($record)
         {
+            for ($i=$record['order']+1;$i<=$max;$i++)
+            {
+                $recommend = Recommend::getByOrder($i);
+                $recommend['order'] -= 1;
+                $recommend->save();
+            }
             $record->delete();
         }
         else
         {
-            $max = Recommend::max('order');
+
             Recommend::create([
                 'goods_id' => $id,
                 'order'    => $max + 1

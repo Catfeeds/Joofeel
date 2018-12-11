@@ -14,6 +14,9 @@ use App\Models\Title;
 
 class ConfigController extends Controller
 {
+    /**
+     * 今日推荐(定时任务)
+     */
     public function title()
     {
         $title = Title::where('isShow', 0)
