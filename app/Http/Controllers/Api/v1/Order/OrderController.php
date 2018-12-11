@@ -6,12 +6,12 @@
  * Time: 12:05
  */
 
-namespace App\Http\Controllers\Api\v1;
-
+namespace App\Http\Controllers\Api\v1\Order;
 
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
-use App\Services\OrderService;
+use App\Services\Order\OrderExcelService;
+use App\Services\Order\OrderService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
@@ -54,12 +54,12 @@ class OrderController extends Controller
             ]);
         try
         {
-            $data = $this->order->delivery($this->request->input('id'));
+            $this->order->delivery($this->request->input('id'));
         }catch (AppException $exception)
         {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
         }
-        return ResponseUtil::toJson($data);
+        return ResponseUtil::toJson();
     }
 
     /**
@@ -84,11 +84,13 @@ class OrderController extends Controller
     {
         $this->validate($this->request,[
             'id'          => 'required|exists:mysql.goods_order,id',
-            'tracking_id' => 'required|string'
+            'tracking_id' => 'required|string',
+            'tracking_company' => 'required|string'
         ]);
         $this->order->update(
             $this->request->input('id'),
-            $this->request->input('tracking_id'));
+            $this->request->input('tracking_id'),
+            $this->request->input('tracking_company'));
         return ResponseUtil::toJson();
     }
 
@@ -98,7 +100,7 @@ class OrderController extends Controller
      */
     public function updateExcel()
     {
-        $this->order->updateExcel();
+        (new OrderExcelService())->updateExcel();
         return ResponseUtil::toJson();
     }
 
@@ -112,6 +114,6 @@ class OrderController extends Controller
             [
                 'sign' => 'required|in:0,1'
             ]);
-       $this->order->getOrderExcel($this->request->input('sign'));
+        (new OrderExcelService())->getOrderExcel($this->request->input('sign'));
     }
 }

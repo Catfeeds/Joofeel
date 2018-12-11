@@ -64,7 +64,6 @@ class CreateTableOrder extends Migration
         Schema::create('refund_order',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
-            $t->integer('user_id')->index()->nullable();
             $t->integer('order_id')->index()->nullable();
             $t->string('refundNumber',32); //自己生成的退款订单号
             $t->string('refund_reason')->nullable();

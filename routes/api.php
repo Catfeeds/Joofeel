@@ -102,7 +102,7 @@ $api->version('v1', function ($api) {
          */
         $api->group(
             [
-                'namespace'  => 'App\Http\Controllers\Api\v1',
+                'namespace'  => 'App\Http\Controllers\Api\v1\Order',
                 'prefix' => 'order'
             ],function ($api){
             //获取不同状态下的订单
