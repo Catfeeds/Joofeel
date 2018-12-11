@@ -55,6 +55,20 @@ class OrderService
         return $query;
     }
 
+    /**
+     * @param $content
+     * @param $limit
+     * @return mixed
+     * 搜索
+     */
+    public function search($content,$limit)
+    {
+        $data = GoodsOrder::where('order_id','like','%'.$content.'%')
+                          ->orWhere('receipt_name','like','%'.$content.'%')
+                          ->paginate($limit);
+        return $data;
+    }
+
 
     /**
      * @param $id

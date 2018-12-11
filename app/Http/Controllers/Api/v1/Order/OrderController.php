@@ -44,6 +44,18 @@ class OrderController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
+     * 搜索
+     */
+    public function search()
+    {
+        $data = $this->order->search(
+            $this->request->input('content'),
+            $this->request->input('limit'));
+        return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
      * 发货
      */
     public function delivery()
