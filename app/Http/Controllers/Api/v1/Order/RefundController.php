@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api\v1\Order;
 
+use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Services\Order\RefundService;
 use App\Utils\ResponseUtil;
@@ -22,9 +23,32 @@ class RefundController extends Controller
         parent::__construct($req);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 获取
+     */
     public function get()
     {
         $data = $this->service->get($this->request->input('limit'));
         return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 同意
+     */
+    public function agree()
+    {
+        $this->validate($this->request,
+            [
+               'id' => 'exists:mysql.refund_order,id'
+            ]);
+        try {
+            $this->service->agree($this->request->input('id'));
+        }
+        catch (AppException $exception) {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
     }
 }
