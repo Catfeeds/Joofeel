@@ -27,7 +27,7 @@ class IndexService
         $date = Common::getWeeks();
         foreach ($date as $key => $item)
         {
-            $data[$key]['date'] = $item;
+            $data[$key]['date'] = date('m-d',strtotime($item));
             $now = date('Y-m-d H:i:s',strtotime($item));
             $next = $this->getNextDate($item);
             $data[$key]['count'] = User::whereBetween('created_at',[$now,$next])
@@ -73,16 +73,16 @@ class IndexService
             switch ($item['category_id'])
             {
                 case Goods::BEER:
-                    $result['beer'] += $item['price'];
+                    $result['beer'] = bcadd($result['beer'],$item['price'],1);
                     break;
                 case Goods::WINE:
-                    $result['wine'] += $item['price'];
+                    $result['wine'] = bcadd($result['wine'],$item['price'],1);
                     break;
                 case Goods::DRINKS:
-                    $result['drinks'] += $item['price'];
+                    $result['drinks'] = bcadd($result['drinks'],$item['price'],1);
                     break;
                 case Goods::SNACKS:
-                    $result['snacks'] += $item['price'];
+                    $result['snacks'] = bcadd($result['snacks'],$item['price'],1);
                     break;
             }
         }
