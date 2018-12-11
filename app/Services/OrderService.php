@@ -9,11 +9,14 @@
 namespace App\Services;
 
 use App\Exceptions\AppException;
-use App\Http\Controllers\Controller;
 use App\Models\Goods\Goods;
 use App\Models\Order\GoodsOrder;
 use App\Models\Order\OrderId;
-use PHPExcel;
+use App\Models\User\User;
+
+
+
+
 
 class OrderService
 {
@@ -27,17 +30,23 @@ class OrderService
     {
         if($sign == 0)
         {
-            $order = GoodsOrder::where('isSign',$sign)
-                               ->where('isPay',GoodsOrder::PAID)
-                               ->orderByDesc('created_at')
-                               ->paginate($limit);
+            $order = $this->query()
+                          ->where('isSign',GoodsOrder::NOTDELIVERY)
+                          ->paginate($limit);
             return $order;
         }
+
+        else if($sign == 3)
+        {
+            $order = $this->query()
+                          ->where('isSign',GoodsOrder::DELIVERIED)
+                          ->paginate($limit);
+            return $order;
+        }
+
         else if($sign == 1)
         {
-            $order = GoodsOrder::where('isPay',GoodsOrder::PAID)
-                               ->orderByDesc('created_at')
-                               ->paginate($limit);
+            $order = $this->query()->paginate($limit);
             return $order;
         }
         $order = GoodsOrder::where('isPay',GoodsOrder::UNPAID)
@@ -46,6 +55,14 @@ class OrderService
                            ->paginate($limit);
         return $order;
     }
+
+    private function query()
+    {
+        $query = GoodsOrder::where('isPay',GoodsOrder::PAID)
+                           ->orderByDesc('created_at');
+        return $query;
+    }
+
 
     /**
      * @param $id
@@ -60,6 +77,11 @@ class OrderService
         {
             $order['isSign'] = GoodsOrder::DELIVERIED;
             $order->save();
+            $user = User::where('id',$order['user_id'])
+                        ->select('openid')
+                        ->first();
+            (new Message())->sendOrderMessage($order,$user['openid']);
+            //$this->prepareMessageData($order);
         }
         else
         {
@@ -140,7 +162,7 @@ class OrderService
                               ->get();
             $name = '全部订单';
         }
-        return (new ExcelToArray())->order($this->transOrderSign($data), $name,$this->orderRecord($data));
+        (new ExcelToArray())->order($this->transOrderSign($data), $name,$this->orderRecord($data));
     }
 
     /**

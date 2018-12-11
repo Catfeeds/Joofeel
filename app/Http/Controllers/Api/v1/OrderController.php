@@ -33,7 +33,7 @@ class OrderController extends Controller
     {
         $this->validate($this->request,
             [
-                'sign' => 'required|in:0,1,2'
+                'sign' => 'required|in:0,1,2,3'
             ]);
         $data = $this->order->get(
             $this->request->input('sign'),
@@ -54,12 +54,12 @@ class OrderController extends Controller
             ]);
         try
         {
-            $this->order->delivery($this->request->input('id'));
+            $data = $this->order->delivery($this->request->input('id'));
         }catch (AppException $exception)
         {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
         }
-        return ResponseUtil::toJson();
+        return ResponseUtil::toJson($data);
     }
 
     /**

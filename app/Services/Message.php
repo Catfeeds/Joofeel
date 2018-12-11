@@ -9,7 +9,14 @@
 namespace App\Services;
 
 use App\Exceptions\AppException;
+use App\Models\Goods\Goods;
+use App\Models\Order\OrderId;
+use App\Models\User\User;
 use EasyWeChat\Factory;
+
+const ORDER_SELF_TEMPLATE_ID = 'thVitw3RNsJL8Zp9XJHoyol1qJL7UOBx3_E5EXMfyQg';
+const ORDER_OTHER_TEMPLATE_ID = 'thVitw3RNsJL8Zp9XJHoyldQqz8PiSU9_E3isTmPJHU';
+const PRIZE_TEMPLATE_ID = 'V4jut_BN7CVL4xQ-VV7k28H3h9eIjRlD030njTKFGMI';
 
 
 class Message
@@ -32,7 +39,7 @@ class Message
         {
             $data = $this->app->template_message->send([
                 'touser' => $item['user']['openid'],
-                'template_id' => 'V4jut_BN7CVL4xQ-VV7k28H3h9eIjRlD030njTKFGMI',
+                'template_id' => PRIZE_TEMPLATE_ID,
                 'url' => '/pages/shishouqi2/shishouqi2?id=' . $id,
                 'form_id' => $item['form_id'],
                 'data' => [
@@ -47,10 +54,80 @@ class Message
                     ],
                 ],
             ]);
-            if($data['errorcode'] != 0)
+            if($data['errcode'] != 0)
             {
                 throw new AppException($data['errmsg']);
             }
         }
     }
+
+
+    public function sendOrderMessage($order,$openId)
+    {
+        $record = OrderId::where('order_id',$order['id'])->get();
+        if(count($record) == 1)
+        {
+            $goods = Goods::where('id',$record[0]['goods_id'])
+                          ->select('name')
+                          ->first();
+            $data = [
+                'keyword1' => [
+                    'value' => '您在聚Feel小程序上购买的商品已发货,请注意查收'
+                ],
+                'keyword2' => [
+                    'value' => $order['order_id']
+                ],
+                'keyword3' => [
+                    'value' => $order['tracking_company']
+                ],
+                'keyword4' => [
+                    'value' => $order['tracking_id']
+                ],
+                'keyword5' => [
+                    'value' => '详询客服(工作日 10:00-18:00)'
+                ],
+                'keyword6' => [
+                    'value' => $goods['name']
+                ],
+                'keyword7' => [
+                    'value' => $order['receipt_address']
+                ]
+            ];
+            $tpl_id = ORDER_SELF_TEMPLATE_ID;
+        }
+        else
+        {
+            $data = [
+                'keyword1' => [
+                    'value' => '您在聚Feel小程序上购买的商品已发货,请注意查收'
+                ],
+                'keyword2' => [
+                    'value' => $order['order_id']
+                ],
+                'keyword3' => [
+                    'value' => '详询客服(工作日 10:00-18:00)'
+                ],
+                'keyword4' => [
+                    'value' => '详询客服(工作日 10:00-18:00)'
+                ],
+                'keyword5' => [
+                    'value' => $order['receipt_address']
+                ]
+            ];
+            $tpl_id = ORDER_OTHER_TEMPLATE_ID;
+        }
+        $result = $this->app->template_message->send([
+            'touser' =>$openId,
+            'template_id' => $tpl_id,
+            'url' => '/pages/mystore/mystore',
+            'form_id' => $order['prepay_id'],
+            'data' => $data
+        ]);
+        if($result['errcode'] != 0)
+        {
+            throw new AppException($result['errmsg']);
+        }
+        return $result;
+    }
+
 }
