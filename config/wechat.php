@@ -110,8 +110,8 @@ return [
              'app_id'             => 'wx35c845c26c3c6c61',
              'mch_id'             => '1514406151',
              'key'                => 'Jufeel20180808Jufeel20180808feel',
-             'cert_path'          => 'path/to/cert/apiclient_cert.pem',    // XXX: 绝对路径！！！！
-             'key_path'           => 'path/to/cert/apiclient_key.pem',      // XXX: 绝对路径！！！！
+             'cert_path'          => '../cert/apiclient_cert.pem',    // XXX: 绝对路径！！！！
+             'key_path'           => '../cert/apiclient_key.pem',      // XXX: 绝对路径！！！！
              'notify_url'         => 'jufeel.jufeeling.com/pay/notify',                           // 默认支付结果通知地址
          ],
          // ...

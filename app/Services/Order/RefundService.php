@@ -45,19 +45,19 @@ class RefundService
         $record = RefundOrder::leftJoin('goods_order as g','g.id','=','refund_order.order_id')
                              ->where('refund_order.id',$id)
                              ->select('refund_order.refundNumber', 'g.prepay_id',
-                                 'g.sale_price','g.id as order_id')
+                                 'g.sale_price','g.order_id as order_id')
                              ->first();
         if($record['isAgree'] != RefundOrder::UNTREATED)
         {
             throw new AppException('该订单已被处理');
         }
-        $result = $this->app->refund->byTransactionId(
-            $record['prepay_id'],
+        $result = $this->app->refund->byOutTradeNumber(
+            $record['order_id'],
             $record['refundNumber'],
-            $record['sale_price'],
-            $record['sale_price']
+            $record['sale_price'] * 100,
+            $record['sale_price'] * 100
         );
-        if($result['return_code'] === 'SUCCESS')
+        if($result['result_code'] === 'SUCCESS')
         {
             $record['isAgree'] = RefundOrder::AGREE;
             $record->save();
@@ -71,7 +71,7 @@ class RefundService
                     ]);
             return true;
         }
-        throw new AppException('退款失败');
+        throw new AppException($result['err_code_des']);
     }
 
     public function refuse()

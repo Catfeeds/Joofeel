@@ -44,11 +44,11 @@ class RefundController extends Controller
                'id' => 'exists:mysql.refund_order,id'
             ]);
         try {
-            $this->service->agree($this->request->input('id'));
+            $data = $this->service->agree($this->request->input('id'));
         }
         catch (AppException $exception) {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
         }
-        return ResponseUtil::toJson();
+        return ResponseUtil::toJson($data);
     }
 }
