@@ -104,6 +104,7 @@ class CreateTableGoods extends Migration
         Schema::create('recommend',function (Blueprint $t){
             $t->increments('id');
             $t->integer('goods_id');
+            $t->integer('order');
             $t->timestamps();
         });
     }

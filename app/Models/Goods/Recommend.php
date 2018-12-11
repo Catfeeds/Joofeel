@@ -19,12 +19,17 @@ class Recommend extends Model
     public $timestamps = false;
     protected $fillable = [
         'id',
-        'created_at',
-        'updated_at',
+        'order',
         'goods_id'
     ];
     public function goods(){
         return $this->belongsTo(Goods::class,'goods_id','id');
+    }
+
+    static function getByOrder($order)
+    {
+        $record = self::where('order',$order)->first();
+        return $record;
     }
 
 }

@@ -17,19 +17,70 @@ use App\Models\Goods\Recommend;
 define('add',0);
 define('change',1);
 
+define('TOP',0);
+define('BOTTOM',1);
+define('START_RECOMMEND',1);
+
 class GoodsService
 {
     public function recommend($limit)
     {
         /**
-         *推荐商品
+         *获取推荐商品
          */
         $data = Recommend::leftJoin('goods as g','g.id','=','recommend.goods_id')
                          ->where('g.isShelves',Goods::SHELVES)
                          ->select('g.id','g.name','g.goods_id','g.thu_url','g.stock',
-                             'g.category_id as category','g.price','g.sale_price','g.isShelves')
+                             'g.category_id as category','g.price','g.sale_price','g.isShelves','recommend.order')
+                         ->orderBy('recommend.order','asc')
                          ->paginate($limit);
+        foreach ($data as $item)
+        {
+            $max = Recommend::max('order');
+            if($item['order'] == $max)
+            {
+                $item['last'] = true;
+            }
+            else
+            {
+                $item['last'] = false;
+            }
+        }
         return $data;
+    }
+
+    /**
+     * @param $data
+     * @throws AppException
+     * 调整顺序
+     */
+    public function order($data)
+    {
+        $record = Recommend::getByOrder($data['order']);
+        if($data['type'] == TOP)
+        {
+            if($record['order'] == START_RECOMMEND)
+            {
+                throw new AppException('不能上移');
+            }
+            $lastRecord = Recommend::getByOrder($record['order'] - 1);
+            $record['order'] -= 1;
+            $lastRecord['order'] += 1;
+            $lastRecord->save();
+        }
+        else
+        {
+            $max = Recommend::max('order');
+            if($record['order'] == $max)
+            {
+                throw new AppException('不能下移');
+            }
+            $nextRecord = Recommend::getByOrder($record['order'] + 1);
+            $record['order'] += 1;
+            $nextRecord['order'] -= 1;
+            $nextRecord->save();
+        }
+        $record->save();
     }
 
     /**
@@ -131,12 +182,18 @@ class GoodsService
      */
     public function recommendOperate($id)
     {
-        $result = Recommend::where('goods_id',$id)
-                           ->delete();
-        if(!$result)
+
+        $record = Recommend::where('goods_id',$id)->first();
+        if($record)
         {
+            $record->delete();
+        }
+        else
+        {
+            $max = Recommend::max('order');
             Recommend::create([
-                'goods_id' => $id
+                'goods_id' => $id,
+                'order'    => $max + 1
             ]);
         }
     }

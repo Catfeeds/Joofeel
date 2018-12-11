@@ -66,6 +66,7 @@ $api->version('v1', function ($api) {
                 ], function ($api) {
                 $api->get('',         'RecommendController@recommend');
                 $api->post('operate', 'RecommendController@operate');
+                $api->post('order',   'RecommendController@order');
             });
         });
 
