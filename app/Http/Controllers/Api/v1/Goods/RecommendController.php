@@ -10,14 +10,14 @@ namespace App\Http\Controllers\Api\v1\Goods;
 
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
-use App\Services\GoodsService;
+use App\Services\Goods\RecommendService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
 class RecommendController extends Controller
 {
     private $service;
-    public function __construct(Request $req,GoodsService $service)
+    public function __construct(Request $req,RecommendService $service)
     {
         $this->service = $service;
         parent::__construct($req);

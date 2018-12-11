@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Api\v1\Goods;
 
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
-use App\Services\GoodsService;
+use App\Services\Goods\GoodsService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
@@ -23,7 +23,6 @@ class GoodsController extends Controller
         $this->service = $service;
         parent::__construct($req);
     }
-
 
     /**
      * @return \Illuminate\Http\JsonResponse
