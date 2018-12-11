@@ -81,7 +81,6 @@ class OrderService
                         ->select('openid')
                         ->first();
             (new Message())->sendOrderMessage($order,$user['openid']);
-            //$this->prepareMessageData($order);
         }
         else
         {
@@ -109,6 +108,13 @@ class OrderService
                                'receipt_phone','user_id','tracking_company')
                            ->where('id',$id)
                            ->first();
+        foreach ($order['goods'] as $item)
+        {
+            $item['thu_url'] = $item['goods']['thu_url'];
+            $item['price'] = $item['goods']['price'];
+            $item['name'] = $item['goods']['name'];
+            unset($item['id'],$item['order_id'],$item['goods_id'],$item['goods']);
+        }
         return $order;
     }
 
