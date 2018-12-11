@@ -125,6 +125,17 @@ $api->version('v1', function ($api) {
             });
             //获取订单的Excel(未发货,全部)
             $api->get('excel',     'OrderController@orderExcel');
+
+            /**
+             * 退款
+             */
+            $api->group([
+                'prefix'    => 'refund'
+            ],function ($api){
+                $api->get('get',     'RefundController@get');
+                $api->post('refuse', 'RefundController@refuse');
+                $api->post('agree',  'RefundController@agree');
+            });
         });
 
         /**

@@ -40,16 +40,16 @@ class Message
             $data = $this->app->template_message->send([
                 'touser' => $item['user']['openid'],
                 'template_id' => PRIZE_TEMPLATE_ID,
-                'url' => '/pages/shishouqi2/shishouqi2?id=' . $id,
+                'page' => '/pages/shishouqi2/shishouqi2?id=' . $id,
                 'form_id' => $item['form_id'],
                 'data' => [
-                    'key1' => [
+                    'keyword1' => [
                         'value' => '你参加的抽奖已经开奖，点击查看幸运锦鲤是不是你'
                     ],
-                    'key2' => [
+                    'keyword2' => [
                         'value' => '如果你是幸运锦鲤，请通过小程序“我的-联系客服”领奖吧'
                     ],
-                    'key3' => [
+                    'keyword3' => [
                         'value' => '请于开奖后3个工作日内联系客服领奖，逾期作废呢'
                     ],
                 ],
@@ -119,7 +119,7 @@ class Message
         $result = $this->app->template_message->send([
             'touser' =>$openId,
             'template_id' => $tpl_id,
-            'url' => '/pages/mystore/mystore',
+            'page' => '/pages/mystore/mystore',
             'form_id' => $order['prepay_id'],
             'data' => $data
         ]);
