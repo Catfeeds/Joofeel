@@ -18,7 +18,6 @@ class Admin extends Authenticatable
         'account',
         'password',
         'nickname',
-        'name'
     ];
     const ALLOW = 0;
     const BANED = 1;

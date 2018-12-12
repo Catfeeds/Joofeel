@@ -55,11 +55,14 @@ class AuthController extends Controller
                 'account'  => 'required|string',
                 'password' => 'required|string',
                 'nickname' => 'required|string',
-                'name'     => 'required|string',
             ]);
+        $admin = Admin::getAdminByToken($this->request->input('token'));
+        if($admin['scope'] < 64)
+        {
+            return ResponseUtil::toJson('','你没有权限执行此操作',201);
+        }
         try{
             $service->reg(
-                $this->request->input('name'),
                 $this->request->input('account'),
                 $this->request->input('password'),
                 $this->request->input('nickname'));

@@ -234,6 +234,14 @@ $api->version('v1', function ($api) {
                 'prefix' => 'admin'
             ], function ($api) {
             $api->post('login', 'AuthController@login');
+            $api->group(
+                [
+                    'middleware' => 'token',
+                    'prefix'     => 'reg'
+                ],function ($api){
+                $api->post('',   'AuthController@reg');
+            });
+
         });
     });
 

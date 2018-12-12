@@ -48,11 +48,10 @@ class AdminService
      * @param $account
      * @param $password
      * @param $nickname
-     * @param $name
      * @throws AppException
      * 注册
      */
-    public function reg($name,$account,$password,$nickname)
+    public function reg($account,$password,$nickname)
     {
         $record = Admin::getAdminByAccount($account);
         if($record)
@@ -60,7 +59,6 @@ class AdminService
             throw new AppException('该账号已被注册');
         }
         Admin::create([
-            'name'      => $name,
             'account'   => $account,
             'password'  => md5($password),
             'nickname'  => $nickname,
