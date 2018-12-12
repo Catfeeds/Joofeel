@@ -33,7 +33,7 @@ class OrderController extends Controller
     {
         $this->validate($this->request,
             [
-                'sign' => 'required|in:0,1,2,3'
+                'sign' => 'required|in:0,1,2,3,4'
             ]);
         $data = $this->order->get(
             $this->request->input('sign'),
