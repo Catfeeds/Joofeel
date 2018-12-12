@@ -14,6 +14,7 @@ use App\Services\Token\UserToken;
 
 define('UP', 1);
 define('DOWN' , 0);
+
 class AdminService
 {
     /**

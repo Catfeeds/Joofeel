@@ -34,6 +34,7 @@ class CouponController extends Controller
                 'species'  => 'required|integer|in:0,1',
                 'rule'     => 'required|integer',
                 'sale'     => 'required|integer|min:0',
+                'isPoint'  => 'required|integer|in:0,1',
                 'start_time' => 'required',
                 'end_time' => 'required',
                 'day'      => 'required|integer|min:0',

@@ -16,6 +16,9 @@ class Coupon extends Model
     const CAN_RECEIVE = 0;
     const CAN_NOT_RECEIVE = 1;
 
+    const NOT_POINT = 0;
+    const POINT = 1;
+
     protected $table = 'coupon';
 
     public $timestamps = false;
@@ -29,6 +32,7 @@ class Coupon extends Model
             'day',
             'count',
             'isReceive',
+            'isPoint',
             'start_time',
             'end_time'
         ];

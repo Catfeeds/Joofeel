@@ -23,7 +23,7 @@ class CouponService
     {
         $data = Coupon::orderByDesc('start_time')
                       ->select('id','sale','rule','species','category','day',
-                          'count','start_time','end_time','isReceive')
+                          'count','start_time','end_time','isReceive','isPoint')
                       ->paginate($limit);
         foreach ($data as $item)
         {
