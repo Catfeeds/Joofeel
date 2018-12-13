@@ -76,4 +76,12 @@ class CouponService
         }
     }
 
+    public function update($id,$count)
+    {
+        Coupon::where('id',$id)
+              ->update([
+                  'count' => $count
+              ]);
+    }
+
 }

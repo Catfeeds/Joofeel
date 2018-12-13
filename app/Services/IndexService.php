@@ -55,7 +55,7 @@ class IndexService
     {
         $data = OrderId::leftJoin('goods as g','g.id','=','order_id.goods_id')
                        ->where('order_id.isPay',OrderId::PAID)
-                       ->select('g.category_id','order_id.price')
+                       ->select('g.category_id','order_id.price','order_id.count')
                        ->get();
         return $this->categorySale($data);
     }
@@ -70,19 +70,23 @@ class IndexService
         $result['beer'] = $result['wine'] = $result['drinks'] = $result['snacks'] = 0;
         foreach ($data as $item)
         {
+            $nowPrice = bcmul ($item['price'],$item['count'],1);
             switch ($item['category_id'])
             {
                 case Goods::BEER:
-                    $result['beer'] = bcadd($result['beer'],$item['price'],1);
+                    $result['beer'] = bcadd($result['beer'],$nowPrice,1);
                     break;
                 case Goods::WINE:
-                    $result['wine'] = bcadd($result['wine'],$item['price'],1);
+
+                    $result['wine'] = bcadd($result['wine'],$nowPrice,1);
                     break;
                 case Goods::DRINKS:
-                    $result['drinks'] = bcadd($result['drinks'],$item['price'],1);
+
+                    $result['drinks'] = bcadd($result['drinks'],$nowPrice,1);
                     break;
                 case Goods::SNACKS:
-                    $result['snacks'] = bcadd($result['snacks'],$item['price'],1);
+
+                    $result['snacks'] = bcadd($result['snacks'],$nowPrice,1);
                     break;
             }
         }

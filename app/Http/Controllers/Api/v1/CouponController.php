@@ -80,4 +80,21 @@ class CouponController extends Controller
         $this->service->send($this->request->input('id'));
         return ResponseUtil::toJson();
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 修改数量
+     */
+    public function update()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.coupon,id',
+                'count' => 'required|integer|min:0'
+            ]);
+        $this->service->update(
+            $this->request->input('id'),
+            $this->request->input('count'));
+        return ResponseUtil::toJson();
+    }
 }

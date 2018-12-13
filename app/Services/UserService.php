@@ -15,7 +15,6 @@ use App\Models\User\User;
 use App\Models\User\UserCoupon;
 use App\Utils\Common;
 
-
 define('DAY_TIMESTAMP', 86400);
 
 class UserService
@@ -23,9 +22,9 @@ class UserService
     public function get($limit)
     {
         $user = User::withCount('host')
-            ->withCount('join')
-            ->where('nickname', '!=', '')
-            ->paginate($limit);
+                    ->withCount('join')
+                    ->where('nickname', '!=', '')
+                    ->paginate($limit);
         return $this->getUserPrice($user);
     }
 
@@ -40,10 +39,14 @@ class UserService
         $coupon = $this->query()
                        ->where('id', $coupon_id)
                        ->first();
-        if ($coupon) {
-            if ($coupon['species'] == Coupon::FIXED) {
+        if ($coupon)
+        {
+            if ($coupon['species'] == Coupon::FIXED)
+            {
                 $endTime = $coupon['end_time'];
-            } else {
+            }
+            else
+            {
                 //从当前时间开始计算
                 $start = strtotime(date("Y-m-d"), time());
                 $add = DAY_TIMESTAMP * $coupon['day'];
@@ -57,7 +60,9 @@ class UserService
             ]);
             $coupon['count'] -= 1;
             $coupon->save();
-        } else {
+        }
+        else
+        {
             throw new AppException('该优惠券无法派送,可能已下架');
         }
     }
@@ -70,15 +75,17 @@ class UserService
     public function getUserCoupon($user_id)
     {
         $data = $this->query()
-            ->where('end_time', '>', time())
-            ->get()
-            ->toArray();
+                     ->where('end_time', '>', time())
+                     ->get()
+                     ->toArray();
         $result = array();
-        foreach ($data as $key => $item) {
+        foreach ($data as $key => $item)
+        {
             $record = UserCoupon::getCoupon($item['id'], $user_id);
-            if (!$record) {
+            if (!$record)
+            {
                 $data[$key]['start_time'] = date('Y-m-d H:i', $data[$key]['start_time']);
-                $data[$key]['end_time'] = date('Y-m-d H:i', $data[$key]['end_time']);
+                $data[$key]['end_time']   = date('Y-m-d H:i', $data[$key]['end_time']);
                 array_push($result, $data[$key]);
             }
         }
@@ -93,12 +100,15 @@ class UserService
      */
     private function getUserPrice($user)
     {
-        foreach ($user as $item) {
+        foreach ($user as $item)
+        {
             $order = GoodsOrder::where('user_id', $item['id'])
-                ->select('sale_price')
-                ->get();
+                               ->where('isPay',GoodsOrder::PAID)
+                               ->select('sale_price')
+                               ->get();
             $item['price'] = 0;
-            foreach ($order as $item_price) {
+            foreach ($order as $item_price)
+            {
                 $item['price'] = bcadd($item['price'], $item_price['sale_price'], 1);
             }
         }
@@ -108,9 +118,9 @@ class UserService
     private function query()
     {
         $query = Coupon::where('isReceive', Coupon::CAN_RECEIVE)
-            ->where('count', '>', 0)
-            ->select('id', 'species', 'day', 'count', 'start_time', 'end_time',
-                'rule', 'sale', 'category', 'isPoint');
+                       ->where('count', '>', 0)
+                       ->select('id', 'species', 'day', 'count', 'start_time', 'end_time',
+                           'rule', 'sale', 'category', 'isPoint');
         return $query;
     }
 
