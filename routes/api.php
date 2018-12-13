@@ -190,7 +190,14 @@ $api->version('v1', function ($api) {
                 'namespace' => 'App\Http\Controllers\Api\v1',
                 'prefix'    => 'user'
             ],function($api){
-            $api->get('',          'UserController@get');
+            $api->get('get',           'UserController@get');
+            $api->group([
+                'prefix' => 'coupon'
+            ],function ($api){
+                $api->get('get',    'UserController@getUserCoupon');
+                $api->post('send',  'UserController@sendCoupon');
+            });
+
         });
 
 

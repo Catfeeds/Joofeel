@@ -19,6 +19,9 @@ class Coupon extends Model
     const NOT_POINT = 0;
     const POINT = 1;
 
+    const FIXED = 2;
+    const NOT_FIXED = 1;
+
     protected $table = 'coupon';
 
     public $timestamps = false;
