@@ -22,13 +22,22 @@ class PartyService
 
     /**
      * @param $limit
+     * @param $sign
      * @return mixed
-     * 获取
+     * 获取聚会
      */
-    public function get($limit)
+    public function get($limit,$sign)
     {
-        $data = $this->query()
-                     ->paginate($limit);
+        if($sign == 0)
+        {
+            $data = $this->query()
+                         ->paginate($limit);
+        }
+        else
+        {
+            $data = $this->query()->where('u.id',$sign)
+                                  ->paginate($limit);
+        }
         return $this->htmlEntityDecode($data);
     }
 
@@ -54,11 +63,12 @@ class PartyService
      */
     private function query()
     {
-        $query = $data = Party::leftJoin('user as u','u.id','=','party.id')
+        $query = $data = Party::leftJoin('user as u','u.id','=','party.user_id')
                               ->select('u.avatar','u.nickname','u.id as user_id',
                                         'party.id as party_id','party.image','party.description',
                                         'party.people_no','party.remaining_people_no','party.start_time',
-                                        'party.site');
+                                        'party.site','party.image')
+                              ->orderByDesc('party.start_time');
         return $query;
     }
 }

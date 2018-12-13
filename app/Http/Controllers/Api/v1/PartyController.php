@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-
 use App\Http\Controllers\Controller;
 use App\Services\PartyService;
 use App\Utils\ResponseUtil;
@@ -45,7 +44,13 @@ class PartyController extends Controller
      */
     public function get()
     {
-        $data = $this->service->get($this->request->input('limit'));
+        $this->validate($this->request,
+            [
+                'sign' => 'required|integer|min:0'
+            ]);
+        $data = $this->service->get(
+            $this->request->input('limit'),
+            $this->request->input('sign'));
         return ResponseUtil::toJson($data);
     }
 }
