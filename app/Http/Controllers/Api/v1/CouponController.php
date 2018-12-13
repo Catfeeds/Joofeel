@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-
 use App\Http\Controllers\Controller;
 use App\Services\CouponService;
 use App\Utils\ResponseUtil;
@@ -65,6 +64,20 @@ class CouponController extends Controller
                 'id' => 'required|integer|exists:mysql.coupon,id'
             ]);
         $this->service->operate($this->request->input('id'));
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 发送优惠券
+     */
+    public function send()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.coupon,id'
+            ]);
+        $this->service->send($this->request->input('id'));
         return ResponseUtil::toJson();
     }
 }

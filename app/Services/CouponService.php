@@ -8,7 +8,10 @@
 
 namespace App\Services;
 
+use App\Exceptions\AppException;
 use App\Models\Coupon\Coupon;
+use App\Models\User\User;
+use App\Models\User\UserCoupon;
 
 class CouponService
 {
@@ -53,4 +56,25 @@ class CouponService
                   'isReceive' => $receive
               ]);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     * 发放优惠券
+     */
+    public function send($id)
+    {
+        $user = User::select('id')->get();
+        foreach ($user as $item)
+        {
+            $record = UserCoupon::where('user_id',$item['id'])
+                                ->where('coupon_id',$id)
+                                ->first();
+            if(!$record)
+            {
+                (new UserService())->sendCoupon($item['id'],$id);
+            }
+        }
+    }
+
 }

@@ -164,6 +164,7 @@ $api->version('v1', function ($api) {
             $api->post('add',      'CouponController@add');
             //下加优惠券
             $api->post('operate',  'CouponController@operate');
+            $api->post('send',     'CouponController@send');
         });
 
         /**
