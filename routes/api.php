@@ -201,6 +201,18 @@ $api->version('v1', function ($api) {
 
         });
 
+        /**
+         * 派对
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1',
+                'prefix'    => 'party'
+            ],function($api){
+            $api->get('search',  'PartyController@search');
+            $api->get('get',     'PartyController@get');
+        });
+
 
         /**
          * 配置API
