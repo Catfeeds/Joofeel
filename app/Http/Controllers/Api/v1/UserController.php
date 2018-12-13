@@ -69,4 +69,20 @@ class UserController extends Controller
         $data = $this->service->getUserCoupon($this->request->input('user_id'));
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 搜索
+     */
+    public function search()
+    {
+        $this->validate($this->request,
+            [
+                'content' => 'required|string'
+            ]);
+        $data = $this->service->search(
+            $this->request->input('content'),
+            $this->request->input('limit'));
+        return ResponseUtil::toJson($data);
+    }
 }

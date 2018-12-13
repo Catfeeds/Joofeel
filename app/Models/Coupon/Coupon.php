@@ -39,4 +39,13 @@ class Coupon extends Model
             'start_time',
             'end_time'
         ];
+
+    static function query()
+    {
+        $query = self::where('isReceive', Coupon::CAN_RECEIVE)
+                     ->where('count', '>', 0)
+                     ->select('id', 'species', 'day', 'count', 'start_time', 'end_time',
+                         'rule', 'sale', 'category', 'isPoint');
+        return $query;
+    }
 }

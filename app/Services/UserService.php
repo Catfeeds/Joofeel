@@ -19,13 +19,42 @@ define('DAY_TIMESTAMP', 86400);
 
 class UserService
 {
+    /**
+     * @param $limit
+     * @return array
+     * 获取所有用户
+     */
     public function get($limit)
+    {
+        $user = $this->userQuery()
+                     ->paginate($limit);
+        return $this->getUserPrice($user);
+    }
+
+    /**
+     * @param $content
+     * @param $limit
+     * @return array
+     * 搜索用户
+     */
+    public function search($content,$limit)
+    {
+        $user = $this->userQuery()
+                     ->where('nickname','like','%'.$content.'%')
+                     ->paginate($limit);
+        return $this->getUserPrice($user);
+    }
+
+    /**
+     * @return mixed
+     * 用户查询语句
+     */
+    private function userQuery()
     {
         $user = User::withCount('host')
                     ->withCount('join')
-                    ->where('nickname', '!=', '')
-                    ->paginate($limit);
-        return $this->getUserPrice($user);
+                    ->where('nickname', '!=', '');
+        return $user;
     }
 
     /**
@@ -36,9 +65,9 @@ class UserService
      */
     public function sendCoupon($user_id, $coupon_id)
     {
-        $coupon = $this->query()
-                       ->where('id', $coupon_id)
-                       ->first();
+        $coupon = Coupon::query()
+                        ->where('id', $coupon_id)
+                        ->first();
         if ($coupon)
         {
             if ($coupon['species'] == Coupon::FIXED)
@@ -74,10 +103,10 @@ class UserService
      */
     public function getUserCoupon($user_id)
     {
-        $data = $this->query()
-                     ->where('end_time', '>', time())
-                     ->get()
-                     ->toArray();
+        $data = Coupon::query()
+                      ->where('end_time', '>', time())
+                      ->get()
+                      ->toArray();
         $result = array();
         foreach ($data as $key => $item)
         {
@@ -114,14 +143,4 @@ class UserService
         }
         return $user;
     }
-
-    private function query()
-    {
-        $query = Coupon::where('isReceive', Coupon::CAN_RECEIVE)
-                       ->where('count', '>', 0)
-                       ->select('id', 'species', 'day', 'count', 'start_time', 'end_time',
-                           'rule', 'sale', 'category', 'isPoint');
-        return $query;
-    }
-
 }
