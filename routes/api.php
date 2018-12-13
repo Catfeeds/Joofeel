@@ -182,6 +182,17 @@ $api->version('v1', function ($api) {
             $api->post('upload',   'BannerController@upload');
         });
 
+        /**
+         * 用户
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1',
+                'prefix'    => 'user'
+            ],function($api){
+            $api->get('',          'UserController@get');
+        });
+
 
         /**
          * 配置API
@@ -242,47 +253,6 @@ $api->version('v1', function ($api) {
                 $api->post('',   'AuthController@reg');
             });
 
-        });
-    });
-
-
-
-
-
-
-
-
-
-
-    /**
-     * 通过Excel导入数据库中各个表的内容
-     */
-    $api->group(
-        [
-            'namespace' => 'App\Http\Controllers'
-        ], function ($api) {
-        $api->group(
-            [
-                'prefix' => 'excel'
-            ], function ($api) {
-            $api->post('goods',          'ExcelController@goods');
-            $api->post('banner',         'ExcelController@banner');
-            $api->post('coupon',         'ExcelController@coupon');
-            $api->post('address',        'ExcelController@address');
-            $api->post('goods/category', 'ExcelController@goodsCategory');
-            $api->post('goods/label',    'ExcelController@goodsLabel');
-            $api->post('goods/order',    'ExcelController@goodsOrder');
-            $api->post('message',        'ExcelController@message');
-            $api->post('order/id',       'ExcelController@orderId');
-            $api->post('party',          'ExcelController@party');
-            $api->post('party/order',    'ExcelController@partyOrder');
-            $api->post('prize',          'ExcelController@prize');
-            $api->post('prize/order',    'ExcelController@prizeOrder');
-            $api->post('recommend',      'ExcelController@recommend');
-            $api->post('cart',           'ExcelController@cart');
-            $api->post('title',          'ExcelController@title');
-            $api->post('user',           'ExcelController@user');
-            $api->post('user/coupon',    'ExcelController@userCoupon');
         });
     });
 });

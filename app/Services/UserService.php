@@ -21,5 +21,33 @@ const dayTimeStamp = 86400;
 
 class UserService
 {
+    public function get($limit)
+    {
+        $user = User::withCount('host')
+                    ->withCount('join')
+                    ->where('nickname','!=','')
+                    ->paginate($limit);
+        return $this->getUserPrice($user);
+    }
 
+    /**
+     * @param $user
+     * @return array
+     * 得到用户的
+     */
+    private function getUserPrice($user)
+    {
+        foreach ($user as $item)
+        {
+            $order = GoodsOrder::where('user_id',$item['id'])
+                               ->select('sale_price')
+                               ->get();
+            $item['price'] = 0;
+            foreach ($order as $item_price)
+            {
+                $item['price'] = bcadd($item['price'],$item_price['sale_price'],1);
+            }
+        }
+        return $user;
+    }
 }
