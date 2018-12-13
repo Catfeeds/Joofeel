@@ -71,7 +71,6 @@ class UserService
     {
         $data = $this->query()
             ->where('end_time', '>', time())
-            ->where('isPoint', Coupon::POINT)
             ->get()
             ->toArray();
         $result = array();
@@ -90,7 +89,7 @@ class UserService
     /**
      * @param $user
      * @return array
-     * 得到用户的
+     * 得到用户的消费总额
      */
     private function getUserPrice($user)
     {

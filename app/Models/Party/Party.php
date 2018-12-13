@@ -17,6 +17,7 @@ class Party extends Model
     //派对是否被用户删除
     const NOT_DELETE = 0;
     const DELETE = 1;
+    const NOT_HOST =2;
 
     //派对是否被关闭
     const NOT_CLOSE = 0;
