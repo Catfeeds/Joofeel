@@ -8,6 +8,7 @@
 
 namespace App\Models\User;
 
+use App\Models\FormId;
 use App\Models\Party\Party;
 use App\Models\Party\PartyOrder;
 use Illuminate\Database\Eloquent\Model;
@@ -41,5 +42,10 @@ class User extends Model
     public function join()
     {
         return $this->hasMany(PartyOrder::class,'user_id','id');
+    }
+
+    public function formId()
+    {
+        return $this->hasMany(FormId::class,'user_id','id');
     }
 }

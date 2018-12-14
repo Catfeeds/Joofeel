@@ -11,7 +11,6 @@ namespace App\Services;
 use App\Exceptions\AppException;
 use App\Models\Goods\Goods;
 use App\Models\Order\OrderId;
-use App\Models\User\User;
 use EasyWeChat\Factory;
 
 const ORDER_SELF_TEMPLATE_ID = 'thVitw3RNsJL8Zp9XJHoyol1qJL7UOBx3_E5EXMfyQg';

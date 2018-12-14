@@ -8,19 +8,27 @@
 
 namespace App\Http\Controllers\Api\v1\Config;
 
-
 use App\Http\Controllers\Controller;
-use App\Models\FormId;
+
+use App\Services\Util\MessageService;
 use App\Utils\ResponseUtil;
+use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    private $service;
+    public function __construct(Request $req,MessageService $service)
+    {
+        $this->service = $service;
+        parent::__construct($req);
+    }
+
+    /**
+     *群发消息
+     */
     public function send()
     {
-        $formId = FormId::where('isUse',FormId::NOT_USE)
-                        ->leftJoin('user as u','u.id','=','form_id.user_id')
-                        ->select('form_id.form_id','user.openid')
-                        ->get();
-        return ResponseUtil::toJson($formId);
+        $this->service->prepareFormId();
+        return ResponseUtil::toJson();
     }
 }
