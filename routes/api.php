@@ -213,6 +213,7 @@ $api->version('v1', function ($api) {
             ],function($api){
             $api->get('search',  'PartyController@search');
             $api->get('get',     'PartyController@get');
+            $api->get('detail',  'PartyController@detail');
         });
 
 

@@ -53,4 +53,18 @@ class PartyController extends Controller
             $this->request->input('sign'));
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 聚会详情
+     */
+    public function detail()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.party,id'
+            ]);
+        $data = $this->service->detail($this->request->input('id'));
+        return ResponseUtil::toJson($data);
+    }
 }

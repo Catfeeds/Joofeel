@@ -9,6 +9,9 @@
 namespace App\Services;
 
 use App\Models\Party\Party;
+use App\Models\Party\PartyOrder;
+use App\Models\Party\Message;
+
 
 class PartyService
 {
@@ -41,6 +44,11 @@ class PartyService
         return $this->htmlEntityDecode($data);
     }
 
+    public function detail($id)
+    {
+
+    }
+
     /**
      * @param $data
      * @return mixed
@@ -54,8 +62,40 @@ class PartyService
             $item['description'] = html_entity_decode(base64_decode($item['description']));
             $item['start_time']  = date('Y-m-d H:i',$item['start_time']);
         }
+        return $this->getJoinCount($data);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     * 得到参与人数
+     */
+    private function getJoinCount($data)
+    {
+        foreach ($data as $item)
+        {
+            $item['join_count'] = PartyOrder::where('party_id',$item['party_id'])
+                                            ->count();
+        }
+        return $this->getMessageCount($data);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     * 得到留言个数
+     */
+    private function getMessageCount($data)
+    {
+        foreach ($data as $item)
+        {
+            $item['message_count'] = Message::where('party_id',$item['party_id'])
+                                            ->count();
+        }
         return $data;
     }
+
+    
 
     /**
      * @return mixed
@@ -66,8 +106,8 @@ class PartyService
         $query = $data = Party::leftJoin('user as u','u.id','=','party.user_id')
                               ->select('u.avatar','u.nickname','u.id as user_id',
                                         'party.id as party_id','party.image','party.description',
-                                        'party.people_no','party.remaining_people_no','party.start_time',
-                                        'party.site','party.image')
+                                       'party.start_time', 'party.site','party.image','party.way')
+                              ->where('party.isDeleteUser','!=',Party::NOT_HOST)
                               ->orderByDesc('party.start_time');
         return $query;
     }
