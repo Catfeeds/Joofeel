@@ -62,6 +62,15 @@ class PartyService
 
     /**
      * @param $id
+     * 删除聚会评论
+     */
+    public function deleteMessage($id)
+    {
+        Message::where('id',$id)->delete();
+    }
+
+    /**
+     * @param $id
      * @return mixed
      * 获得参与者
      */
@@ -85,7 +94,7 @@ class PartyService
         $data = Message::leftJoin('party as p','p.id','=','message.party_id')
                        ->leftJoin('user as u','u.id','=','message.user_id')
                        ->where('p.id',$id)
-                       ->select('message.content','message.created_at','u.nickname','u.avatar')
+                       ->select('message.content','message.created_at','u.nickname','u.avatar','message.id')
                        ->get();
         foreach ($data as $item)
         {

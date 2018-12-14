@@ -67,4 +67,18 @@ class PartyController extends Controller
         $data = $this->service->detail($this->request->input('id'));
         return ResponseUtil::toJson($data);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 删除评论
+     */
+    public function deleteMessage()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.message,id'
+            ]);
+        $data = $this->service->deleteMessage($this->request->input('id'));
+        return ResponseUtil::toJson($data);
+    }
 }
