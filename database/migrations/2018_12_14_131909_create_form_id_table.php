@@ -17,6 +17,7 @@ class CreateFormIdTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->index();
             $table->string('form_id',40);
+            $table->tinyInteger('isUse')->index()->default(\App\Models\FormId::NOT_USE);
         });
     }
 
