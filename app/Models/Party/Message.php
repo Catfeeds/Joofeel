@@ -8,7 +8,6 @@
 
 namespace App\Models\Party;
 
-
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +26,9 @@ class Message extends Model
             'updated_at'
         ];
 
+    const HOST = '发起者';
+    const JOIN = '参与者';
+    const PASSERS = '路人';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

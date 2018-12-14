@@ -12,7 +12,6 @@ use App\Models\Party\Party;
 use App\Models\Party\PartyOrder;
 use App\Models\Party\Message;
 
-
 class PartyService
 {
     public function search($content,$limit)
@@ -94,13 +93,40 @@ class PartyService
         $data = Message::leftJoin('party as p','p.id','=','message.party_id')
                        ->leftJoin('user as u','u.id','=','message.user_id')
                        ->where('p.id',$id)
-                       ->select('message.content','message.created_at','u.nickname','u.avatar','message.id')
+                       ->select('message.content','message.created_at','u.nickname','u.avatar','message.id',
+                                'message.user_id as message_user','p.user_id as host_user','p.id as party_id')
                        ->get();
         foreach ($data as $item)
         {
             $item['content'] = html_entity_decode(base64_decode($item['content']));
+            $item['identity'] = $this->getIdentity($item);
         }
         return $data;
+    }
+
+    /**
+     * @param $data
+     * @return string
+     * 得到留言者的身份
+     */
+    private function getIdentity($data)
+    {
+        if($data['host_user'] == $data['message_user'])
+        {
+            return Message::HOST;
+        }
+        else
+        {
+            $record = PartyOrder::where('party_id',$data['party_id'])
+                                ->where('user_id',$data['message_user'])
+                                ->select('id')
+                                ->first();
+            if($record)
+            {
+                return Message::JOIN;
+            }
+            return Message::PASSERS;
+        }
     }
 
     /**
