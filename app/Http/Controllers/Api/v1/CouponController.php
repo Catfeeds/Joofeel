@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Services\CouponService;
 use App\Utils\ResponseUtil;
@@ -77,7 +78,13 @@ class CouponController extends Controller
             [
                 'id' => 'required|integer|exists:mysql.coupon,id'
             ]);
-        $this->service->send($this->request->input('id'));
+        try{
+            $this->service->send($this->request->input('id'));
+        }
+        catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
         return ResponseUtil::toJson();
     }
 

@@ -92,7 +92,7 @@ class UserService
         }
         else
         {
-            throw new AppException('该优惠券无法派送,可能已下架');
+            throw new AppException('优惠券发完啦！');
         }
     }
 
