@@ -20,7 +20,7 @@ class PartyService
         $data = $this->query()->where('u.nickname','like','%'.$content.'%')
                               ->orWhere('party.description','like','%'.$content.'%')
                               ->paginate($limit);
-        return $this->htmlEntityDecode($data);
+        return $this->getJoinCount($data);
     }
 
     /**
@@ -41,12 +41,57 @@ class PartyService
             $data = $this->query()->where('u.id',$sign)
                                   ->paginate($limit);
         }
-        return $this->getState($data);
+        return $this->getJoinCount($data);
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     * 聚会详情
+     */
     public function detail($id)
     {
+        $info = $this->query()
+                     ->where('party.id',$id)
+                     ->get();
+        $data['data'] = $this->getState($info);
+        $data['message'] = $this->getMessage($id);
+        $data['join']    = $this->getJoin($id);
+        return $data;
+    }
 
+    /**
+     * @param $id
+     * @return mixed
+     * 获得参与者
+     */
+    private function getJoin($id)
+    {
+        $data = PartyOrder::leftJoin('party as p','p.id','=','party_order.party_id')
+                          ->leftJoin('user as u','u.id','=','party_order.user_id')
+                          ->where('p.id',$id)
+                          ->select('party_order.created_at','u.nickname','u.avatar')
+                          ->get();
+        return $data;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     * 获得留言
+     */
+    private function getMessage($id)
+    {
+        $data = Message::leftJoin('party as p','p.id','=','message.party_id')
+                       ->leftJoin('user as u','u.id','=','message.user_id')
+                       ->where('p.id',$id)
+                       ->select('message.content','message.created_at','u.nickname','u.avatar')
+                       ->get();
+        foreach ($data as $item)
+        {
+            $item['content'] = html_entity_decode(base64_decode($item['content']));
+        }
+        return $data;
     }
 
     /**
@@ -60,9 +105,10 @@ class PartyService
         {
             $item['site']        = html_entity_decode(base64_decode($item['site']));
             $item['description'] = html_entity_decode(base64_decode($item['description']));
+            $item['details']     = html_entity_decode(base64_decode($item['details']));
             $item['start_time']  = date('Y-m-d H:i',$item['start_time']);
         }
-        return $this->getJoinCount($data);
+        return $data;
     }
 
     /**
@@ -92,7 +138,7 @@ class PartyService
             $item['message_count'] = Message::where('party_id',$item['party_id'])
                                             ->count();
         }
-        return $data;
+        return $this->getState($data);
     }
 
     /**
@@ -100,27 +146,23 @@ class PartyService
      * @return mixed
      * 获取聚会状态
      */
-    public function getState($data)
+    private function getState($data)
     {
         foreach ($data as $item)
         {
-            switch ($item['isClose'])
-            {
-                case Party::CLOSE:
-                    $item['state'] = Party::STATUS_CLOSE;
-                break;
-                case Party::DONE:
-                    $item['state'] = Party::STATUS_DONE;
-                break;
-                case Party::NOT_CLOSE:
-                    if($item['start_time'] < time())
-                    {
-                        $item['state'] = Party::STATUS_OVERDUE;
-                    }
-                    else
-                    {
-                        $item['state'] = Party::STATUS_DOING;
-                    }
+            if($item['isClose'] == Party::CLOSE) {
+                $item['state'] = Party::STATUS_CLOSE;
+            }
+            else if($item['isClose'] == Party::DONE) {
+                $item['state'] = Party::STATUS_DONE;
+            }
+            else {
+                if($item['start_time'] < time()) {
+                    $item['state'] = Party::STATUS_OVERDUE;
+                }
+                else{
+                    $item['state'] = Party::STATUS_DOING;
+                }
             }
         }
         return $this->htmlEntityDecode($data);
@@ -135,7 +177,7 @@ class PartyService
         $query = $data = Party::leftJoin('user as u','u.id','=','party.user_id')
                               ->select('u.avatar','u.nickname','u.id as user_id','party.isClose',
                                         'party.id as party_id','party.image','party.description',
-                                       'party.start_time', 'party.site','party.image','party.way')
+                                       'party.start_time', 'party.site','party.image','party.way','party.details')
                               ->where('party.isDeleteUser','!=',Party::NOT_HOST)
                               ->orderByDesc('party.start_time');
         return $query;

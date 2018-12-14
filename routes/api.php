@@ -214,6 +214,8 @@ $api->version('v1', function ($api) {
             $api->get('search',  'PartyController@search');
             $api->get('get',     'PartyController@get');
             $api->get('detail',  'PartyController@detail');
+            //删除评论
+            $api->delete('message/delete',  'PartyController@deleteMessage');
         });
 
 
