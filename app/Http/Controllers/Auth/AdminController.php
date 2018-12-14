@@ -45,7 +45,7 @@ class AdminController extends Controller
      */
     public function get()
     {
-        $data = Admin::orderByDesc('created_at')
+        $data = Admin::orderByDesc('scope')
                      ->get();
         foreach ($data  as $item)
         {

@@ -41,7 +41,7 @@ class PartyService
             $data = $this->query()->where('u.id',$sign)
                                   ->paginate($limit);
         }
-        return $this->htmlEntityDecode($data);
+        return $this->getState($data);
     }
 
     public function detail($id)
@@ -95,7 +95,36 @@ class PartyService
         return $data;
     }
 
-    
+    /**
+     * @param $data
+     * @return mixed
+     * 获取聚会状态
+     */
+    public function getState($data)
+    {
+        foreach ($data as $item)
+        {
+            switch ($item['isClose'])
+            {
+                case Party::CLOSE:
+                    $item['state'] = Party::STATUS_CLOSE;
+                break;
+                case Party::DONE:
+                    $item['state'] = Party::STATUS_DONE;
+                break;
+                case Party::NOT_CLOSE:
+                    if($item['start_time'] < time())
+                    {
+                        $item['state'] = Party::STATUS_OVERDUE;
+                    }
+                    else
+                    {
+                        $item['state'] = Party::STATUS_DOING;
+                    }
+            }
+        }
+        return $this->htmlEntityDecode($data);
+    }
 
     /**
      * @return mixed
@@ -104,7 +133,7 @@ class PartyService
     private function query()
     {
         $query = $data = Party::leftJoin('user as u','u.id','=','party.user_id')
-                              ->select('u.avatar','u.nickname','u.id as user_id',
+                              ->select('u.avatar','u.nickname','u.id as user_id','party.isClose',
                                         'party.id as party_id','party.image','party.description',
                                        'party.start_time', 'party.site','party.image','party.way')
                               ->where('party.isDeleteUser','!=',Party::NOT_HOST)

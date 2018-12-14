@@ -24,13 +24,10 @@ class Party extends Model
     const CLOSE = 1;
     const DONE = 2;  //提前成行
 
-    const STATUS_OPEN_HOST = 1;
-    const STATUS_OPEN_JOIN = 2;
-    const STATUS_OPEN_PASSERBY_NOT_FULL = 3;
-    const STATUS_OPEN_PASSERBY_FULL = 2;
+    const STATUS_DOING = 1;
     const STATUS_OVERDUE = 4;
-    const STATUS_CLOSE = 6;
-    const STATUS_DONE = 5;
+    const STATUS_CLOSE = 3;
+    const STATUS_DONE = 2;
 
     protected $table = 'party';
 
