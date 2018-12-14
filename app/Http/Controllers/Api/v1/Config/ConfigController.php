@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Api\v1\Config;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\Title;
 

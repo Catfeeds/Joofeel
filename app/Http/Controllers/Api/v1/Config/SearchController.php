@@ -26,23 +26,6 @@ class SearchController extends Controller
      */
     public function add()
     {
-//        $data = [
-//            [
-//                'name' => '苹果教皇'
-//            ],
-//            [
-//                'name' => 'LeftHand'
-//            ],
-//            [
-//                'name' => 'DogfishHead'
-//            ],
-//            [
-//                'name' => 'RedBrick'
-//            ],
-//            [
-//                'name' => '白梨西打'
-//            ]
-//        ];
         $this->validate($this->request,
             [
                'content' => 'required|string'

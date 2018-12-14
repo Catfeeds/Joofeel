@@ -227,14 +227,21 @@ $api->version('v1', function ($api) {
                 'namespace' => 'App\Http\Controllers\Api\v1\Config',
                 'prefix'    => 'config'
             ],function($api){
-                $api->group([
-                    'prefix' => 'search'
-                ],function ($api){
-                    $api->get('get',       'SearchController@get');
-                    $api->post('add',      'SearchController@add');
-                    $api->post('update',   'SearchController@update');
-                    $api->delete('delete', 'SearchController@delete');
-                });
+
+            $api->group([
+                'prefix' => 'search'
+            ],function ($api){
+                $api->get('get',       'SearchController@get');
+                $api->post('add',      'SearchController@add');
+                $api->post('update',   'SearchController@update');
+                $api->delete('delete', 'SearchController@delete');
+            });
+
+            $api->group([
+                'prefix' => 'message'
+            ],function ($api){
+                $api->post('send',   'MessageController@send');
+            });
 
         });
 
