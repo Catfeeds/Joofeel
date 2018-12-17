@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Models\Party\Party;
+use App\Models\Party\PartyGoods;
 use App\Models\Party\PartyOrder;
 use App\Models\Party\Message;
 
@@ -56,6 +57,16 @@ class PartyService
         $data['data'] = $this->getState($info);
         $data['message'] = $this->getMessage($id);
         $data['join']    = $this->getJoin($id);
+        $data['goods'] = $this->getGoods($id);
+        return $data;
+    }
+
+    private function getGoods($id)
+    {
+        $data = PartyGoods::leftJoin('goods as g','g.id','=','party_goods.goods_id')
+                          ->where('party_goods.party_id','=',$id)
+                          ->select('g.thu_url','g.name','g.sale_price')
+                          ->get();
         return $data;
     }
 

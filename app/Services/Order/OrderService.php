@@ -41,13 +41,13 @@ class OrderService
             case 2:
                 $order = GoodsOrder::where('isPay',GoodsOrder::UNPAID)
                                    ->where('created_at','>',date("Y-m-d H:i:s",strtotime("-1 day")))
-                                   ->orderByDesc('created_at')
+                                   ->orderByDesc('updated_at')
                                    ->paginate($limit);
                 break;
             case 4:
                 $order = GoodsOrder::where('isPay',GoodsOrder::UNPAID)
                                    ->where('created_at','<',date("Y-m-d H:i:s",strtotime("-1 day")))
-                                   ->orderByDesc('created_at')
+                                   ->orderByDesc('updated_at')
                                    ->paginate($limit);
                 break;
         }
@@ -73,6 +73,7 @@ class OrderService
                           ->where('goods_order.order_id','like','%'.$content.'%')
                           ->orWhere('goods_order.receipt_name','like','%'.$content.'%')
                           ->orWhere('u.nickname','like','%'.$content.'%')
+                          ->select('goods_order.*')
                           ->paginate($limit);
         return $data;
     }
@@ -113,7 +114,7 @@ class OrderService
         $order = GoodsOrder::with(['goods' =>function($query){
                            $query->select('id','order_id','goods_id')
                                ->with(['goods'=>function($query){
-                                   $query->select('thu_url','id','price','name');
+                                   $query->select('thu_url','id','sale_price','name');
                                }]);
                        }])
                            ->with('user')
@@ -125,7 +126,7 @@ class OrderService
         foreach ($order['goods'] as $item)
         {
             $item['thu_url'] = $item['goods']['thu_url'];
-            $item['price'] = $item['goods']['price'];
+            $item['price'] = $item['goods']['sale_price'];
             $item['name'] = $item['goods']['name'];
             unset($item['id'],$item['order_id'],$item['goods_id'],$item['goods']);
         }

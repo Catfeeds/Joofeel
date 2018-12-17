@@ -68,6 +68,13 @@ class UserService
      */
     public function sendCoupon($user_id, $coupon_id)
     {
+        $record = UserCoupon::where('user_id',$user_id)
+                            ->where('coupon_id',$coupon_id)
+                            ->first();
+        if($record)
+        {
+            throw new AppException('已经领过券了');
+        }
         $coupon = Coupon::query()
                         ->where('id', $coupon_id)
                         ->first();

@@ -78,7 +78,7 @@ class PartyController extends Controller
             [
                 'id' => 'required|integer|exists:mysql.message,id'
             ]);
-        $data = $this->service->deleteMessage($this->request->input('id'));
-        return ResponseUtil::toJson($data);
+        $this->service->deleteMessage($this->request->input('id'));
+        return ResponseUtil::toJson();
     }
 }

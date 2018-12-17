@@ -88,7 +88,7 @@ class OrderExcelService
     {
         foreach ($data as $item)
         {
-            if($item['isSign'] = GoodsOrder::NOTDELIVERY)
+            if($item['isSign'] == GoodsOrder::NOTDELIVERY)
             {
                 $item['isSign'] = '未发货';
             }
