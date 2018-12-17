@@ -13,11 +13,15 @@ use App\Models\FormId;
 use App\Models\User\User;
 use EasyWeChat\Factory;
 
-const MESSAGE_TPL_ID = 'thVitw3RNsJL8Zp9XJHoyol1qJL7UOBx3_E5EXMfyQg';
+const MESSAGE_TPL_ID = '4o5sKgIguuTUF-EPAmRE0W0tN6yQ6i9yU5OY1HOX3R0';
 
 class MessageService
 {
     private $app;
+
+    private $theme;
+    private $tips;
+    private $note;
 
     public function __construct()
     {
@@ -25,24 +29,25 @@ class MessageService
         $this->app = Factory::miniProgram($config);
     }
 
-    public function prepareFormId()
+    public function prepareFormId($theme,$tips,$note)
     {
+        $this->theme = $theme;
+        $this->note = $note;
+        $this->tips = $tips;
         $formId = $this->getFormId();
         $this->prepareData($formId);
     }
 
     /**
      * @return array
-     * 获取formId
+     * 获取FormId
      */
     private function getFormId()
     {
-        $formId = User::with(['formId' => function($query){
-                            $query->where('isUse',FormId::NOT_USE);
-                    }])
-                      ->select('openid','id')
-                      ->get()
-                      ->toArray();
+        $formId = User::with('formId')
+            ->select('openid','id')
+            ->get()
+            ->toArray();
         return $this->organize($formId);
     }
 
@@ -66,7 +71,7 @@ class MessageService
     /**
      * @param $data
      * @throws AppException
-     *
+     *准备数据发送模板消息 当
      */
     private function prepareData($data)
     {
@@ -75,11 +80,9 @@ class MessageService
             foreach ($user['form_id'] as $item)
             {
                 FormId::where('id',$item['id'])
-                      ->update(
-                          [
-                              'isUse' => FormId::USED
-                          ]);
+                    ->delete();
                 $result = $this->send($user['openid'],$item['form_id']);
+                //单个用户发送成功时退出循环执行下一个用户操作
                 if($result['errcode'] == 0)
                 {
                     break;
@@ -99,17 +102,17 @@ class MessageService
         $data = $this->app->template_message->send([
             'touser' => $openId,
             'template_id' => MESSAGE_TPL_ID,
-            'page' => '/pages/donghuatest/donghuatest/',
+            'page' => '/pages/donghuatest/donghuatest',
             'form_id' => $formId,
             'data' => [
                 'keyword1' => [
-                    'value' => '你参加的抽奖已经开奖，点击查看幸运锦鲤是不是你'
+                    'value' => $this->theme
                 ],
                 'keyword2' => [
-                    'value' => '如果你是幸运锦鲤，请通过小程序“我的-联系客服”领奖吧'
+                    'value' => $this->tips
                 ],
                 'keyword3' => [
-                    'value' => '请于开奖后3个工作日内联系客服领奖，逾期作废呢'
+                    'value' => $this->note
                 ],
             ],
         ]);

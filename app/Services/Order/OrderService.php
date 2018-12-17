@@ -69,8 +69,10 @@ class OrderService
      */
     public function search($content,$limit)
     {
-        $data = GoodsOrder::where('order_id','like','%'.$content.'%')
-                          ->orWhere('receipt_name','like','%'.$content.'%')
+        $data = GoodsOrder::leftJoin('user as u','u.id','=','goods_order.user_id')
+                          ->where('goods_order.order_id','like','%'.$content.'%')
+                          ->orWhere('goods_order.receipt_name','like','%'.$content.'%')
+                          ->orWhere('u.nickname','like','%'.$content.'%')
                           ->paginate($limit);
         return $data;
     }

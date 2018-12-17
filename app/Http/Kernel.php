@@ -42,6 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            'crossHttp'
         ],
     ];
 
@@ -60,6 +61,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'token' => \App\Http\Middleware\VerifyToken::class
+        'token' => \App\Http\Middleware\VerifyToken::class,
+        'crossHttp' => \App\Http\Middleware\CrossHttp::class,
     ];
 }

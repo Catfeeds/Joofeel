@@ -17,6 +17,4 @@ class FormId extends Model
 
     public $timestamps = false;
 
-    const NOT_USE = 0;
-    const USED = 1;
 }

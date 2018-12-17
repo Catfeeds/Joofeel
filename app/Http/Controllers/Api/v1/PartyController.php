@@ -40,7 +40,7 @@ class PartyController extends Controller
 
     /**
      * @return \Illuminate\Http\JsonResponse
-     * 获取优惠券
+     * 获取聚会
      */
     public function get()
     {

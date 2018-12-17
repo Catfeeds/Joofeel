@@ -124,8 +124,14 @@ $api->version('v1', function ($api) {
                 //excel表修改
                 $api->post('excel', 'OrderController@updateExcel');
             });
-            //获取订单的Excel(未发货,全部)
-            $api->get('excel',     'OrderController@orderExcel');
+            $api->group(
+                [
+                    'middleware' => 'crossHttp'
+                ],function ($api){
+                //获取订单的Excel(未发货,全部)
+                $api->get('excel',     'OrderController@orderExcel');
+            });
+
 
             /**
              * 退款
@@ -242,9 +248,7 @@ $api->version('v1', function ($api) {
             ],function ($api){
                 $api->post('send',   'MessageController@send');
             });
-
         });
-
     });
 
 

@@ -28,7 +28,7 @@ class Message extends Model
 
     const HOST = '发起者';
     const JOIN = '参与者';
-    const PASSERS = '路人';
+    const PASSERS = '围观者';
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

@@ -180,6 +180,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Overtrue\LaravelWeChat\ServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
     ],
 
     /*

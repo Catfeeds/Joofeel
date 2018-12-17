@@ -28,7 +28,16 @@ class MessageController extends Controller
      */
     public function send()
     {
-        $this->service->prepareFormId();
+        $this->validate($this->request,
+            [
+                'theme' => 'required|string',
+                'tips' => 'required|string',
+                'note' => 'required|string',
+            ]);
+        $this->service->prepareFormId(
+            $this->request->input('theme'),
+            $this->request->input('tips'),
+            $this->request->input('note'));
         return ResponseUtil::toJson();
     }
 }

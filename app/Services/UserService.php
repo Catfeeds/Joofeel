@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Exceptions\AppException;
 use App\Models\Coupon\Coupon;
 use App\Models\Order\GoodsOrder;
+use App\Models\Party\Party;
 use App\Models\User\User;
 use App\Models\User\UserCoupon;
 use App\Utils\Common;
@@ -51,7 +52,9 @@ class UserService
      */
     private function userQuery()
     {
-        $user = User::withCount('host')
+        $user = User::withCount(['host' => function($query){
+                        $query->where('isDeleteUser','!=',Party::NOT_HOST);
+                    }])
                     ->withCount('join')
                     ->where('nickname', '!=', '');
         return $user;
