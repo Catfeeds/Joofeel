@@ -18,5 +18,7 @@ Route::group([
     'prefix' => 'inventory',
     'middleware' => 'token'
 ],function(){
-    Route::get('get','InventoryController@get');
+    Route::get('get',    'InventoryController@get');
+    Route::get('add',    'InventoryController@add');
+    Route::get('update', 'InventoryController@update');
 });
