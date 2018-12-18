@@ -56,7 +56,14 @@ class InventoryService extends Controller
         {
             $item['sold_day'] = floor((strtotime($item['overdue_day']) - time()) / DAY_TIMESTAMP);
             $item['per_sold'] = $this->getPerSold($item);
-            $item['can_sold_day'] = floor($item['in_count'] / $item['per_sold']);
+            if($item['per_sold'] == 0)
+            {
+                $item['can_sold_day'] = 0;
+            }
+            else
+            {
+                $item['can_sold_day'] = floor($item['in_count'] / $item['per_sold']);
+            }
         }
         return $data;
     }
