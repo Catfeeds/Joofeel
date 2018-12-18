@@ -54,13 +54,13 @@ return [
             'engine' => null,
         ],
 
-        'mysql_jufeeling' => [
+        'mysql_inventory' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_Jufeeling_HOST', '127.0.0.1'),
-            'port'      => env('DB_Jufeeling_PORT', '3306'),
-            'database'  => env('DB_Jufeeling_DATABASE', 'forge'),
-            'username'  => env('DB_Jufeeling_USERNAME', 'forge'),
-            'password'  => env('DB_Jufeeling_PASSWORD', 'secret'),
+            'host'      => env('DB_HOST_INVENTORY', '127.0.0.1'),
+            'port'      => env('DB_PORT_INVENTORY', '3306'),
+            'database'  => env('DB_DATABASE_INVENTORY', 'forge'),
+            'username'  => env('DB_USERNAME_INVENTORY', 'forge'),
+            'password'  => env('DB_PASSWORD_INVENTORY', 'secret'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
