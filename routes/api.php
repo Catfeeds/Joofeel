@@ -159,6 +159,17 @@ $api->version('v1', function ($api) {
         });
 
         /**
+         * 周期销售额
+         */
+        $api->group(
+            [
+                'namespace' => 'App\Http\Controllers\Api\v1',
+                'prefix'    => 'sale'
+            ],function($api){
+            $api->get('get',   'SaleController@get');
+        });
+
+        /**
          * 优惠券
          */
         $api->group(

@@ -23,4 +23,3 @@ Route::group([
 ],function(){
     Route::get('title','ConfigController@title');
 });
-

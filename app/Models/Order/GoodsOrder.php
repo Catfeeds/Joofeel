@@ -36,6 +36,12 @@ class GoodsOrder extends Model
     const NOTTRACKINGID = 0;//未填写快递单号
 
 
+    const TODAY = 1;
+    const WEEK = 2;
+    const MONTH = 3;
+    const YEAR = 4;
+
+
     protected $table = 'goods_order';
 
     public $timestamps = false;
