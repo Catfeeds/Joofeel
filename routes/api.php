@@ -1,4 +1,7 @@
 <?php
+
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -9,6 +12,7 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {

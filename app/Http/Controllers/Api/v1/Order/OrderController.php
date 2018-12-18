@@ -112,7 +112,11 @@ class OrderController extends Controller
      */
     public function updateExcel()
     {
-        (new OrderExcelService())->updateExcel();
+        try{
+            (new OrderExcelService())->updateExcel();
+        }Catch(AppException $exception){
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
         return ResponseUtil::toJson();
     }
 

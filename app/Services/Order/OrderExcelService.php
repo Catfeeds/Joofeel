@@ -8,6 +8,7 @@
 
 namespace App\Services\Order;
 
+use App\Exceptions\AppException;
 use App\Models\Goods\Goods;
 use App\Models\Order\GoodsOrder;
 use App\Models\Order\OrderId;
@@ -23,6 +24,10 @@ class OrderExcelService
         $res = (new ExcelToArray())->get();
         foreach ($res as $k => $v) {
             if ($k > 1) {
+                if($v[0] == '')
+                {
+                    throw new AppException('录入数据完毕');
+                }
                 $order = GoodsOrder::where('order_id',$v[0])
                                    ->first();
                 $order['tracking_id'] = $v[1];

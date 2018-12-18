@@ -8,11 +8,15 @@
 
 namespace App\Services\v2;
 
+use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Inventory\Inventory;
+use App\Models\Inventory\Outbound;
+use Illuminate\Http\Request;
 
 define('DAY_TIMESTAMP',86400);
 
-class InventoryService
+class InventoryService extends Controller
 {
     public function add()
     {
@@ -21,7 +25,22 @@ class InventoryService
 
     public function get($limit)
     {
-        $data = Inventory::orderByDesc('in_day')
+        $data = Inventory::query()
+                         ->paginate($limit);
+        return $this->getInventoryParameter($data);
+    }
+
+    /**
+     * @param $content
+     * @param $limit
+     * @return mixed
+     * 搜索
+     */
+    public function search($content,$limit)
+    {
+        $data = Inventory::query()
+                         ->where('brand','like','%'.$content.'%')
+                         ->orWhere('goods_name','like','%'.$content.'%')
                          ->paginate($limit);
         return $this->getInventoryParameter($data);
     }
@@ -54,8 +73,36 @@ class InventoryService
         return  round($per_sold, 2);
     }
 
-    public function update()
+    /**
+     * @param $id
+     * @param $count
+     * 出库
+     */
+    public function update($id,$count)
     {
+        $record = Inventory::get($id);
+        $record['in_count'] -= $count;
+        $price = bcmul ($count,$record['purchase_price'],2);
+        $record['in_price'] = bcsub($record['in_price'],$price,2);
+        $record->save();
+        $this->addOutbound($id,$count,$price);
+    }
 
+    /**
+     * @param $id
+     * @param $count
+     * @param $price
+     * 添加出库记录
+     */
+    private function addOutbound($id,$count,$price)
+    {
+        $admin = Admin::getAdminByToken($this->request->input('token'));
+        Outbound::create([
+            'inventory_id' => $id,
+            'count' => $count,
+            'out_price' => $price,
+            'executor' => $admin['nickname'],
+            'out_date' => date('Y-m-d H:i:s')
+        ]);
     }
 }

@@ -19,6 +19,8 @@ Route::group([
     'middleware' => 'token'
 ],function(){
     Route::get('get',    'InventoryController@get');
-    Route::get('add',    'InventoryController@add');
-    Route::get('update', 'InventoryController@update');
+    Route::get('search', 'InventoryController@search');
+    Route::post('add',    'InventoryController@add');
+    Route::post('update', 'InventoryController@update');
+
 });
