@@ -36,6 +36,7 @@ class Inventory extends Migration
             $t->engine = 'InnoDB';
             $t->increments('id');
             $t->integer('inventory_id')->index(); //库存商品id
+            $t->string('order_id')->index(); //库存商品id
             $t->integer('count'); //出库数量
             $t->decimal('out_price',8,2); //出库金额
             $t->string('executor',10); //执行人

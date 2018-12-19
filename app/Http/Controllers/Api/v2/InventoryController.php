@@ -49,11 +49,13 @@ class InventoryController extends Controller
         $this->validate($this->request,
             [
                 'id'    => 'required|integer|exists:mysql_inventory.inventory,id',
-                'count' => 'required|integer|min:0'
+                'count' => 'required|integer|min:0',
+                'order_id' => 'required|string|exists:mysql.goods_order,order_id'
             ]);
         $this->service->update(
             $this->request->input('id'),
-            $this->request->input('count'));
+            $this->request->input('count'),
+            $this->request->input('order_id'));
         return ResponseUtil::toJson();
     }
 

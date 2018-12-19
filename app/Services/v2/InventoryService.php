@@ -86,31 +86,33 @@ class InventoryService extends Controller
      * @param $count
      * 出库
      */
-    public function update($id,$count)
+    public function update($id,$count,$orderId)
     {
         $record = Inventory::get($id);
         $record['in_count'] -= $count;
         $price = bcmul ($count,$record['purchase_price'],2);
         $record['in_price'] = bcsub($record['in_price'],$price,2);
         $record->save();
-        $this->addOutbound($id,$count,$price);
+        $this->addOutbound($id,$count,$price,$orderId);
     }
 
     /**
      * @param $id
      * @param $count
      * @param $price
-     * 添加出库记录
+     * @param $order_id
+     * 出库
      */
-    private function addOutbound($id,$count,$price)
+    private function addOutbound($id,$count,$price,$order_id)
     {
         $admin = Admin::getAdminByToken($this->request->input('token'));
         Outbound::create([
             'inventory_id' => $id,
-            'count' => $count,
+            'order_id'  => $order_id,
+            'count'     => $count,
             'out_price' => $price,
-            'executor' => $admin['nickname'],
-            'out_date' => date('Y-m-d H:i:s')
+            'executor'  => $admin['nickname'],
+            'out_date'  => date('Y-m-d H:i:s')
         ]);
     }
 
@@ -137,6 +139,7 @@ class InventoryService extends Controller
         $data = Outbound::query()
                         ->where('i.brand','like','%'.$content.'%')
                         ->orWhere('i.goods_name','like','%'.$content.'%')
+                        ->orWhere('outbound.order_id','like','%'.$content.'%')
                         ->paginate($limit);
         return $data;
     }
