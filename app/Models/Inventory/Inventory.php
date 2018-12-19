@@ -17,6 +17,20 @@ class Inventory extends Model
     protected $table = 'inventory';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'brand',
+        'goods_name',
+        'batch_no',
+        'purchase_price',
+        'in_count',
+        'put_count',
+        'in_price',
+        'put_price',
+        'in_day',
+        'overdue_day'
+    ];
+
     static function query()
     {
         $query = self::orderByDesc('in_day');

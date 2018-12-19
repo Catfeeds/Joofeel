@@ -59,6 +59,44 @@ class InventoryController extends Controller
 
     public function add()
     {
+        $this->validate($this->request,
+            [
+                'brand'          => 'required|string|max:10',
+                'goods_name'     => 'required|string|max:20',
+                'batch_no'       => 'required|string|min:0|max:10',
+                'purchase_price' => 'required',
+                'put_count'      => 'required|integer',
+                'put_price'      => 'required',
+                'in_day'         => 'required|date',
+                'overdue_day'    => 'required|date'
+            ]);
+        $this->service->add($this->request->all());
+        return ResponseUtil::toJson();
+    }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 获得出库记录
+     */
+    public function getOutboundRecord()
+    {
+        $data = $this->service->getOutboundRecord($this->request->input('limit'));
+        return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 搜索出库记录
+     */
+    public function searchOutbound()
+    {
+        $this->validate($this->request,
+            [
+                'content' => 'required|string'
+            ]);
+        $data = $this->service->searchOutbound(
+            $this->request->input('content'),
+            $this->request->input('limit'));
+        return ResponseUtil::toJson($data);
     }
 }

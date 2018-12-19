@@ -27,4 +27,13 @@ class Outbound extends Model
             'executor',
             'out_date'
         ];
+
+    static function query()
+    {
+        $query = self::leftJoin('inventory as i','i.id','=','outbound.inventory_id')
+                     ->select('outbound.count','outbound.out_price','outbound.executor',
+                         'outbound.out_date','i.brand','i.goods_name','i.in_count','i.in_price')
+                     ->orderByDesc('outbound.out_date');
+        return $query;
+    }
 }

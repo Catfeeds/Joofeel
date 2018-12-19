@@ -12,15 +12,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Inventory\Inventory;
 use App\Models\Inventory\Outbound;
-use Illuminate\Http\Request;
 
 define('DAY_TIMESTAMP',86400);
 
 class InventoryService extends Controller
 {
-    public function add()
+    public function add($data)
     {
-
+        $data['in_count'] = $data['put_count'];
+        $data['in_price'] = $data['put_price'];
+        Inventory::create($data);
     }
 
     public function get($limit)
@@ -111,5 +112,32 @@ class InventoryService extends Controller
             'executor' => $admin['nickname'],
             'out_date' => date('Y-m-d H:i:s')
         ]);
+    }
+
+    /**
+     * @param $limit
+     * @return mixed
+     * 获得出库记录
+     */
+    public function getOutboundRecord($limit)
+    {
+        $data = Outbound::query()
+                        ->paginate($limit);
+        return $data;
+    }
+
+    /**
+     * @param $content
+     * @param $limit
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * 搜素出库记录
+     */
+    public function searchOutbound($content,$limit)
+    {
+        $data = Outbound::query()
+                        ->where('i.brand','like','%'.$content.'%')
+                        ->orWhere('i.goods_name','like','%'.$content.'%')
+                        ->paginate($limit);
+        return $data;
     }
 }
