@@ -10,12 +10,13 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use App\Exceptions\AppException;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     private $service;
     public function __construct(Request $req,UserService $service)

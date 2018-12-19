@@ -9,12 +9,13 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\AppException;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Services\CouponService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
-class CouponController extends Controller
+class CouponController extends BaseController
 {
 
     private $service;

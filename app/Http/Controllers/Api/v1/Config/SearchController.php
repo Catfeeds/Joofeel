@@ -8,11 +8,11 @@
 
 namespace App\Http\Controllers\Api\v1\Config;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
 use App\Utils\ResponseUtil;
 use Illuminate\Support\Facades\Cache;
 
-class SearchController extends Controller
+class SearchController extends BaseController
 {
     public function get()
     {

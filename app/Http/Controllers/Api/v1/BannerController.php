@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\AppException;
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Services\BannerService;
@@ -18,7 +19,7 @@ use App\Utils\ResponseUtil;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
-class BannerController extends Controller
+class BannerController extends BaseController
 {
     private $service;
     public function __construct(Request $req,BannerService $service)
@@ -26,6 +27,8 @@ class BannerController extends Controller
         $this->service = $service;
         parent::__construct($req);
     }
+
+
 
     /**
      * @return \Illuminate\Http\JsonResponse
@@ -107,7 +110,7 @@ class BannerController extends Controller
     {
         $this->validate($this->request,
             [
-                'id' => 'required|integer|exists:mysql.banner,id',
+                'id'      => 'required|integer|exists:mysql.banner,id',
                 'image'   => 'required|string',
                 'isPrize' => 'required|integer|in:0,1',
                 'type'    => 'required|integer|in:1,2,3',

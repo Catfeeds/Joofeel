@@ -59,8 +59,10 @@ class RefundService
         );
         if($result['result_code'] === 'SUCCESS')
         {
-            $record['isAgree'] = RefundOrder::AGREE;
-            $record->save();
+            RefundOrder::where('id',$id)
+                ->update([
+                    'isAgree'       => RefundOrder::AGREE
+                ]);
             GoodsOrder::where('id', $record['order_id'])
                       ->update([
                           'isPay' => GoodsOrder::REFUND

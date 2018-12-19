@@ -8,13 +8,14 @@
 
 namespace App\Http\Controllers\Api\v1\Goods;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Goods\GoodsLabel;
 use App\Services\Goods\LabelService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
-class LabelController extends Controller
+class LabelController extends BaseController
 {
     private $service;
     public function __construct(Request $req,LabelService $service)

@@ -8,12 +8,13 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Services\PartyService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
-class PartyController extends Controller
+class PartyController extends BaseController
 {
     private $service;
     public function __construct(Request $req,PartyService $service)

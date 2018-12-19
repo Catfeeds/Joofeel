@@ -8,12 +8,13 @@
 
 namespace App\Http\Controllers\Api\v2;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Services\v2\InventoryService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 
-class InventoryController extends Controller
+class InventoryController extends BaseController
 {
     private $service;
     public function __construct(Request $req,InventoryService $service)
@@ -59,6 +60,10 @@ class InventoryController extends Controller
         return ResponseUtil::toJson();
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 入库
+     */
     public function add()
     {
         $this->validate($this->request,

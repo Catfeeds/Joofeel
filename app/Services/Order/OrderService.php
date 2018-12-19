@@ -45,8 +45,7 @@ class OrderService
                                    ->paginate($limit);
                 break;
             case 4:
-                $order = GoodsOrder::where('isPay',GoodsOrder::UNPAID)
-                                   ->where('created_at','<',date("Y-m-d H:i:s",strtotime("-1 day")))
+                $order = GoodsOrder::where('isPay',GoodsOrder::REFUND)
                                    ->orderByDesc('updated_at')
                                    ->paginate($limit);
                 break;
