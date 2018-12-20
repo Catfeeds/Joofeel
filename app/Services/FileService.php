@@ -11,7 +11,6 @@ namespace App\Services;
 use App\Exceptions\AppException;
 use App\Utils\ImgUtil;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 
 class FileService
 {

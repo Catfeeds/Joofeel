@@ -25,6 +25,13 @@ class Common
         return $str;
     }
 
+    static function generateToken()
+    {
+        $rand = self::getRandChar(16);
+        $timeStamp =  time();
+        return md5($rand . $timeStamp);
+    }
+
     /**
      * @param $data
      * @return mixed

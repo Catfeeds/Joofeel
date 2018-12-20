@@ -9,9 +9,8 @@
 namespace App\Http\Controllers\Api\v1\Goods;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
-use App\Models\Goods\GoodsLabel;
-use App\Services\Goods\LabelService;
+use App\Models\MiniProgram\Goods\GoodsLabel;
+use App\Services\MiniProgram\Goods\LabelService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 

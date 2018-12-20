@@ -68,6 +68,20 @@ return [
             'engine'    => null,
         ],
 
+        'mysql_enter' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST_ENTER', '127.0.0.1'),
+            'port'      => env('DB_PORT_ENTER', '3306'),
+            'database'  => env('DB_DATABASE_ENTER', 'forge'),
+            'username'  => env('DB_USERNAME_ENTER', 'forge'),
+            'password'  => env('DB_PASSWORD_ENTER', 'secret'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
+            'engine'    => null,
+        ],
+
 
 
         'pgsql' => [

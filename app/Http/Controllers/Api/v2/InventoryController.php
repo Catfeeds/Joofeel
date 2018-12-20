@@ -89,6 +89,7 @@ class InventoryController extends BaseController
     {
         $data = $this->service->getOutboundRecord($this->request->input('limit'));
         return ResponseUtil::toJson($data);
+
     }
 
     /**

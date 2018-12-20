@@ -9,7 +9,7 @@
 namespace App\Http\Controllers\Api\v1\Config;
 
 use App\Http\Controllers\BaseController;
-use App\Services\Util\MessageService;
+use App\Services\MiniProgram\Util\MessageService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 

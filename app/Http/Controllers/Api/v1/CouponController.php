@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Exceptions\AppException;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
-use App\Services\CouponService;
+use App\Services\MiniProgram\CouponService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 

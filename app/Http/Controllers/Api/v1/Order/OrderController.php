@@ -10,8 +10,8 @@ namespace App\Http\Controllers\Api\v1\Order;
 
 use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
-use App\Services\Order\OrderExcelService;
-use App\Services\Order\OrderService;
+use App\Services\MiniProgram\Order\OrderExcelService;
+use App\Services\MiniProgram\Order\OrderService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 

@@ -10,7 +10,7 @@ namespace App\Services;
 
 use App\Exceptions\AppException;
 use App\Models\Admin;
-use App\Services\Token\UserToken;
+use App\Utils\Common;
 
 define('UP', 1);
 define('DOWN' , 0);
@@ -63,7 +63,7 @@ class AdminService
             'account'   => $account,
             'password'  => md5($password),
             'nickname'  => $nickname,
-            'api_token' => UserToken::generateToken()
+            'api_token' => Common::generateToken()
         ]);
     }
 

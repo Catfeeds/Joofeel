@@ -33,7 +33,7 @@ class Inventory extends Model
 
     static function query()
     {
-        $query = self::orderByDesc('in_day');
+        $query = self::orderByDesc('id');
         return $query;
     }
 

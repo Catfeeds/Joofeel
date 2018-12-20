@@ -10,13 +10,10 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\AppException;
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
-use App\Models\Banner;
-use App\Services\BannerService;
+use App\Models\MiniProgram\Banner;
+use App\Services\MiniProgram\BannerService;
 use App\Services\FileService;
-use App\Utils\ImgUtil;
 use App\Utils\ResponseUtil;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class BannerController extends BaseController

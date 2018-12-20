@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Api\v1\Goods;
 use App\Exceptions\AppException;
 use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
-use App\Services\Goods\GoodsService;
+use App\Services\MiniProgram\Goods\GoodsService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
 

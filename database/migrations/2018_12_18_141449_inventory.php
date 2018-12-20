@@ -14,7 +14,7 @@ class Inventory extends Migration
     public function up()
     {
         //进销存系统
-        Schema::create('inventory',function (Blueprint $t){
+        Schema::connection('mysql_inventory')->create('inventory',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
             $t->string('brand',10)->index();
@@ -32,7 +32,7 @@ class Inventory extends Migration
         /**
          * 出库
          */
-        Schema::create('outbound',function (Blueprint $t){
+        Schema::connection('mysql_inventory')->create('outbound',function (Blueprint $t){
             $t->engine = 'InnoDB';
             $t->increments('id');
             $t->integer('inventory_id')->index(); //库存商品id
