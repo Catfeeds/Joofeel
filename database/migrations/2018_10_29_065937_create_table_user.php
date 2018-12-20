@@ -43,7 +43,7 @@ class CreateTableUser extends Migration
             $t->string('nickname')->nullable();
             $t->string('avatar')->nullable();
             $t->tinyInteger('isNewUser')
-                ->default(\App\Models\User\User::IS_NEW); //标记是否为新用户 0为新用户1为老用户
+                ->default(\App\Models\MiniProgram\User\User::IS_NEW); //标记是否为新用户 0为新用户1为老用户
             $t->timestamps();
         });
 
@@ -55,9 +55,9 @@ class CreateTableUser extends Migration
             $t->integer('user_id')->index();
             $t->integer('coupon_id')->index();
             $t->tinyInteger('status')
-                ->default(\App\Models\User\UserCoupon::NOT_USE)->index(); //标记该优惠券是否已使用 0未使用1使用
+                ->default(\App\Models\MiniProgram\User\UserCoupon::NOT_USE)->index(); //标记该优惠券是否已使用 0未使用1使用
             $t->tinyInteger('state')
-                ->default(\App\Models\User\UserCoupon::CAN_USE)->index(); //标记该优惠券是否可以使用 0为可以使用1不可以使用
+                ->default(\App\Models\MiniProgram\User\UserCoupon::CAN_USE)->index(); //标记该优惠券是否可以使用 0为可以使用1不可以使用
             $t->integer('start_time');
             $t->integer('end_time');
         });
@@ -72,7 +72,7 @@ class CreateTableUser extends Migration
             $t->string('receipt_area',20);
             $t->string('receipt_address',255);
             $t->string('receipt_phone',12);
-            $t->tinyInteger('label')->default(\App\Models\User\DeliveryAddress::HOME); //所属标签
+            $t->tinyInteger('label')->default(\App\Models\MiniProgram\User\DeliveryAddress::HOME); //所属标签
             $t->tinyInteger('isDefault')->index();    //标记是否为默认地址 0是1不是
         });
 
@@ -84,7 +84,7 @@ class CreateTableUser extends Migration
             $t->integer('user_id')->index();
             $t->integer('goods_id')->index();
             $t->integer('count');
-            $t->tinyInteger('isSelect')->default(\App\Models\User\ShoppingCart::SELECTED); // 标记该条记录是否处于勾选中
+            $t->tinyInteger('isSelect')->default(\App\Models\MiniProgram\User\ShoppingCart::SELECTED); // 标记该条记录是否处于勾选中
             $t->timestamps();
         });
     }

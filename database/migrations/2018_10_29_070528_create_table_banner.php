@@ -31,7 +31,7 @@ class CreateTableBanner extends Migration
             $t->integer('goods_id');
             $t->tinyInteger('type');
             $t->tinyInteger('isShow')
-                ->default(\App\Models\Banner::SHOW)->index();
+                ->default(\App\Models\MiniProgram\Banner::SHOW)->index();
             $t->timestamps();
         });
     }

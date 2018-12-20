@@ -28,8 +28,9 @@ class Enter extends Migration
          */
         Schema::connection('mysql_enter')->create('push', function (Blueprint $t) {
             $t->increments('id');
-            $t->string('title',20);  //标题
-            $t->text('content');            //内容
+            $t->string('title',20);   //标题
+            $t->string('thu_url',30); //头图
+            $t->text('content');             //内容
             $t->integer('merchants_id')->index();
             $t->integer('product_id')->index();
             $t->timestamps();
@@ -47,6 +48,24 @@ class Enter extends Migration
             $t->string('lng',20);
             $t->decimal('price',8,2);
             $t->integer('stock');
+            $t->date('start_time');
+            $t->date('end_time');
+            $t->tinyInteger('isSold',\App\Models\Enter\Ticket::SOLD);
+        });
+
+        /**
+         * 推送票订单
+         */
+        Schema::connection('mysql_enter')->create('ticket_order',function (Blueprint $t){
+            $t->increments('id');
+            $t->string('order_id',20)->index();
+            $t->integer('user_id')->index();
+            $t->string('prepay_id',40)->default(0);
+            $t->decimal('price',8,2);
+            $t->integer('count');
+            $t->decimal('total_price',8,2);
+            $t->tinyInteger('isUsed',\App\Models\Enter\Ticket::NOT_USE);
+            $t->timestamps();
         });
     }
 
@@ -60,5 +79,9 @@ class Enter extends Migration
         Schema::dropIfExists('merchants');
 
         Schema::dropIfExists('push');
+
+        Schema::dropIfExists('ticket');
+
+        Schema::dropIfExists('ticket_order');
     }
 }

@@ -66,8 +66,8 @@ class CreateTableGoods extends Migration
             $t->string('cov_url',120);                //封面图
             $t->string('det_url',120);                //详情图
             $t->string('share_url',120)->nullable();  //分享图
-            $t->tinyInteger('isShelves')->default(\App\Models\Goods\Goods::SHELVES)->index();//是否上架
-            $t->tinyInteger('isPending')->default(\App\Models\Goods\Goods::PENDING)->index();//是否审核通过
+            $t->tinyInteger('isShelves')->default(\App\Models\MiniProgram\Goods\Goods::SHELVES)->index();//是否上架
+            $t->tinyInteger('isPending')->default(\App\Models\MiniProgram\Goods\Goods::PENDING)->index();//是否审核通过
             $t->timestamps();
         });
 

@@ -30,11 +30,11 @@ class CreateTableOrder extends Migration
             $t->string('receipt_address',255);
             $t->string('receipt_phone',11);
             $t->tinyInteger('isSign')->index()
-                ->default(\App\Models\Order\GoodsOrder::NOTDELIVERY);
+                ->default(\App\Models\MiniProgram\Order\GoodsOrder::NOTDELIVERY);
             $t->tinyInteger('isDeleteUser')->index()
-                ->default(\App\Models\Order\GoodsOrder::NOT_DELETE);
+                ->default(\App\Models\MiniProgram\Order\GoodsOrder::NOT_DELETE);
             $t->tinyInteger('isPay')->index()
-                ->default(\App\Models\Order\GoodsOrder::UNPAID);
+                ->default(\App\Models\MiniProgram\Order\GoodsOrder::UNPAID);
             $t->timestamps();
         });
 
@@ -48,11 +48,11 @@ class CreateTableOrder extends Migration
             $t->integer('goods_id')->index();
             $t->integer('user_id')->index();
             $t->tinyInteger('isPay')->index()
-                ->default(\App\Models\Order\OrderId::UNPAID);
+                ->default(\App\Models\MiniProgram\Order\OrderId::UNPAID);
             $t->tinyInteger('isDeleteUser')->index()
-                ->default(\App\Models\Order\OrderId::NOT_DELETE);
+                ->default(\App\Models\MiniProgram\Order\OrderId::NOT_DELETE);
             $t->tinyInteger('isSelect')->index()
-                ->default(\App\Models\Order\OrderId::NOT_SELECT);
+                ->default(\App\Models\MiniProgram\Order\OrderId::NOT_SELECT);
             $t->integer('count')->nullable();
             $t->decimal('price',10,2)->nullable();
             $t->timestamps();
@@ -69,7 +69,7 @@ class CreateTableOrder extends Migration
             $t->string('refund_reason')->nullable();
             $t->string('refuse_reason')->nullable();
             $t->tinyInteger('isAgree')->index()
-                ->default(\App\Models\Order\RefundOrder::UNTREATED);
+                ->default(\App\Models\MiniProgram\Order\RefundOrder::UNTREATED);
             $t->timestamps();
         });
     }

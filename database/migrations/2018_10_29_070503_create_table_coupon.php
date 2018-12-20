@@ -29,9 +29,9 @@ class CreateTableCoupon extends Migration
             $t->integer('start_time');
             $t->integer('end_time');
             $t->tinyInteger('isReceive')
-                ->default(\App\Models\Coupon\Coupon::CAN_RECEIVE)->index();
+                ->default(\App\Models\MiniProgram\Coupon\Coupon::CAN_RECEIVE)->index();
             $t->tinyInteger('isPoint')
-                ->default(\App\Models\Coupon\Coupon::NOT_POINT)->index();
+                ->default(\App\Models\MiniProgram\Coupon\Coupon::NOT_POINT)->index();
         });
     }
 

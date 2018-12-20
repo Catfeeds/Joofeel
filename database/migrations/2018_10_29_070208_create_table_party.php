@@ -48,9 +48,9 @@ class CreateTableParty extends Migration
             $t->integer('start_time');
             $t->string('longitude');
             $t->string('latitude');
-            $t->tinyInteger('isDeleteAdmin')->index()->default(\App\Models\Party\Party::NOT_DELETE);
-            $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\Party\Party::DELETE);
-            $t->tinyInteger('isClose')->index()->default(\App\Models\Party\Party::NOT_CLOSE);
+            $t->tinyInteger('isDeleteAdmin')->index()->default(\App\Models\MiniProgram\Party\Party::NOT_DELETE);
+            $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\MiniProgram\Party\Party::DELETE);
+            $t->tinyInteger('isClose')->index()->default(\App\Models\MiniProgram\Party\Party::NOT_CLOSE);
             $t->timestamps();
         });
 
@@ -61,7 +61,7 @@ class CreateTableParty extends Migration
             $t->increments('id');
             $t->integer('user_id')->index();
             $t->integer('party_id')->index();
-            $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\Party\PartyOrder::NOT_DELETE);
+            $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\MiniProgram\Party\PartyOrder::NOT_DELETE);
             $t->timestamps();
         });
 
