@@ -32,11 +32,24 @@ Route::group([
         Route::post('operate', 'MerchantsController@operate');
     });
 
+    /**
+     *推送
+     */
     Route::group([
         'prefix' => 'push'
     ],function(){
         Route::get('get',    'PushController@get');
         Route::get('search', 'PushController@search');
+    });
+
+    /**
+     *商品
+     */
+    Route::group([
+        'prefix' => 'ticket'
+    ],function(){
+        Route::get('get',    'TicketController@get');
+        Route::get('search', 'TicketController@search');
     });
 
     /**

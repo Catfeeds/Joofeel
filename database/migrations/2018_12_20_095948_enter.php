@@ -53,6 +53,7 @@ class Enter extends Migration
             $t->date('start_time');
             $t->date('end_time');
             $t->tinyInteger('isSold',\App\Models\Enter\Ticket::SOLD);
+            $t->timestamps();
         });
 
         /**
