@@ -17,4 +17,13 @@ class Merchants extends Model
 
     protected $table = 'merchants';
 
+    protected $fillable =
+        [
+            'account',
+            'password',
+            'api_token',
+            'merchants_name',
+            'phone'
+        ];
+
 }

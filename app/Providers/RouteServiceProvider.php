@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->admin();
 
         $this->inventory();
+
+        $this->enter();
         //
     }
 
@@ -94,5 +96,16 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/inventory.php'));
+    }
+
+    /**
+     * 入驻
+     */
+    protected function enter()
+    {
+        Route::prefix('api')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/enter.php'));
     }
 }
