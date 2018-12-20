@@ -24,7 +24,12 @@ Route::group([
     Route::group([
         'prefix' => 'merchants'
     ],function (){
-        Route::get('get','MerchantsController@get');
+        Route::get('get',      'MerchantsController@get');
+        Route::get('search',   'MerchantsController@search');
+        Route::get('push',     'MerchantsController@push');
+        Route::get('order',    'MerchantsController@order');
+        Route::get('ticket',   'MerchantsController@ticket');
+        Route::post('operate', 'MerchantsController@operate');
     });
 
     /**

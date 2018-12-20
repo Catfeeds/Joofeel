@@ -8,7 +8,7 @@
 
 namespace App\Models\MiniProgram\Party;
 
-use App\Models\User\User;
+use App\Models\MiniProgram\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model

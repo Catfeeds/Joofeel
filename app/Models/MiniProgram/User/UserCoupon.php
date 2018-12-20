@@ -9,7 +9,7 @@
 namespace App\Models\MiniProgram\User;
 
 
-use App\Models\Coupon\Coupon;
+use App\Models\MiniProgram\Coupon\Coupon;
 use App\Utils\Common;
 use Illuminate\Database\Eloquent\Model;
 

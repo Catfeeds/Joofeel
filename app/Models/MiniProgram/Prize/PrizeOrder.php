@@ -9,7 +9,7 @@
 namespace App\Models\MiniProgram\Prize;
 
 
-use App\Models\User\User;
+use App\Models\MiniProgram\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class PrizeOrder extends Model

@@ -8,8 +8,8 @@
 
 namespace App\Models\MiniProgram\Party;
 
-use App\Models\Order\OrderId;
-use App\Models\User\User;
+use App\Models\MiniProgram\Order\OrderId;
+use App\Models\MiniProgram\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Party extends Model

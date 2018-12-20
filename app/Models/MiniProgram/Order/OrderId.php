@@ -8,8 +8,8 @@
 
 namespace App\Models\MiniProgram\Order;
 
-use App\Models\Goods\Goods;
-use App\Models\Goods\GoodsLabel;
+use App\Models\MiniProgram\Goods\Goods;
+use App\Models\MiniProgram\Goods\GoodsLabel;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderId extends Model

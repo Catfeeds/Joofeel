@@ -9,7 +9,7 @@
 namespace App\Models\MiniProgram\Order;
 
 
-use App\Models\User\User;
+use App\Models\MiniProgram\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class RefundOrder extends Model

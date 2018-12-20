@@ -61,13 +61,15 @@ class Enter extends Migration
         Schema::connection('mysql_enter')->create('ticket_order',function (Blueprint $t){
             $t->increments('id');
             $t->string('order_id',20)->index();
+            $t->integer('merchants_id')->index();
             $t->integer('ticket_id')->index();
             $t->integer('user_id')->index();
             $t->string('prepay_id',40)->default(0);
             $t->decimal('price',8,2);
             $t->integer('count');
             $t->decimal('total_price',8,2);
-            $t->tinyInteger('isUsed',\App\Models\Enter\Ticket::NOT_USE);
+            $t->tinyInteger('isUsed',\App\Models\Enter\TicketOrder::NOT_USE);
+            $t->tinyInteger('isPay',\App\Models\Enter\TicketOrder::NOT_PAY);
             $t->timestamps();
         });
     }

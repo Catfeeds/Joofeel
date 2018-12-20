@@ -8,9 +8,9 @@
 
 namespace App\Models\MiniProgram\User;
 
-use App\Models\FormId;
-use App\Models\Party\Party;
-use App\Models\Party\PartyOrder;
+use App\Models\MiniProgram\FormId;
+use App\Models\MiniProgram\Party\Party;
+use App\Models\MiniProgram\Party\PartyOrder;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
@@ -47,5 +47,11 @@ class User extends Model
     public function formId()
     {
         return $this->hasMany(FormId::class,'user_id','id');
+    }
+
+    static function getUser($id)
+    {
+        $user = self::where('id',$id)->first();
+        return $user;
     }
 }

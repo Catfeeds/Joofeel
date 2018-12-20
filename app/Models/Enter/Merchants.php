@@ -45,4 +45,17 @@ class Merchants extends Model
         return $this->hasMany(Ticket::class,'merchants_id','id');
     }
 
+    public function order()
+    {
+        return $this->hasMany(TicketOrder::class,'ticket_id','id');
+    }
+
+    static function query()
+    {
+        $query = self::withCount('push')
+                     ->withCount('ticket')
+                     ->withCount('order')
+                     ->orderByDesc('created_at');
+        return $query;
+    }
 }

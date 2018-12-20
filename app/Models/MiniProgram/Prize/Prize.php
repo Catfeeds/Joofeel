@@ -8,7 +8,7 @@
 
 namespace App\Models\MiniProgram\Prize;
 
-use App\Models\Goods\Goods;
+use App\Models\MiniProgram\Goods\Goods;
 use Illuminate\Database\Eloquent\Model;
 
 class Prize extends Model

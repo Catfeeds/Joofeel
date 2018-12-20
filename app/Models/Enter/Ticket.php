@@ -19,9 +19,11 @@ class Ticket extends Model
     const SOLD = 0;
     const NOT_SOLD = 1;
 
-    /**
-     * 使用情况
-     */
-    const NOT_USE = 0;
-    const USED = 1;
+
+    static function getMerchantsTicket($id,$limit)
+    {
+        $data = self::where('merchants_id',$id)->paginate($limit);
+        return $data;
+    }
+
 }
