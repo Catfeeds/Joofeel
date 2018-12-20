@@ -18,5 +18,17 @@ Route::group([
     'prefix' => 'enter',
     'middleware' => 'token'
 ],function(){
+    /**
+     * 商户
+     */
+    Route::group([
+        'prefix' => 'merchants'
+    ],function (){
+        Route::get('get','MerchantsController@get');
+    });
+
+    /**
+     * 商户注册
+     */
     Route::post('reg',   'AuthController@reg');
 });

@@ -25,4 +25,24 @@ class Merchants extends Model
             'phone'
         ];
 
+    protected $hidden =
+        [
+            'account',
+            'password',
+            'api_token'
+        ];
+
+    const NOT_BAN = 0;
+    const BAN = 1;
+
+    public function push()
+    {
+        return $this->hasMany(Push::class,'merchants_id','id');
+    }
+
+    public function ticket()
+    {
+        return $this->hasMany(Ticket::class,'merchants_id','id');
+    }
+
 }

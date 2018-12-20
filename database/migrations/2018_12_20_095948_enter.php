@@ -20,6 +20,7 @@ class Enter extends Migration
             $t->bigInteger('phone')->unique();
             $t->string('api_token',30)->index();
             $t->string('merchants_name',50);
+            $t->tinyInteger('is_ban',\App\Models\Enter\Merchants::NOT_BAN);
             $t->timestamps();
         });
 
@@ -32,7 +33,7 @@ class Enter extends Migration
             $t->string('thu_url',30); //头图
             $t->text('content');             //内容
             $t->integer('merchants_id')->index();
-            $t->integer('product_id')->index();
+            $t->integer('ticket_id')->index();
             $t->timestamps();
         });
 
@@ -42,6 +43,7 @@ class Enter extends Migration
         Schema::connection('mysql_enter')->create('ticket',function (Blueprint $t){
             $t->increments('id');
             $t->string('ticket_name',30);
+            $t->integer('merchants_id')->index();
             $t->string('thu_url',30);
             $t->string('address',50);
             $t->string('lat',20);
@@ -59,6 +61,7 @@ class Enter extends Migration
         Schema::connection('mysql_enter')->create('ticket_order',function (Blueprint $t){
             $t->increments('id');
             $t->string('order_id',20)->index();
+            $t->integer('ticket_id')->index();
             $t->integer('user_id')->index();
             $t->string('prepay_id',40)->default(0);
             $t->decimal('price',8,2);
