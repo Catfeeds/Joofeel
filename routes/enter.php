@@ -18,5 +18,5 @@ Route::group([
     'prefix' => 'enter',
     'middleware' => 'token'
 ],function(){
-    Route::get('reg',   'AuthController@reg');
+    Route::post('reg',   'AuthController@reg');
 });

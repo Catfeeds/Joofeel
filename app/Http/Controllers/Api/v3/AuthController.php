@@ -8,8 +8,10 @@
 
 namespace App\Http\Controllers\Api\v3;
 
+use App\Exceptions\AppException;
 use App\Http\Controllers\Controller;
 use App\Models\Enter\Merchants;
+use App\Utils\Common;
 use App\Utils\ResponseUtil;
 
 class AuthController extends Controller
@@ -23,22 +25,45 @@ class AuthController extends Controller
                 'phone'          => 'required|regex:/^1[3456789][0-9]{9}$/',
                 'merchants_name' => 'required|string|max:20'
             ]);
-        $this->checkExistsAccount($this->request->input('account'));
+        try{
+            $this->checkExistsAccount(
+                $this->request->input('account'),
+                $this->request->input('phone'));
+        }catch (AppException $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
         $this->regMerchants($this->request->all());
         return ResponseUtil::toJson();
     }
 
-    private function checkExistsAccount($account)
+    /**
+     * @param $account
+     * @param $phone
+     * @throws AppException
+     */
+    private function checkExistsAccount($account,$phone)
     {
-        $merchants = Merchants::where('account',$account)->first();
-        if($merchants)
+        $merchantsAccount = Merchants::where('account',$account)->first();
+        if($merchantsAccount)
         {
-            return ResponseUtil::toJson('','该账号已存在',300);
+            throw new AppException('该账号已存在');
+        }
+        $merchantsPhone = Merchants::where('phone',$phone)->first();
+        if($merchantsPhone)
+        {
+            throw new AppException('该账号已存在');
         }
     }
 
+    /**
+     * @param $data
+     * 注册
+     */
     private function regMerchants($data)
     {
-        $data['api_token'] = Merchants::create($data);
+        $data['api_token'] = Common::generateToken();
+        $data['password'] = md5($data['password']);
+        Merchants::create($data);
     }
 }

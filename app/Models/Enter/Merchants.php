@@ -8,7 +8,6 @@
 
 namespace App\Models\Enter;
 
-
 use Illuminate\Database\Eloquent\Model;
 
 class Merchants extends Model
