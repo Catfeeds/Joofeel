@@ -9,7 +9,7 @@
 namespace App\Services\Enter;
 
 
-class TickerOrderService
+class TicketOrderService
 {
 
 }

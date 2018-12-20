@@ -32,6 +32,13 @@ Route::group([
         Route::post('operate', 'MerchantsController@operate');
     });
 
+    Route::group([
+        'prefix' => 'push'
+    ],function(){
+        Route::get('get',    'PushController@get');
+        Route::get('search', 'PushController@search');
+    });
+
     /**
      * 商户注册
      */

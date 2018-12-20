@@ -8,10 +8,9 @@
 
 namespace App\Http\Controllers\Api\v3;
 
-
 use App\Http\Controllers\Controller;
 
-class TickerOrderController extends Controller
+class TicketController extends Controller
 {
     public function get()
     {
