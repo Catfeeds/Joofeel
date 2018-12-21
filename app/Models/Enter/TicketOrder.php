@@ -40,6 +40,14 @@ class TicketOrder extends Model
         return $data;
     }
 
+    static function search($content,$limit)
+    {
+        $data = self::index()
+                    ->where('ticket_order.order_id','like','%'.$content.'%')
+                    ->paginate($limit);
+        return $data;
+    }
+
     static function index()
     {
         $query =  self::leftJoin('ticket as t','t.id','=','ticket_order.ticket_id' )
