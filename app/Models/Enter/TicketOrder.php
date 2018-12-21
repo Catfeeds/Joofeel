@@ -28,13 +28,26 @@ class TicketOrder extends Model
 
     static function getMerchantsOrder($id,$limit)
     {
-        $data = self::leftJoin('ticket as t','t.id','=','ticket_order.ticket_id' )
+        $data = self::index()
                     ->where('ticket_order.merchants_id',$id)
-                    ->where('ticket_order.isPay',self::PAID)
-                    ->select('ticket_order.order_id','ticket_order.price','ticket_order.count',
-                        'ticket_order.total_price','ticket_order.created_at','t.ticket_name',
-                        't.thu_url','ticket_order.user_id')
                     ->paginate($limit);
         return $data;
+    }
+
+    static function getOrder($limit)
+    {
+        $data = self::index()->paginate($limit);
+        return $data;
+    }
+
+    static function index()
+    {
+        $query =  self::leftJoin('ticket as t','t.id','=','ticket_order.ticket_id' )
+                      ->where('ticket_order.isPay',self::PAID)
+                      ->select('ticket_order.order_id','ticket_order.price','ticket_order.count',
+                          'ticket_order.total_price','ticket_order.created_at','t.ticket_name',
+                          't.thu_url','ticket_order.user_id');
+        return $query;
+
     }
 }

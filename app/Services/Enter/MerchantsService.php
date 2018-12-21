@@ -64,11 +64,9 @@ class MerchantsService
     public function order($id,$limit)
     {
         $data = TicketOrder::getMerchantsOrder($id,$limit);
-        foreach ($data as $item)
+        foreach ($data as $key => $item)
         {
-            $user = User::getUser($item['user_id']);
-            $item['avatar'] = $user['avatar'];
-            $item['nickname'] = $user['nickname'];
+            $data[$key] = UserService::getUser($item);
         }
         return $data;
     }

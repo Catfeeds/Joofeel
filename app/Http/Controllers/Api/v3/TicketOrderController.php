@@ -10,11 +10,19 @@ namespace App\Http\Controllers\Api\v3;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Enter\TicketOrder;
+use App\Services\Enter\UserService;
+use App\Utils\ResponseUtil;
 
 class TicketOrderController extends Controller
 {
     public function get()
     {
-
+        $data = TicketOrder::getOrder($this->request->input('limit'));
+        foreach ($data as $key => $item)
+        {
+            $data[$key] = UserService::getUser($item);
+        }
+        return ResponseUtil::toJson($data);
     }
 }

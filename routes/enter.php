@@ -53,6 +53,16 @@ Route::group([
     });
 
     /**
+     *订单
+     */
+    Route::group([
+        'prefix' => 'order'
+    ],function(){
+        Route::get('get',    'TicketOrderController@get');
+        Route::get('search', 'TicketOrderController@search');
+    });
+
+    /**
      * 商户注册
      */
     Route::post('reg',   'AuthController@reg');
