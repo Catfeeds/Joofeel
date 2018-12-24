@@ -17,7 +17,7 @@ class CreateTableTitle extends Migration
             $t->increments('id');
             $t->string('content',100);
             $t->tinyInteger('isShow')
-                ->default(\App\Models\Title::SHOW);
+                ->default(\App\Models\MiniProgram\Title::SHOW);
         });
     }
 

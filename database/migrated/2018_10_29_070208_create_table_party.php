@@ -49,6 +49,7 @@ class CreateTableParty extends Migration
             $t->string('longitude');
             $t->string('latitude');
             $t->tinyInteger('isDeleteAdmin')->index()->default(\App\Models\MiniProgram\Party\Party::NOT_DELETE);
+            $t->tinyInteger('isCommunity')->index()->default(\App\Models\MiniProgram\Party\Party::NOT_COMMUNITY);
             $t->tinyInteger('isDeleteUser')->index()->default(\App\Models\MiniProgram\Party\Party::DELETE);
             $t->tinyInteger('isClose')->index()->default(\App\Models\MiniProgram\Party\Party::NOT_CLOSE);
             $t->timestamps();

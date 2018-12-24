@@ -19,6 +19,9 @@ class User extends Model
     const IS_NEW = 0;
     const IS_OLD = 1;
 
+    const NOT_TALENT = 0;
+    const TALENT = 1;
+
     protected $table = 'user';
 
     public $timestamps = false;

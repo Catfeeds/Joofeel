@@ -16,7 +16,7 @@ class Enter extends Migration
         Schema::connection('mysql_enter')->create('merchants', function (Blueprint $t) {
             $t->increments('id');
             $t->string('account',10)->unique();
-            $t->string('password',15);
+            $t->string('password',45);
             $t->bigInteger('phone')->unique();
             $t->string('api_token',30)->index();
             $t->string('merchants_name',50);

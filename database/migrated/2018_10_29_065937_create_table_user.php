@@ -42,6 +42,7 @@ class CreateTableUser extends Migration
             $t->string('openid',30)->unique();
             $t->string('nickname')->nullable();
             $t->string('avatar')->nullable();
+            $t->tinyInteger('isTalent')->index()->default(\App\Models\MiniProgram\User\User::NOT_TALENT);
             $t->tinyInteger('isNewUser')
                 ->default(\App\Models\MiniProgram\User\User::IS_NEW); //标记是否为新用户 0为新用户1为老用户
             $t->timestamps();
