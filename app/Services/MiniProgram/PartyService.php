@@ -59,6 +59,13 @@ class PartyService
         $data['message'] = $this->getMessage($id);
         $data['join']    = $this->getJoin($id);
         $data['goods'] = $this->getGoods($id);
+        $data['label'] = $this->getLabel($id);
+        return $data;
+    }
+
+    private function getLabel($id)
+    {
+        $data = PartyLabel::where('party_id',$id)->get();
         return $data;
     }
 
