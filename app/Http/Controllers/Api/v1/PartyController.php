@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\BaseController;
 use App\Models\MiniProgram\Party\Party;
+use App\Models\MiniProgram\Party\PartyLabel;
 use App\Services\MiniProgram\PartyService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
@@ -111,6 +112,16 @@ class PartyController extends BaseController
         $this->service->label(
             $this->request->input('id'),
             $this->request->input('content'));
+        return ResponseUtil::toJson();
+    }
+
+    public function deleteLabel()
+    {
+        $this->validate($this->request,
+            [
+                'id'      => 'required|integer|exists:mysql.party,id',
+            ]);
+        PartyLabel::where('id',$this->request->input('id'))->delete();
         return ResponseUtil::toJson();
     }
 }

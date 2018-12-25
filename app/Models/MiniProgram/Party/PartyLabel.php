@@ -16,4 +16,10 @@ class PartyLabel extends Model
     protected $table = 'party_label';
 
     public $timestamps = false;
+
+    protected $fillable =
+        [
+            'party_id',
+            'label_name'
+        ];
 }

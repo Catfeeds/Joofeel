@@ -233,6 +233,8 @@ $api->version('v1', function ($api) {
             $api->get('detail',  'PartyController@detail');
             $api->post('set',    'PartyController@set');
             $api->post('label',  'PartyController@label');
+            //删除标签
+            $api->delete('label/delete',    'PartyController@deleteLabel');
             //删除评论
             $api->delete('message/delete',  'PartyController@deleteMessage');
         });
