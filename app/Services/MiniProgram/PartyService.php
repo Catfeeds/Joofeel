@@ -10,6 +10,7 @@ namespace App\Services\MiniProgram;
 
 use App\Models\MiniProgram\Party\Party;
 use App\Models\MiniProgram\Party\PartyGoods;
+use App\Models\MiniProgram\Party\PartyLabel;
 use App\Models\MiniProgram\Party\PartyOrder;
 use App\Models\MiniProgram\Party\Message;
 
@@ -77,6 +78,37 @@ class PartyService
     public function deleteMessage($id)
     {
         Message::where('id',$id)->delete();
+    }
+
+    /**
+     * @param $id
+     * 设置是否为社区模块的聚会
+     */
+    public function set($id)
+    {
+        $party = Party::where('id',$id)->select('id','isCommunity')->first();
+        if($party['isCommunity'] == Party::NOT_COMMUNITY)
+        {
+            $party['isCommunity'] = Party::COMMUNITY;
+        }
+        else{
+            $party['isCommunity'] = Party::NOT_COMMUNITY;
+        }
+        $party->save();
+    }
+
+    /**
+     * @param $id
+     * @param $label
+     * 给聚会设置标签
+     */
+    public function label($id,$label)
+    {
+        PartyLabel::create(
+            [
+               'party_id'   => $id,
+               'label_name' => $label
+            ]);
     }
 
     /**
@@ -222,7 +254,7 @@ class PartyService
     {
         $query = $data = Party::leftJoin('user as u','u.id','=','party.user_id')
                               ->select('u.avatar','u.nickname','u.id as user_id','party.isClose',
-                                        'party.id as party_id','party.image','party.description',
+                                        'party.id as party_id','party.image','party.description','party.isCommunity',
                                        'party.start_time', 'party.site','party.image','party.way','party.details')
                               ->where('party.isDeleteUser','!=',Party::NOT_HOST)
                               ->orderByDesc('party.created_at');

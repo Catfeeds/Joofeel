@@ -95,6 +95,16 @@ class Party extends Model
         return $this->hasMany(PartyGoods::Class, 'party_id', 'id');
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * 来点标签
+     */
+    public function label()
+    {
+        return $this->hasMany(PartyLabel::Class, 'party_id', 'id');
+    }
+
     /**
      * @param $uid
      * @return mixed

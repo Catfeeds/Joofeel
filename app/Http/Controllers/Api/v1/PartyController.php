@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\BaseController;
+use App\Models\MiniProgram\Party\Party;
 use App\Services\MiniProgram\PartyService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
@@ -79,6 +80,37 @@ class PartyController extends BaseController
                 'id' => 'required|integer|exists:mysql.message,id'
             ]);
         $this->service->deleteMessage($this->request->input('id'));
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 设置是否为社区聚会
+     */
+    public function set()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.party,id'
+            ]);
+        $this->service->set($this->request->input('id'));
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 添加标签
+     */
+    public function label()
+    {
+        $this->validate($this->request,
+            [
+                'id'      => 'required|integer|exists:mysql.party,id',
+                'content' => 'required|string|max:10'
+            ]);
+        $this->service->label(
+            $this->request->input('id'),
+            $this->request->input('content'));
         return ResponseUtil::toJson();
     }
 }
