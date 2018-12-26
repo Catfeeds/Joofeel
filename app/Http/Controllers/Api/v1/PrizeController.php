@@ -66,9 +66,11 @@ class PrizeController extends BaseController
      */
     public function open()
     {
-        $this->validate($this->request,[
-            'id' => 'required|integer|exists:mysql.prize,id'
-        ]);
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql.prize,id'
+            ]
+        );
         $userId = $this->request->input('user_id');
         if(!$userId)
         {

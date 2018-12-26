@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Api\v3;
 
-
 use App\Exceptions\AppException;
 use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\Controller;
@@ -76,6 +75,9 @@ class OfficialGoodsController extends Controller
         return ResponseUtil::toJson();
     }
 
+    /**
+     * 添加或者修改的验证
+     */
     protected function validateForm()
     {
         $this->validate($this->request,

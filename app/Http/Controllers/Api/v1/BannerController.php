@@ -57,13 +57,7 @@ class BannerController extends BaseController
      */
     public function add()
     {
-        $this->validate($this->request,
-            [
-                'image'   => 'required|string',
-                'isPrize' => 'required|integer|in:0,1',
-                'type'    => 'required|integer|in:1,2,3',
-                'url'     => 'required'
-            ]);
+        $this->validateForm();
         try{
             $this->service->add(
                 $this->request->input('image'),
@@ -108,10 +102,6 @@ class BannerController extends BaseController
         $this->validate($this->request,
             [
                 'id'      => 'required|integer|exists:mysql.banner,id',
-                'image'   => 'required|string',
-                'isPrize' => 'required|integer|in:0,1',
-                'type'    => 'required|integer|in:1,2,3',
-                'url'     => 'required'
             ]);
         $data = $this->request->all();
         unset($data['file']);
@@ -130,5 +120,16 @@ class BannerController extends BaseController
     {
         $data = (new FileService())->upload($request,'banner');
         return ResponseUtil::toJson($data);
+    }
+
+    protected function validateForm()
+    {
+        $this->validate($this->request,
+            [
+                'image'   => 'required|string',
+                'isPrize' => 'required|integer|in:0,1',
+                'type'    => 'required|integer|in:1,2,3',
+                'url'     => 'required'
+            ]);
     }
 }

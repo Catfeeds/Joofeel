@@ -40,24 +40,28 @@ class LabelController extends BaseController
      */
     public function add()
     {
-        $this->validate($this->request,
-            [
-                'id'         => 'required|integer|exists:mysql.goods,id',
-                'label_name' => 'required|string|max:10'
-            ]);
+        $this->validateForm();
         $this->service->add($this->request->all());
         return ResponseUtil::toJson();
     }
 
     public function update()
     {
+        $this->validateForm();
+        $this->service->update($this->request->all());
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * 验证
+     */
+    protected function validateForm()
+    {
         $this->validate($this->request,
             [
                 'id'         => 'required|integer|exists:mysql.goods_label,id',
                 'label_name' => 'required|string|max:10'
             ]);
-        $this->service->update($this->request->all());
-        return ResponseUtil::toJson();
     }
 
     /**
