@@ -33,6 +33,51 @@ class OfficialGoodsController extends Controller
      */
     public function add()
     {
+        try{
+            $this->validateForm();
+            $this->service->add(
+                $this->request->input('thu_url'),
+                $this->request->input('title'),
+                $this->request->input('price'),
+                $this->request->input('url'),
+                $this->request->input('end_time')
+            );
+        }catch (\Exception $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 更新
+     */
+    public function update()
+    {
+        try{
+            $this->validate($this->request,
+                [
+                    'id' => 'required|integer|exists:mysql_enter.official_goods,id'
+                ]);
+            $this->validateForm();
+            $this->service->update(
+                $this->request->input('id'),
+                $this->request->input('thu_url'),
+                $this->request->input('title'),
+                $this->request->input('price'),
+                $this->request->input('url'),
+                $this->request->input('end_time')
+            );
+        }catch (\Exception $exception)
+        {
+            return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
+        }
+        return ResponseUtil::toJson();
+    }
+
+    protected function validateForm()
+    {
         $this->validate($this->request,
             [
                 'thu_url'  => 'required|string',
@@ -41,22 +86,52 @@ class OfficialGoodsController extends Controller
                 'url'      => 'required|string',
                 'end_time' => 'required|date'
             ]);
-        $this->service->add(
-            $this->request->input('thu_url'),
-            $this->request->input('title'),
-            $this->request->input('price'),
-            $this->request->input('url'),
-            $this->request->input('end_time')
-        );
-        return ResponseUtil::toJson();
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 搜索
+     */
+    public function search()
+    {
+        $this->validate($this->request,
+            [
+               'content' => 'required'
+            ]);
+        $data = OfficialGoods::search(
+            $this->request->input('content'),
+            $this->request->input('limit'));
+        return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 详情
+     */
+    public function info()
+    {
+        $this->validate($this->request,
+            [
+                'id' => 'required|integer|exists:mysql_enter.official_goods,id'
+            ]);
+        $data = OfficialGoods::where('id',$this->request->input('id'))->first();
+        return ResponseUtil::toJson($data);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 获取
+     */
     public function get()
     {
         $data = OfficialGoods::get($this->request->input('limit'));
         return ResponseUtil::toJson($data);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 图片上传
+     */
     public function upload()
     {
         try{

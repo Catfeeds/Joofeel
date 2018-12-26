@@ -29,4 +29,18 @@ class OfficialGoods extends Model
         $data = self::orderByDesc('created_at')->paginate($limit);
         return $data;
     }
+
+    /**
+     * @param $content
+     * @param $limit
+     * @return mixed
+     * 搜索
+     */
+    static function search($content,$limit)
+    {
+        $data = self::orderByDesc('created_at')
+                    ->where('title','like','%'.$content.'%')
+                    ->paginate($limit);
+        return $data;
+    }
 }

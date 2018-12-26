@@ -32,4 +32,17 @@ class OfficialGoodsService
                 'end_time' => $end_time
             ]);
     }
+
+    public function update($id,$thu_url,$title,$price,$url,$end_time)
+    {
+        OfficialGoods::where('id',$id)->update(
+            [
+                'thu_url'  => $thu_url,
+                'title'    => $title,
+                'price'    => $price,
+                'url'      => $url,
+                'end_time' => $end_time
+            ]);
+    }
+
 }

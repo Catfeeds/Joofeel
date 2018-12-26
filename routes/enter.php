@@ -75,7 +75,10 @@ Route::group([
             'prefix' => 'official'
         ],function (){
         Route::get('get',     'OfficialGoodsController@get');
+        Route::get('info',    'OfficialGoodsController@info');
+        Route::get('search',  'OfficialGoodsController@search');
         Route::post('add',    'OfficialGoodsController@add');
+        Route::post('update', 'OfficialGoodsController@update');
         Route::post('upload', 'OfficialGoodsController@upload');
     });
 });
