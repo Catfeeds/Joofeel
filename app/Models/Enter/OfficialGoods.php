@@ -23,4 +23,10 @@ class OfficialGoods extends Model
             'end_time',
             'url'
         ];
+
+    static function get($limit)
+    {
+        $data = self::orderByDesc('created_at')->paginate($limit);
+        return $data;
+    }
 }
