@@ -66,4 +66,16 @@ Route::group([
      * 商户注册
      */
     Route::post('reg',   'AuthController@reg');
+
+    /**
+     *公众号模块商品
+     */
+    Route::group(
+        [
+            'prefix' => 'official'
+        ],function (){
+        Route::get('get',     'OfficialGoodsController@get');
+        Route::post('add',    'OfficialGoodsController@add');
+        Route::post('upload', 'OfficialGoodsController@upload');
+    });
 });
