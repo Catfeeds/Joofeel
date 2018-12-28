@@ -25,4 +25,7 @@ class Collection extends Model
 
     const GOODS  = 0;
     const TICKET = 1;
+
+    const COLLECTION = 0;
+    const COLLECTED = 1;
 }

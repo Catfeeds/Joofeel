@@ -55,6 +55,7 @@ class UserService
         $user = User::withCount(['host' => function($query){
                         $query->where('isDeleteUser','!=',Party::NOT_HOST);
                     }])
+                    ->orderByDesc('created_at')
                     ->withCount('join')
                     ->where('nickname', '!=', '');
         return $user;
