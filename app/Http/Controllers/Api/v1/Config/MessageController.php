@@ -9,23 +9,18 @@
 namespace App\Http\Controllers\Api\v1\Config;
 
 use App\Http\Controllers\BaseController;
-use App\Services\MiniProgram\Util\MessageService;
+use App\Services\MiniProgram\Message\NotifyMessage;
+use App\Services\MiniProgram\Util\VersionMessage;
 use App\Utils\ResponseUtil;
-use Illuminate\Http\Request;
 
 class MessageController extends BaseController
 {
-    private $service;
-    public function __construct(Request $req,MessageService $service)
-    {
-        $this->service = $service;
-        parent::__construct($req);
-    }
+
 
     /**
      *群发消息
      */
-    public function send()
+    public function sendNotify()
     {
         $this->validate($this->request,
             [
@@ -33,10 +28,29 @@ class MessageController extends BaseController
                 'tips' => 'required|string',
                 'note' => 'required|string',
             ]);
-        $this->service->prepareFormId(
+        (new NotifyMessage())->sendNotify(
             $this->request->input('theme'),
             $this->request->input('tips'),
             $this->request->input('note'));
+        return ResponseUtil::toJson();
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     * 版本更新通知
+     */
+    public function sendVersion()
+    {
+        $this->validate($this->request,
+            [
+                'product' => 'required|string',
+                'time'    => 'required|string',
+                'detail'  => 'required|string',
+            ]);
+        (new VersionMessage())->sendVersion(
+            $this->request->input('product'),
+            $this->request->input('time'),
+            $this->request->input('detail'));
         return ResponseUtil::toJson();
     }
 }

@@ -261,7 +261,7 @@ $api->version('v1', function ($api) {
             $api->group([
                 'prefix' => 'message'
             ],function ($api){
-                $api->post('send',   'MessageController@send');
+                $api->post('send',   'MessageController@sendNotify');
             });
         });
     });

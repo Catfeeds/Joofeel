@@ -13,6 +13,8 @@ use App\Models\MiniProgram\Goods\Goods;
 use App\Models\MiniProgram\Goods\GoodsImage;
 use App\Models\MiniProgram\Goods\GoodsLabel;
 use App\Models\MiniProgram\Goods\Recommend;
+use App\Services\ExcelToArray;
+use Illuminate\Support\Facades\Cache;
 
 define('add',0);
 define('change',1);
@@ -200,10 +202,17 @@ class GoodsService
     public function getExcel()
     {
         $res = (new ExcelToArray())->get();
+        Cache::forget('recommend');
+        for($i=0;$i<5;$i++)
+        {
+            Cache::forget('goods' . $i);
+        }
+
         foreach ($res as $k => $v) {
             if ($k > 1) {
                 $record = Goods::where('goods_id',$v[0])
-                    ->first();
+                               ->first();
+                Cache::forget('goodsDetail'.$record['id']);
                 if($record)
                 {
                     $this->updateExcel($v);
@@ -271,6 +280,7 @@ class GoodsService
                 'goods_id' => $record['id']
             ]);
         }
+
     }
 
     public function addExcel($v)

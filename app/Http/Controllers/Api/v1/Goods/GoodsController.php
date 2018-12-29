@@ -116,12 +116,12 @@ class GoodsController extends BaseController
                 'purchase_address'   => 'required|string',
                 'shop'               => 'required|string',
                 'delivery_place'     => 'required',
-                'logistics_standard' => 'required|integer|min:0',
-                'purchase_price'     => 'required|integer|min:0',
-                'cost_price'         => 'required|integer|min:0',
-                'reference_price'    => 'required|integer|min:0',
-                'price'              => 'required|integer|min:0',
-                'sale_price'         => 'required|integer|min:0',
+                'logistics_standard' => 'required|min:0',
+                'purchase_price'     => 'required|min:0',
+                'cost_price'         => 'required|min:0',
+                'reference_price'    => 'required|min:0',
+                'price'              => 'required|min:0',
+                'sale_price'         => 'required|min:0',
                 'country'            => 'required|string'
             ]);
         $this->service->update($this->request->all());

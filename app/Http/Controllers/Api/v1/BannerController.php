@@ -15,6 +15,7 @@ use App\Services\MiniProgram\BannerService;
 use App\Services\FileService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BannerController extends BaseController
 {
