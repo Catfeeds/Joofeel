@@ -8,7 +8,8 @@
 
 namespace App\Services\MiniProgram\Message\base;
 
-use App\User;
+
+use App\Models\MiniProgram\User\User;
 
 class MessageUser
 {

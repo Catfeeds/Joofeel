@@ -6,7 +6,7 @@
  * Time: 9:02
  */
 
-namespace App\Services\MiniProgram\Util;
+namespace App\Services\MiniProgram\Message;
 
 
 use App\Services\MiniProgram\Message\base\BaseMessage;

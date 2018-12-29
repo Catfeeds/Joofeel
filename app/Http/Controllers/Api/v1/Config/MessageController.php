@@ -10,7 +10,7 @@ namespace App\Http\Controllers\Api\v1\Config;
 
 use App\Http\Controllers\BaseController;
 use App\Services\MiniProgram\Message\NotifyMessage;
-use App\Services\MiniProgram\Util\VersionMessage;
+use App\Services\MiniProgram\Message\VersionMessage;
 use App\Utils\ResponseUtil;
 
 class MessageController extends BaseController
