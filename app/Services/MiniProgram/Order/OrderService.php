@@ -11,7 +11,7 @@ namespace App\Services\MiniProgram\Order;
 use App\Exceptions\AppException;
 use App\Models\MiniProgram\Order\GoodsOrder;
 use App\Models\MiniProgram\User\User;
-use App\Services\MiniProgram\Message;
+use App\Services\MiniProgram\Message\OrderMessage;
 
 class OrderService
 {
@@ -94,7 +94,7 @@ class OrderService
             $user = User::where('id',$order['user_id'])
                         ->select('openid')
                         ->first();
-            (new Message())->sendOrderMessage($order,$user['openid']);
+            (new OrderMessage())->sendOrder($order,$user['openid']);
         }
         else
         {

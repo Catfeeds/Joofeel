@@ -11,6 +11,7 @@ namespace App\Services\MiniProgram;
 use App\Exceptions\AppException;
 use App\Models\MiniProgram\Prize\Prize;
 use App\Models\MiniProgram\Prize\PrizeOrder;
+use App\Services\MiniProgram\Message\PrizeMessage;
 
 class PrizeService
 {
@@ -97,14 +98,13 @@ class PrizeService
         }
         if ($userId == 0) {
             $userId = $record[rand(0, count($record) - 1)]['user']['id'];
-
         }
         PrizeOrder::where('prize_id', $id)
-            ->where('user_id', $userId)
-            ->update([
-                'isLucky' => PrizeOrder::LUCKY
-            ]);
-        (new Message())->sendPrizeMessage($record, $id);
+                  ->where('user_id', $userId)
+                  ->update([
+                      'isLucky' => PrizeOrder::LUCKY
+                  ]);
+        (new PrizeMessage())->sendPrize($record, $id);
     }
 
     /**
