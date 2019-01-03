@@ -29,7 +29,7 @@ class FileService
                 if($bool)
                 {
                     $imgUtil = new ImgUtil();
-                    $data['url'] = $imgUtil->ossUpload($filename,$url);
+                    $data['url'] = $imgUtil->ossUpload($filename,'banner',$url);
                     return $data;
                 }
                 throw new AppException('上传失败');

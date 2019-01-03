@@ -13,17 +13,82 @@ use App\Models\MiniProgram\Party\PartyGoods;
 use App\Models\MiniProgram\Party\PartyLabel;
 use App\Models\MiniProgram\Party\PartyOrder;
 use App\Models\MiniProgram\Party\Message;
+use App\Utils\Map;
+
+define('COMMUNITY',-1);
+define('NOT_COMMUNITY',0);
+define('OFFICIAL',0);
 
 class PartyService
 {
+
+    public function addCommunity
+    ($description,$details,$way,$people_no,$start_time,$end_time,$sign_time,$city,$site,$image)
+    {
+        $location = Map::getLngLat($site);
+        Party::create(
+            [
+                'way'     => $way,
+                'site'    => base64_encode($site),
+                'user_id' => OFFICIAL,
+                'image'   => $image,
+                'people_no'    => $people_no,
+                'start_time'   => strtotime($start_time),
+                'details'      => base64_encode($details),
+                'description'  => base64_encode($description),
+                'longitude'    => $location['result']['location']['lng'],
+                'latitude'     => $location['result']['location']['lat'],
+                'end_time'     => strtotime($end_time),
+                'isCommunity'  => Party::COMMUNITY,
+                'isDeleteUser' => Party::NOT_DELETE,
+                'sign_time'    => strtotime($sign_time),
+                'city'         => $city,
+                'remaining_people_no' => $people_no - 1,
+            ]);
+
+    }
+
+    /**
+     * @param $content
+     * @param $limit
+     * @return mixed
+     * 搜索聚会
+     */
     public function search($content,$limit)
     {
-        $data = $this->query()->where('u.nickname','like','%'.$content.'%')
-                              ->orWhere('party.description','like','%'.$content.'%')
-                              ->paginate($limit);
+        $data = $this->searchQuery($content)->where('isCommunity',Party::NOT_COMMUNITY)
+                                            ->paginate($limit);
         return $this->getJoinCount($data);
     }
 
+    /**
+     * @param $content
+     * @param $limit
+     * @return mixed
+     * 搜索社区聚会
+     */
+    public function searchCommunity($content,$limit)
+    {
+        $data = $this->searchQuery($content)->where('isCommunity',Party::COMMUNITY)
+                                            ->paginate($limit);
+        return $this->getJoinCount($data);
+    }
+
+    public function searchQuery($content)
+    {
+        $query = $this->query()->where('u.nickname','like','%'.$content.'%')
+                               ->orWhere('party.description','like','%'.$content.'%');
+        return $query;
+    }
+
+
+    public function getCommunity($limit)
+    {
+        $data = $this->query()
+                     ->where('party.isCommunity',Party::COMMUNITY)
+                     ->paginate($limit);
+        return $this->getJoinCount($data);
+    }
     /**
      * @param $limit
      * @param $sign
@@ -32,15 +97,17 @@ class PartyService
      */
     public function get($limit,$sign)
     {
-        if($sign == 0)
+        if($sign == NOT_COMMUNITY)
         {
             $data = $this->query()
+                         ->where('party.isCommunity',Party::NOT_COMMUNITY)
                          ->paginate($limit);
         }
         else
         {
-            $data = $this->query()->where('u.id',$sign)
-                                  ->paginate($limit);
+            $data = $this->query()
+                         ->where('u.id',$sign)
+                         ->paginate($limit);
         }
         return $this->getJoinCount($data);
     }
@@ -87,22 +154,6 @@ class PartyService
         Message::where('id',$id)->delete();
     }
 
-    /**
-     * @param $id
-     * 设置是否为社区模块的聚会
-     */
-    public function set($id)
-    {
-        $party = Party::where('id',$id)->select('id','isCommunity')->first();
-        if($party['isCommunity'] == Party::NOT_COMMUNITY)
-        {
-            $party['isCommunity'] = Party::COMMUNITY;
-        }
-        else{
-            $party['isCommunity'] = Party::NOT_COMMUNITY;
-        }
-        $party->save();
-    }
 
     /**
      * @param $id

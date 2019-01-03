@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Exceptions\AppException;
+use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\BaseController;
 use App\Models\MiniProgram\Banner;
 use App\Services\MiniProgram\BannerService;
@@ -112,14 +113,12 @@ class BannerController extends BaseController
     }
 
     /**
-     * @param Request $request
-     * @return string
-     * @throws AppException
-     * banner上传
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function upload(Request $request)
+    public function upload()
     {
-        $data = (new FileService())->upload($request,'banner');
+        $data['src'] =
+            (new FileController($this->request))->upload('jufeeloss','banner');
         return ResponseUtil::toJson($data);
     }
 

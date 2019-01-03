@@ -33,30 +33,27 @@ class Party extends Model
     const STATUS_CLOSE = 3;
     const STATUS_DONE = 2;
 
-
-
     protected $table = 'party';
 
-    public $timestamps = false;
     protected $fillable =
         [
             'user_id',
             'image',
             'description',
+            'details',
             'way',
+            'city',
+            'end_time',
+            'sign_time',
             'people_no',
             'remaining_people_no',
             'date',
             'time',
             'site',
             'start_time',
+            'isCommunity',
             'latitude',
             'longitude',
-            'created_at',
-            'updated_at',
-            'isDeleteAdmin',
-            'isDeleteUser',
-            'isClose'
         ];
 
     /**

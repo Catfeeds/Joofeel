@@ -18,7 +18,8 @@ class ImgUtil
     private $accessKeyId = 'LTAIjfhhjAEa69tU';
     private $accessKeySecret = 'z9jMoqELKVfFwzJUtJVsh304Cwq1LD';
     private $endpoint = 'http://oss-cn-hangzhou.aliyuncs.com';
-    private $url = 'https://oss.joofeel.com/';
+   // private $url = 'https://oss.joofeel.com/';
+    private $url = 'https://joofeel.jufeeling.com/';
 
     /**
      * @param $fileName

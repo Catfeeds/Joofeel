@@ -231,12 +231,19 @@ $api->version('v1', function ($api) {
             $api->get('search',  'PartyController@search');
             $api->get('get',     'PartyController@get');
             $api->get('detail',  'PartyController@detail');
-            $api->post('set',    'PartyController@set');
             $api->post('label',  'PartyController@label');
             //删除标签
             $api->delete('label/delete',    'PartyController@deleteLabel');
             //删除评论
             $api->delete('message/delete',  'PartyController@deleteMessage');
+            $api->group(
+                [
+                    'prefix' => 'community'
+                ],function ($api){
+                $api->post('add',     'PartyController@addCommunity');
+                $api->get('get',      'PartyController@getCommunity');
+                $api->get('search',   'PartyController@searchCommunity');
+            });
         });
 
 
@@ -266,6 +273,16 @@ $api->version('v1', function ($api) {
             });
         });
     });
+
+    $api->group(
+        [
+            'namespace' => 'App\Http\Controllers\Api\v1',
+            'prefix'    => 'party/community'
+        ],function ($api){
+        $api->post('/upload',   'PartyController@uploadCommunity');
+    });
+
+
 
 
     /**
