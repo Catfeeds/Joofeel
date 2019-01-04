@@ -14,6 +14,7 @@ use App\Models\MiniProgram\Party\PartyLabel;
 use App\Models\MiniProgram\Party\PartyOrder;
 use App\Models\MiniProgram\Party\Message;
 use App\Utils\Map;
+use App\Utils\WxaCodeUtil;
 
 define('COMMUNITY',-1);
 define('NOT_COMMUNITY',0);
@@ -26,24 +27,31 @@ class PartyService
     ($description,$details,$way,$people_no,$start_time,$end_time,$sign_time,$city,$site,$image)
     {
         $location = Map::getLngLat($site);
-        Party::create(
-            [
-                'way'     => $way,
-                'site'    => base64_encode($site),
-                'user_id' => OFFICIAL,
-                'image'   => $image,
-                'people_no'    => $people_no,
-                'start_time'   => strtotime($start_time),
-                'details'      => base64_encode($details),
-                'description'  => base64_encode($description),
-                'longitude'    => $location['result']['location']['lng'],
-                'latitude'     => $location['result']['location']['lat'],
-                'end_time'     => strtotime($end_time),
-                'isCommunity'  => Party::COMMUNITY,
-                'isDeleteUser' => Party::NOT_DELETE,
-                'sign_time'    => strtotime($sign_time),
-                'city'         => $city,
+        $data = [
+                'way'                 => $way,
+                'site'                => base64_encode($site),
+                'user_id'             => OFFICIAL,
+                'image'               => $image,
+                'people_no'           => $people_no,
+                'start_time'          => strtotime($start_time),
+                'details'             => base64_encode($details),
+                'description'         => base64_encode($description),
+                'longitude'           => $location['result']['location']['lng'],
+                'latitude'            => $location['result']['location']['lat'],
+                'end_time'            => strtotime($end_time),
+                'isCommunity'         => Party::COMMUNITY,
+                'isDeleteUser'        => Party::NOT_DELETE,
+                'sign_time'           => strtotime($sign_time),
+                'city'                => $city,
                 'remaining_people_no' => $people_no - 1,
+                'created_at'          => date('Y-m-d H:i:s'),
+                'updated_at'          => date('Y-m-d H:i:s'),
+            ];
+        $id =  Party::insertGetId($data);
+        $wx_code = (new WxaCodeUtil())->generateWXACode($id);
+        Party::where('id',$id)->update(
+            [
+                'wxa_code' => $wx_code
             ]);
 
     }

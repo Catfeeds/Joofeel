@@ -32,7 +32,7 @@ class PartyController extends BaseController
             'description' => 'required|string',
             'details'     => 'required|string',
             'way'         => 'required|string',
-            'people_no'   => 'required|integer|min:2',
+            'people_no'   => 'required|integer',
             'start_time'  => 'required',
             'end_time'    => 'required',
             'sign_time'   => 'required',
