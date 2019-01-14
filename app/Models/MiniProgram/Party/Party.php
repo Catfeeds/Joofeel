@@ -54,6 +54,7 @@ class Party extends Model
             'isCommunity',
             'latitude',
             'longitude',
+            'contact'
         ];
 
     /**

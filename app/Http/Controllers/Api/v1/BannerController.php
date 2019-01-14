@@ -13,21 +13,18 @@ use App\Http\Controllers\Api\FileController;
 use App\Http\Controllers\BaseController;
 use App\Models\MiniProgram\Banner;
 use App\Services\MiniProgram\BannerService;
-use App\Services\FileService;
 use App\Utils\ResponseUtil;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 
 class BannerController extends BaseController
 {
     private $service;
+
     public function __construct(Request $req,BannerService $service)
     {
         $this->service = $service;
         parent::__construct($req);
     }
-
-
 
     /**
      * @return \Illuminate\Http\JsonResponse
@@ -91,7 +88,6 @@ class BannerController extends BaseController
         {
             return ResponseUtil::toJson('',$exception->getMessage(),$exception->getCode());
         }
-
         return ResponseUtil::toJson();
     }
 

@@ -280,7 +280,6 @@ class GoodsService
                 'goods_id' => $record['id']
             ]);
         }
-
     }
 
     public function addExcel($v)
@@ -337,12 +336,10 @@ class GoodsService
                     'goods_id' => $id
                 ]);
             }
-
         }
         else{
             throw new AppException( '出错了,检查excel表');
         }
-
     }
 
     /**
@@ -375,6 +372,4 @@ class GoodsService
             }
         }
     }
-
-
 }

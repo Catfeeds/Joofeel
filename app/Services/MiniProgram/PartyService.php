@@ -18,13 +18,12 @@ use App\Utils\WxaCodeUtil;
 
 define('COMMUNITY',-1);
 define('NOT_COMMUNITY',0);
-define('OFFICIAL',0);
+define('OFFICIAL',8);
 
 class PartyService
 {
-
     public function addCommunity
-    ($description,$details,$way,$people_no,$start_time,$end_time,$sign_time,$city,$site,$image)
+    ($description,$details,$way,$people_no,$start_time,$end_time,$sign_time,$city,$site,$image,$contact)
     {
         $location = Map::getLngLat($site);
         $data = [
@@ -44,6 +43,7 @@ class PartyService
                 'sign_time'           => strtotime($sign_time),
                 'city'                => $city,
                 'remaining_people_no' => $people_no - 1,
+                'contact'             => $contact,
                 'created_at'          => date('Y-m-d H:i:s'),
                 'updated_at'          => date('Y-m-d H:i:s'),
             ];
@@ -53,7 +53,6 @@ class PartyService
             [
                 'wxa_code' => $wx_code
             ]);
-
     }
 
     /**
@@ -130,11 +129,11 @@ class PartyService
         $info = $this->query()
                      ->where('party.id',$id)
                      ->get();
-        $data['data'] = $this->getState($info);
+        $data['data']    = $this->getState($info);
         $data['message'] = $this->getMessage($id);
         $data['join']    = $this->getJoin($id);
-        $data['goods'] = $this->getGoods($id);
-        $data['label'] = $this->getLabel($id);
+        $data['goods']   = $this->getGoods($id);
+        $data['label']   = $this->getLabel($id);
         return $data;
     }
 
@@ -203,7 +202,8 @@ class PartyService
                        ->leftJoin('user as u','u.id','=','message.user_id')
                        ->where('p.id',$id)
                        ->select('message.content','message.created_at','u.nickname','u.avatar','message.id',
-                                'message.user_id as message_user','p.user_id as host_user','p.id as party_id')
+                                'message.user_id as message_user','p.user_id as host_user','p.id as party_id',
+                                'message.type')
                        ->get();
         foreach ($data as $item)
         {
@@ -319,7 +319,7 @@ class PartyService
     private function query()
     {
         $query = $data = Party::leftJoin('user as u','u.id','=','party.user_id')
-                              ->select('u.avatar','u.nickname','u.id as user_id','party.isClose',
+                              ->select('u.avatar','u.nickname','u.id as user_id','party.isClose','party.contact',
                                         'party.id as party_id','party.image','party.description','party.isCommunity',
                                        'party.start_time', 'party.site','party.image','party.way','party.details')
                               ->where('party.isDeleteUser','!=',Party::NOT_HOST)

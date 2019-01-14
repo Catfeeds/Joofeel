@@ -30,6 +30,9 @@ class Message extends Model
     const JOIN = '参与者';
     const PASSERS = '围观者';
 
+    const MESSAGE = 0;
+    const FEEDBACK = 1;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      * 用户

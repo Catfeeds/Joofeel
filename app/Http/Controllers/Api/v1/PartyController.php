@@ -50,7 +50,8 @@ class PartyController extends BaseController
             $this->request->input('sign_time'),   //
             $this->request->input('city'),
             $this->request->input('site'),
-            $this->request->input('image'));
+            $this->request->input('image'),
+            $this->request->input('contact'));
         return ResponseUtil::toJson();
     }
 
