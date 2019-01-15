@@ -49,7 +49,7 @@ class GoodsController extends BaseController
         $this->validate(
             $this->request,
             [
-                'category' => 'required|integer|in:1,2,3,4'
+                'category' => 'required|integer|in:1,2,3,4,0'
             ]);
         $data = $this->service->category(
             $this->request->input('category'),

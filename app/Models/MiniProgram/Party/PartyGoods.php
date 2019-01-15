@@ -22,4 +22,9 @@ class PartyGoods extends Model
 
     const GOODS = 0;
     const TICKET = 1;
+
+    public $fillable = [
+        'party_id',
+        'goods_id'
+    ];
 }

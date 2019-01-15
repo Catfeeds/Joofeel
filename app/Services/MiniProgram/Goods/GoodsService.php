@@ -29,11 +29,17 @@ class GoodsService
      */
     public function category($category,$limit)
     {
-        $data = $this->query()
-                     ->where('category_id',$category)
-                     ->where('isShelves', Goods::SHELVES)
-                     ->orderByDesc('created_at')
-                     ->paginate($limit);
+        $goodsQuery = $this->query()
+                           ->where('isShelves', Goods::SHELVES)
+                           ->orderByDesc('created_at');
+        if($category == 0)
+        {
+            $data = $goodsQuery->paginate($limit);
+        }
+        else{
+            $data = $goodsQuery->where('category_id',$category)
+                               ->paginate($limit);
+        }
         return $this->checkRecommend($data);
     }
 

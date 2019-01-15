@@ -55,6 +55,23 @@ class PartyController extends BaseController
         return ResponseUtil::toJson();
     }
 
+    public function addPartyGoods()
+    {
+        $this->validate($this->request,
+            [
+                'goods_id' => 'required|integer',
+                'party_id' => 'required|integer|exists:mysql.party,id'
+            ]);
+        try{
+            $this->service->addPartyGoods(
+                $this->request->input('party_id'),
+                $this->request->input('goods_id'));
+        }catch (\Exception $ex){
+            return ResponseUtil::toJson('',$ex->getMessage(),$ex->getCode());
+        }
+        return ResponseUtil::toJson();
+    }
+
     /**
      * @return \Illuminate\Http\JsonResponse
      * 上传官方聚会图

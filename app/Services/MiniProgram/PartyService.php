@@ -96,6 +96,24 @@ class PartyService
                      ->paginate($limit);
         return $this->getJoinCount($data);
     }
+
+    public function addPartyGoods($p_id,$g_id)
+    {
+        $record = PartyGoods::where(
+            [
+                'party_id' => $p_id,
+                'goods_id' => $g_id
+            ])->first();
+        if($record)
+        {
+            throw new \Exception('已添加该物品',10000);
+        }
+        PartyGoods::create(
+            [
+                'party_id' => $p_id,
+                'goods_id' => $g_id
+            ]);
+    }
     /**
      * @param $limit
      * @param $sign

@@ -232,6 +232,7 @@ $api->version('v1', function ($api) {
             $api->get('get',     'PartyController@get');
             $api->get('detail',  'PartyController@detail');
             $api->post('label',  'PartyController@label');
+            $api->post('goods',  'PartyController@addPartyGoods');
             //删除标签
             $api->delete('label/delete',    'PartyController@deleteLabel');
             //删除评论
